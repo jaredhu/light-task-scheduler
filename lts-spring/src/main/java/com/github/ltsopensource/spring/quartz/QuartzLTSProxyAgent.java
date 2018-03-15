@@ -3,6 +3,7 @@ package com.github.ltsopensource.spring.quartz;
 import com.github.ltsopensource.core.commons.utils.CollectionUtils;
 import com.github.ltsopensource.core.commons.utils.QuietUtils;
 import com.github.ltsopensource.core.domain.Job;
+import com.github.ltsopensource.core.exception.JobSubmitException;
 import com.github.ltsopensource.core.factory.NamedThreadFactory;
 import com.github.ltsopensource.core.json.JSON;
 import com.github.ltsopensource.core.logger.Logger;
@@ -188,7 +189,7 @@ class QuartzLTSProxyAgent {
                 LOGGER.warn("Submit Quartz Jobs to LTS failed: {}", JSON.toJSONString(response));
                 failedJobs = response.getFailedJobs();
             }
-        } catch (Throwable e) {
+        } catch (JobSubmitException e) {
             LOGGER.warn("Submit Quartz Jobs to LTS error", e);
             failedJobs = jobs;
         }

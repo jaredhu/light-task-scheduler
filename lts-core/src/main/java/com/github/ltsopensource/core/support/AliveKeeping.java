@@ -20,6 +20,10 @@ public class AliveKeeping {
 
     private static AtomicBoolean start = new AtomicBoolean(false);
 
+    private AliveKeeping() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void start() {
         if (start.compareAndSet(false, true)) {
             timer = new Timer("AliveKeepingService");
@@ -35,10 +39,8 @@ public class AliveKeeping {
     }
 
     public static void stop() {
-        if (start.compareAndSet(true, false)) {
-            if (timer != null) {
-                timer.cancel();
-            }
+        if (start.compareAndSet(true, false) && timer != null) {
+            timer.cancel();
         }
     }
 }
