@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JobRunnerHolder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobRunnerHolder.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobRunnerHolder.class);
 
     private static final Map<String, JobRunner> JOB_RUNNER_MAP = new ConcurrentHashMap<String, JobRunner>();
 
@@ -35,7 +35,7 @@ public class JobRunnerHolder {
                     JobRunnerItem jobRunnerItem = method.getAnnotation(JobRunnerItem.class);
                     String shardValue = jobRunnerItem.shardValue();
                     if (StringUtils.isEmpty(shardValue)) {
-                        LOGGER.error(clazz.getName() + ":" + method.getName() + " " + JobRunnerItem.class.getName() + " shardValue can not be null");
+                        logger.error(clazz.getName() + ":" + method.getName() + " " + JobRunnerItem.class.getName() + " shardValue can not be null");
                         continue;
                     }
                     JobRunnerHolder.add(shardValue, JobRunnerBuilder.build(bean, method, method.getParameterTypes()));

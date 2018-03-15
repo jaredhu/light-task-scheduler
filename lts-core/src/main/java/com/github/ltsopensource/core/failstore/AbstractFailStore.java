@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class AbstractFailStore implements FailStore {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FailStore.class);
+    private static final Logger logger = LoggerFactory.getLogger(FailStore.class);
 
     protected FileLock fileLock;
 
@@ -47,7 +47,7 @@ public abstract class AbstractFailStore implements FailStore {
         if (!locked) {
             throw new IllegalStateException("can not get current file lock.");
         }
-        LOGGER.info("Current failStore path is {}", failStorePath);
+        logger.info("Current failStore path is {}", failStorePath);
         return failStorePath;
     }
 
@@ -72,7 +72,7 @@ public abstract class AbstractFailStore implements FailStore {
                     }
                 } catch (Exception e) {
                     // ignore
-                    LOGGER.error(e.getMessage(), e);
+                    logger.error(e.getMessage(), e);
                 }
             }
         }
@@ -84,7 +84,7 @@ public abstract class AbstractFailStore implements FailStore {
             Constructor<? extends FailStore> constructor = this.getClass().getConstructor(File.class, boolean.class);
             return constructor.newInstance(dbPath, false);
         } catch (Exception e) {
-            LOGGER.error("new instance failStore failed,", e);
+            logger.error("new instance failStore failed,", e);
         }
         return null;
     }

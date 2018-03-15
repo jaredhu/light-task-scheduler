@@ -17,7 +17,7 @@ import com.github.ltsopensource.core.logger.LoggerFactory;
  */
 public class NodeRegistryUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeRegistryUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(NodeRegistryUtils.class);
 
     public static String getRootPath(String clusterName) {
         return "/LTS/" + clusterName + "/NODES";
@@ -75,7 +75,7 @@ public class NodeRegistryUtils {
             }
             return node;
         } catch (RuntimeException e) {
-            LOGGER.error("Error parse node , path:" + fullPath);
+            logger.error("Error parse node , path:" + fullPath);
             throw e;
         }
     }

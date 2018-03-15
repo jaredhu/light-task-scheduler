@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MysqlDataSourceProvider implements DataSourceProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MysqlDataSourceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(MysqlDataSourceProvider.class);
     // 同一配置, 始终保持同一个连接
     private static final ConcurrentHashMap<String, DataSource> DATA_SOURCE_MAP = new ConcurrentHashMap<String, DataSource>();
 
@@ -82,7 +82,7 @@ public class MysqlDataSourceProvider implements DataSourceProvider {
                     Object obj = PrimitiveTypeUtils.convert(value, entry.getValue());
                     setMethod.invoke(dataSource, obj);
                 } catch (Exception e) {
-                    LOGGER.warn("set field[{}] failed! value is {}", field, value);
+                    logger.warn("set field[{}] failed! value is {}", field, value);
                 }
             }
         }

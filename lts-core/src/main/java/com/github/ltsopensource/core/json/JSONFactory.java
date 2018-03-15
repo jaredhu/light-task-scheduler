@@ -13,7 +13,7 @@ import com.github.ltsopensource.core.spi.ServiceLoader;
  */
 public class JSONFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JSONFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(JSONFactory.class);
 
     private static volatile JSONAdapter JSON_ADAPTER;
 
@@ -52,7 +52,7 @@ public class JSONFactory {
 
     public static void setJSONAdapter(JSONAdapter jsonAdapter) {
         if (jsonAdapter != null) {
-            LOGGER.info("Using JSON lib " + jsonAdapter.getName());
+            logger.info("Using JSON lib " + jsonAdapter.getName());
             JSONFactory.JSON_ADAPTER = jsonAdapter;
         }
     }

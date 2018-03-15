@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class HttpCmdAcceptor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpCmdAcceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpCmdAcceptor.class);
 
     private final AtomicBoolean start = new AtomicBoolean(false);
     private final ExecutorService executorService;
@@ -57,7 +57,7 @@ public class HttpCmdAcceptor {
                                     executorService.submit(new HttpCmdExecutor(context, socket));
 
                                 } catch (Throwable t) {
-                                    LOGGER.error("Accept error ", t);
+                                    logger.error("Accept error ", t);
                                     try {
                                         Thread.sleep(1000); // 1s
                                     } catch (InterruptedException ignored) {
@@ -72,17 +72,17 @@ public class HttpCmdAcceptor {
         // 启动线程
         thread.start();
 
-        LOGGER.info("HttpCmdAcceptor start succeed ");
+        logger.info("HttpCmdAcceptor start succeed ");
     }
 
     public void stop() {
         try {
             if (start.compareAndSet(true, false)) {
                 executorService.shutdown();
-                LOGGER.info("HttpCmdAcceptor stop succeed ");
+                logger.info("HttpCmdAcceptor stop succeed ");
             }
         } catch (Throwable t) {
-            LOGGER.error("HttpCmdAcceptor stop error ", t);
+            logger.error("HttpCmdAcceptor stop error ", t);
         }
     }
 

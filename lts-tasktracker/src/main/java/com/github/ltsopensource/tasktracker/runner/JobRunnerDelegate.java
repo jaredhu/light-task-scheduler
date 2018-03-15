@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class JobRunnerDelegate implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobRunnerDelegate.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobRunnerDelegate.class);
     private JobMeta jobMeta;
     private RunnerCallback callback;
     private TaskTrackerAppContext appContext;
@@ -98,8 +98,8 @@ public class JobRunnerDelegate implements Runnable {
 
                     long time = SystemClock.now() - startTime;
                     stat.addRunningTime(time);
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Job execute completed : {}, time:{} ms.", jobMeta.getJob(), time);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Job execute completed : {}, time:{} ms.", jobMeta.getJob(), time);
                     }
                 } catch (Throwable t) {
                     StringWriter sw = new StringWriter();
@@ -108,7 +108,7 @@ public class JobRunnerDelegate implements Runnable {
                     response.setMsg(sw.toString());
                     long time = SystemClock.now() - startTime;
                     stat.addRunningTime(time);
-                    LOGGER.error("Job execute error : {}, time: {}, {}", jobMeta.getJob(), time, t.getMessage(), t);
+                    logger.error("Job execute error : {}, time: {}, {}", jobMeta.getJob(), time, t.getMessage(), t);
                 } finally {
                     checkInterrupted(logger);
                     appContext.getRunnerPool().getRunningJobManager()
@@ -211,7 +211,7 @@ public class JobRunnerDelegate implements Runnable {
                 logger.info("SYSTEM:Interrupted");
             }
         } catch (Throwable t) {
-            LOGGER.warn("checkInterrupted error", t);
+            logger.warn("checkInterrupted error", t);
         }
     }
 

@@ -24,7 +24,7 @@ import java.util.Timer;
  */
 public class StoreTxLog implements Closeable {
 
-    private static final Logger LOGGER = DB.LOGGER;
+    private static final Logger logger = DB.logger;
     private StoreTxLog next;
 
     private FileChannel fileChannel;
@@ -166,16 +166,16 @@ public class StoreTxLog implements Closeable {
 
     private void checkPoint() throws IOException {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("checkpoint start");
+        if (logger.isDebugEnabled()) {
+            logger.debug("checkpoint start");
         }
         // 先将内容都强制刷到磁盘,因为后面会写头部汇总信息
         if (fileLength != lastCheckPointLength) {
             fileChannel.force(true);
             lastCheckPointLength = fileLength;
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("checkpoint end: fileLength=" + fileLength);
+        if (logger.isDebugEnabled()) {
+            logger.debug("checkpoint end: fileLength=" + fileLength);
         }
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class LTSXmlApplicationContext extends AbstractXmlApplicationContext {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LTSXmlApplicationContext.class);
+    private static final Logger logger = LoggerFactory.getLogger(LTSXmlApplicationContext.class);
     private Resource[] configResources;
 
     public LTSXmlApplicationContext(String[] paths) {
@@ -31,7 +31,7 @@ public class LTSXmlApplicationContext extends AbstractXmlApplicationContext {
                         Collections.addAll(resourceList, resources);
                     }
                 } catch (IOException e) {
-                    LOGGER.error("resolve resource error: [path={}]", path, e);
+                    logger.error("resolve resource error: [path={}]", path, e);
                 }
             }
         }

@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class ConsoleJobLogger implements JobLogger {
 
-    private Logger LOGGER = LoggerFactory.getLogger(ConsoleJobLogger.class.getSimpleName());
+    private Logger logger = LoggerFactory.getLogger(ConsoleJobLogger.class.getSimpleName());
 
     @Override
     public void log(JobLogPo jobLogPo) {
-        LOGGER.info(JSON.toJSONString(jobLogPo));
+        logger.info(JSON.toJSONString(jobLogPo));
     }
 
     @Override

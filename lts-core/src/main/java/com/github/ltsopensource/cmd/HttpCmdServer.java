@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class HttpCmdServer {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(HttpCmdServer.class);
+    private final Logger logger = LoggerFactory.getLogger(HttpCmdServer.class);
 
     private final AtomicBoolean start = new AtomicBoolean(false);
     private HttpCmdAcceptor acceptor;
@@ -36,12 +36,12 @@ public class HttpCmdServer {
                 // 开启监听命令
                 acceptor = new HttpCmdAcceptor(getServerSocket(), context);
                 acceptor.start();
-                LOGGER.info("\n===========================================================================================\n" +
+                logger.info("\n===========================================================================================\n" +
                         "Start succeed at port {}\n" +
                         "===========================================================================================", port);
             }
         } catch (Exception t) {
-            LOGGER.error("Start error at port {}", port, t);
+            logger.error("Start error at port {}", port, t);
             throw new HttpCmdException(t);
         }
     }

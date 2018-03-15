@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class JobReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobReceiver.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobReceiver.class);
 
     private JobTrackerAppContext appContext;
     private JobTrackerMStatReporter stat;
@@ -74,7 +74,7 @@ public class JobReceiver {
         try {
             jobPo = JobDomainConverter.convert(job);
             if (jobPo == null) {
-                LOGGER.warn("Job can not be null。{}", job);
+                logger.warn("Job can not be null。{}", job);
                 return null;
             }
             if (StringUtils.isEmpty(jobPo.getSubmitNodeGroup())) {
@@ -97,13 +97,13 @@ public class JobReceiver {
                 code = success ? BizLogCode.DUP_REPLACE : BizLogCode.DUP_FAILED;
             } else {
                 code = BizLogCode.DUP_IGNORE;
-                LOGGER.info("Job already exist And ignore. nodeGroup={}, {}", request.getNodeGroup(), job);
+                logger.info("Job already exist And ignore. nodeGroup={}, {}", request.getNodeGroup(), job);
             }
         } finally {
             if (success) {
                 stat.incReceiveJobNum();
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Receive Job success. {}", job);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Receive Job success. {}", job);
                 }
             }
         }
@@ -169,7 +169,7 @@ public class JobReceiver {
             addJob(job, jobPo);
         } catch (DupEntryException e) {
             // 一般不会走到这里
-            LOGGER.warn("Job already exist twice. {}", job);
+            logger.warn("Job already exist twice. {}", job);
             return false;
         }
         return true;
@@ -278,7 +278,7 @@ public class JobReceiver {
 
             appContext.getJobLogger().log(jobLogPo);
         } catch (Throwable t) {     // 日志记录失败不影响正常运行
-            LOGGER.error("Receive Job Log error ", t);
+            logger.error("Receive Job Log error ", t);
         }
     }
 

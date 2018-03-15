@@ -18,7 +18,7 @@ import static com.github.ltsopensource.nio.idle.IdleState.BOTH_IDLE;
  */
 public class LtsEventHandler implements com.github.ltsopensource.nio.handler.NioHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LtsEventHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(LtsEventHandler.class);
 
     private AbstractRemoting remoting;
     private String sideType;      // SERVER , CLIENT
@@ -32,7 +32,7 @@ public class LtsEventHandler implements com.github.ltsopensource.nio.handler.Nio
     public void exceptionCaught(NioChannel channel, Exception cause) {
         Channel ch = new LtsChannel(channel);
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(ch);
-        LOGGER.warn(sideType + ": exceptionCaught {}", remoteAddress, cause);
+        logger.warn(sideType + ": exceptionCaught {}", remoteAddress, cause);
 
         if (remoting.getChannelEventListener() != null) {
             remoting.putRemotingEvent(new RemotingEvent(RemotingEventType.EXCEPTION, remoteAddress, ch));
@@ -51,7 +51,7 @@ public class LtsEventHandler implements com.github.ltsopensource.nio.handler.Nio
     public void channelConnected(NioChannel channel) {
         Channel ch = new LtsChannel(channel);
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(ch);
-        LOGGER.info("{}: channelConnected, the channel[{}]", sideType, remoteAddress);
+        logger.info("{}: channelConnected, the channel[{}]", sideType, remoteAddress);
 
         if (remoting.getChannelEventListener() != null) {
             remoting.putRemotingEvent(new RemotingEvent(RemotingEventType.CONNECT, remoteAddress, ch));
@@ -68,7 +68,7 @@ public class LtsEventHandler implements com.github.ltsopensource.nio.handler.Nio
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(ch);
 
         if (BOTH_IDLE == state) {
-            LOGGER.info("{}: IDLE [{}]", sideType, remoteAddress);
+            logger.info("{}: IDLE [{}]", sideType, remoteAddress);
             RemotingHelper.closeChannel(ch);
         }
 

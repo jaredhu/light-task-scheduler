@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class JobPusher {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPusher.class);
+    private final Logger logger = LoggerFactory.getLogger(JobPusher.class);
     private JobTrackerAppContext appContext;
     private final ExecutorService executorService;
     private final ExecutorService pushExecutorService;
@@ -69,7 +69,7 @@ public class JobPusher {
                 try {
                     push0(request);
                 } catch (Exception e) {
-                    LOGGER.error("Job push failed!", e);
+                    logger.error("Job push failed!", e);
                 }
             }
         });
@@ -102,8 +102,8 @@ public class JobPusher {
                 getTaskTrackerNode(nodeGroup, identity);
 
         if (taskTrackerNode == null) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("taskTrackerNodeGroup:{}, taskTrackerIdentity:{} , didn't have node.", nodeGroup, identity);
+            if (logger.isDebugEnabled()) {
+                logger.debug("taskTrackerNodeGroup:{}, taskTrackerIdentity:{} , didn't have node.", nodeGroup, identity);
             }
             return;
         }
@@ -135,7 +135,7 @@ public class JobPusher {
                                 // 推送任务
                                 send(remotingServer, finalSize, taskTrackerNode);
                             } catch (Throwable t) {
-                                LOGGER.error("Error on Push Job to {}", taskTrackerNode, t);
+                                logger.error("Error on Push Job to {}", taskTrackerNode, t);
                             } finally {
                                 latch.countDown();
                             }
@@ -183,12 +183,12 @@ public class JobPusher {
                             try {
                                 RemotingCommand responseCommand = responseFuture.getResponseCommand();
                                 if (responseCommand == null) {
-                                    LOGGER.warn("Job push failed! response command is null!");
+                                    logger.warn("Job push failed! response command is null!");
                                     return;
                                 }
                                 if (responseCommand.getCode() == JobProtos.ResponseCode.JOB_PUSH_SUCCESS.code()) {
-                                    if (LOGGER.isDebugEnabled()) {
-                                        LOGGER.debug("Job push success! nodeGroup=" + nodeGroup + ", identity=" + identity + ", jobList=" + JSON.toJSONString(jobPos));
+                                    if (logger.isDebugEnabled()) {
+                                        logger.debug("Job push success! nodeGroup=" + nodeGroup + ", identity=" + identity + ", jobList=" + JSON.toJSONString(jobPos));
                                     }
                                     pushSuccess.set(true);
                                     stat.incPushJobNum(jobPos.size());
@@ -218,7 +218,7 @@ public class JobPusher {
                     });
 
                 } catch (RemotingSendException e) {
-                    LOGGER.error("Remoting send error, jobPos={}", JSON.toJSONObject(jobPos), e);
+                    logger.error("Remoting send error, jobPos={}", JSON.toJSONObject(jobPos), e);
                     return new JobSender.SendResult(false, JobPushResult.SENT_ERROR);
                 }
 
@@ -229,8 +229,8 @@ public class JobPusher {
                 }
 
                 if (!pushSuccess.get()) {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Job push failed! nodeGroup=" + nodeGroup + ", identity=" + identity + ", jobs=" + JSON.toJSONObject(jobPos));
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Job push failed! nodeGroup=" + nodeGroup + ", identity=" + identity + ", jobs=" + JSON.toJSONObject(jobPos));
                     }
                     for (JobPo jobPo : jobPos) {
                         resumeJob(jobPo);
@@ -253,7 +253,7 @@ public class JobPusher {
             jobPo.setIsRunning(true);
             appContext.getExecutableJobQueue().add(jobPo);
         } catch (DupEntryException e) {
-            LOGGER.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
+            logger.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
             needResume = false;
         }
         appContext.getExecutingJobQueue().remove(jobPo.getJobId());

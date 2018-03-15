@@ -150,7 +150,7 @@ public class BizLoggerImpl extends BizLoggerAdapter implements BizLogger {
     }
 
     private boolean isEnableBizLoggerFailStore() {
-        return !appContext.getConfig().getParameter(ExtConfig.TASK_TRACKER_BIZ_LOGGER_FAIL_STORE_CLOSE, false);
+        return !appContext.getConfig().getParameter(ExtConfig.TASK_TRACKER_BIZ_logger_FAIL_STORE_CLOSE, false);
     }
 
     private boolean sendBizLog(List<BizLog> bizLogs) {

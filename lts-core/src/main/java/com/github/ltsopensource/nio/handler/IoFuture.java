@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class IoFuture implements Future {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IoFuture.class);
+    private static final Logger logger = LoggerFactory.getLogger(IoFuture.class);
     private static final long DEAD_LOCK_CHECK_INTERVAL = 5000L;
     private boolean success = false;
     private Throwable cause;
@@ -115,7 +115,7 @@ public class IoFuture implements Future {
         try {
             listener.operationComplete(this);
         } catch (Exception e) {
-            LOGGER.error("notify listener {} error ", listener, e);
+            logger.error("notify listener {} error ", listener, e);
         }
     }
 

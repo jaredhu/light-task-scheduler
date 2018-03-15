@@ -29,7 +29,7 @@ import java.util.Date;
 @RestController
 public class RepeatJobQueueApi extends AbstractMVC {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepeatJobQueueApi.class);
+    private static final Logger logger = LoggerFactory.getLogger(RepeatJobQueueApi.class);
     @Autowired
     private BackendAppContext appContext;
 
@@ -108,7 +108,7 @@ public class RepeatJobQueueApi extends AbstractMVC {
                 }
 
             } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
                 return Builder.build(false, "更新等待执行的任务失败，请手动更新! error:" + e.getMessage());
             }
             JobLogUtils.log(LogType.UPDATE, oldJobPo, appContext.getJobLogger());
@@ -130,7 +130,7 @@ public class RepeatJobQueueApi extends AbstractMVC {
                 appContext.getExecutableJobQueue().removeBatch(jobPo.getRealTaskId(), jobPo.getTaskTrackerNodeGroup());
 //                appContext.getExecutableJobQueue().remove(request.getTaskTrackerNodeGroup(), request.getJobId());
             } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
                 return Builder.build(false, "删除等待执行的任务失败，请手动删除! error:{}" + e.getMessage());
             }
         }
@@ -151,16 +151,16 @@ public class RepeatJobQueueApi extends AbstractMVC {
             jobPo.setGmtModified(SystemClock.now());
             appContext.getSuspendJobQueue().add(jobPo);
         } catch (DupEntryException e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return Builder.build(false, "该任务已经被暂停, 请检查暂停队列");
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return Builder.build(false, "移动任务到暂停队列失败, error:" + e.getMessage());
         }
         try {
             appContext.getRepeatJobQueue().remove(request.getJobId());
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return Builder.build(false, "删除Repeat任务失败，请手动删除! error:" + e.getMessage());
         }
         try {
@@ -171,7 +171,7 @@ public class RepeatJobQueueApi extends AbstractMVC {
                 appContext.getExecutableJobQueue().remove(request.getTaskTrackerNodeGroup(), request.getJobId());
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return Builder.build(false, "删除等待执行的任务失败，请手动删除! error:" + e.getMessage());
         }
 

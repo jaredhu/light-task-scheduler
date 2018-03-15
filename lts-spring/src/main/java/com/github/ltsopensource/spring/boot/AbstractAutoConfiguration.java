@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public abstract class AbstractAutoConfiguration implements ApplicationContextAware, InitializingBean, DisposableBean {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAutoConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractAutoConfiguration.class);
     protected ApplicationContext applicationContext;
 
     @Override
@@ -66,7 +66,7 @@ public abstract class AbstractAutoConfiguration implements ApplicationContextAwa
                 if (listener instanceof MasterChangeListener) {
                     getJobNode().addMasterChangeListener((MasterChangeListener) listener);
                 } else {
-                    LOGGER.warn(entry.getKey() + "  is not instance of " + MasterChangeListener.class.getName());
+                    logger.warn(entry.getKey() + "  is not instance of " + MasterChangeListener.class.getName());
                 }
             }
         }

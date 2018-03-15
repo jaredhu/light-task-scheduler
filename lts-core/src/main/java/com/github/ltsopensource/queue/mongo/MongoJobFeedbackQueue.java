@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class MongoJobFeedbackQueue extends MongoRepository implements JobFeedbackQueue {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MongoJobFeedbackQueue.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoJobFeedbackQueue.class);
 
     public MongoJobFeedbackQueue(Config config) {
         super(config);
@@ -38,7 +38,7 @@ public class MongoJobFeedbackQueue extends MongoRepository implements JobFeedbac
         // create index if not exist
         if (CollectionUtils.sizeOf(indexInfo) <= 1) {
             template.ensureIndex(tableName, "idx_gmtCreated", "gmtCreated");
-            LOGGER.info("create queue " + tableName);
+            logger.info("create queue " + tableName);
         }
         return true;
     }
@@ -48,7 +48,7 @@ public class MongoJobFeedbackQueue extends MongoRepository implements JobFeedbac
         String tableName = JobQueueUtils.getFeedbackQueueName(jobClientNodeGroup);
         DBCollection dbCollection = template.getCollection(tableName);
         dbCollection.drop();
-        LOGGER.info("drop queue " + tableName);
+        logger.info("drop queue " + tableName);
         return true;
     }
 
@@ -63,7 +63,7 @@ public class MongoJobFeedbackQueue extends MongoRepository implements JobFeedbac
             try {
                 template.save(tableName, jobFeedbackPo);
             } catch (DuplicateKeyException e) {
-                LOGGER.warn("duplicate key for job feedback po: " + JSON.toJSONString(jobFeedbackPo));
+                logger.warn("duplicate key for job feedback po: " + JSON.toJSONString(jobFeedbackPo));
             }
         }
         return true;

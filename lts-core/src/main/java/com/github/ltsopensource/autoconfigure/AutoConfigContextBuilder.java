@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class AutoConfigContextBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AutoConfigContextBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(AutoConfigContextBuilder.class);
 
     private Map<String, PropertyDescriptor> nameDescriptorMap;
     private Map<PropertyDescriptor, Set<String>> descriptorNameMap;
@@ -101,8 +101,8 @@ public class AutoConfigContextBuilder {
                     // Ignore Class.getClassLoader() and getProtectionDomain() methods - nobody needs to bind to those
                     continue;
                 }
-                if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Found bean property '" + pd.getName() + "'" +
+                if (logger.isTraceEnabled()) {
+                    logger.trace("Found bean property '" + pd.getName() + "'" +
                             (pd.getPropertyType() != null ? " of type [" + pd.getPropertyType().getName() + "]" : "") +
                             (pd.getPropertyEditorClass() != null ?
                                     "; editor [" + pd.getPropertyEditorClass().getName() + "]" : ""));

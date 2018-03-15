@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class UpdateSql {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateSql.class);
+    private static final Logger logger = LoggerFactory.getLogger(UpdateSql.class);
 
     private SqlTemplate sqlTemplate;
     private StringBuilder sql = new StringBuilder();
@@ -173,8 +173,8 @@ public class UpdateSql {
         String finalSQL = getSQL();
         try {
 
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(SQLFormatter.format(finalSQL));
+            if (logger.isDebugEnabled()) {
+                logger.debug(SQLFormatter.format(finalSQL));
             }
 
             return sqlTemplate.update(finalSQL, params.toArray());

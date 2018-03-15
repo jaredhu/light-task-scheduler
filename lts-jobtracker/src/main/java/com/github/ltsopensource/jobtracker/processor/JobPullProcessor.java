@@ -18,7 +18,7 @@ public class JobPullProcessor extends AbstractRemotingProcessor {
 
     private JobPusher jobPusher;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobPullProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobPullProcessor.class);
 
     public JobPullProcessor(JobTrackerAppContext appContext) {
         super(appContext);
@@ -31,8 +31,8 @@ public class JobPullProcessor extends AbstractRemotingProcessor {
 
         JobPullRequest requestBody = request.getBody();
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("taskTrackerNodeGroup:{}, taskTrackerIdentity:{} , availableThreads:{}", requestBody.getNodeGroup(), requestBody.getIdentity(), requestBody.getAvailableThreads());
+        if (logger.isDebugEnabled()) {
+            logger.debug("taskTrackerNodeGroup:{}, taskTrackerIdentity:{} , availableThreads:{}", requestBody.getNodeGroup(), requestBody.getIdentity(), requestBody.getAvailableThreads());
         }
         jobPusher.push(requestBody);
 

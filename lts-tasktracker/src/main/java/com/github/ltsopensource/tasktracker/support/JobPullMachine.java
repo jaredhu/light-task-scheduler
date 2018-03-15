@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class JobPullMachine {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobPullMachine.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(JobPullMachine.class.getSimpleName());
 
     // 定时检查TaskTracker是否有空闲的线程，如果有，那么向JobTracker发起任务pull请求
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new NamedThreadFactory("LTS-JobPullMachine-Executor", true));
@@ -80,7 +80,7 @@ public class JobPullMachine {
                     }
                     sendRequest();
                 } catch (Exception e) {
-                    LOGGER.error("Job pull machine run error!", e);
+                    logger.error("Job pull machine run error!", e);
                 }
             }
         };
@@ -92,10 +92,10 @@ public class JobPullMachine {
                 if (scheduledFuture == null) {
                     scheduledFuture = executorService.scheduleWithFixedDelay(worker, jobPullFrequency * 1000, jobPullFrequency * 1000, TimeUnit.MILLISECONDS);
                 }
-                LOGGER.info("Start Job pull machine success!");
+                logger.info("Start Job pull machine success!");
             }
         } catch (Throwable t) {
-            LOGGER.error("Start Job pull machine failed!", t);
+            logger.error("Start Job pull machine failed!", t);
         }
     }
 
@@ -104,10 +104,10 @@ public class JobPullMachine {
             if (start.compareAndSet(true, false)) {
 //                scheduledFuture.cancel(true);
 //                executorService.shutdown();
-                LOGGER.info("Stop Job pull machine success!");
+                logger.info("Stop Job pull machine success!");
             }
         } catch (Throwable t) {
-            LOGGER.error("Stop Job pull machine failed!", t);
+            logger.error("Stop Job pull machine failed!", t);
         }
     }
 
@@ -116,8 +116,8 @@ public class JobPullMachine {
      */
     private void sendRequest() throws RemotingCommandFieldCheckException {
         int availableThreads = appContext.getRunnerPool().getAvailablePoolSize();
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("current availableThreads:{}", availableThreads);
+        if (logger.isDebugEnabled()) {
+            logger.debug("current availableThreads:{}", availableThreads);
         }
         if (availableThreads == 0) {
             return;
@@ -129,18 +129,18 @@ public class JobPullMachine {
         try {
             RemotingCommand responseCommand = appContext.getRemotingClient().invokeSync(request);
             if (responseCommand == null) {
-                LOGGER.warn("Job pull request failed! response command is null!");
+                logger.warn("Job pull request failed! response command is null!");
                 return;
             }
             if (JobProtos.ResponseCode.JOB_PULL_SUCCESS.code() == responseCommand.getCode()) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Job pull request success!");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Job pull request success!");
                 }
                 return;
             }
-            LOGGER.warn("Job pull request failed! response command is null!");
+            logger.warn("Job pull request failed! response command is null!");
         } catch (JobTrackerNotFoundException e) {
-            LOGGER.warn("no job tracker available!");
+            logger.warn("no job tracker available!");
         }
     }
 
@@ -163,7 +163,7 @@ public class JobPullMachine {
             if (processCpuTimeRate != null) {
                 Double cpuRate = Double.valueOf(processCpuTimeRate.toString()) / (Constants.AVAILABLE_PROCESSOR * 1.0);
                 if (cpuRate >= maxCpuTimeRate) {
-                    LOGGER.info("Pause Pull, CPU USAGE is " + String.format("%.2f", cpuRate) + "% >= " + String.format("%.2f", maxCpuTimeRate) + "%");
+                    logger.info("Pause Pull, CPU USAGE is " + String.format("%.2f", cpuRate) + "% >= " + String.format("%.2f", maxCpuTimeRate) + "%");
                     enough = false;
                     return false;
                 }
@@ -178,14 +178,14 @@ public class JobPullMachine {
             Double memoryUsedRate = new BigDecimal(usedMemory / (maxMemory*1.0), new MathContext(4)).doubleValue();
 
             if (memoryUsedRate >= maxMemoryUsedRate) {
-                LOGGER.info("Pause Pull, MEMORY USAGE is " + memoryUsedRate + " >= " + maxMemoryUsedRate);
+                logger.info("Pause Pull, MEMORY USAGE is " + memoryUsedRate + " >= " + maxMemoryUsedRate);
                 enough = false;
                 return false;
             }
             enough = true;
             return true;
         } catch (Exception e) {
-            LOGGER.warn("Check Machine Resource error", e);
+            logger.warn("Check Machine Resource error", e);
             return true;
         } finally {
             Boolean machineResEnough = appContext.getConfig().getInternalData(Constants.MACHINE_RES_ENOUGH, true);

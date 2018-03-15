@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class BeanCopierFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BeanCopierFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(BeanCopierFactory.class);
 
     private static Compiler COMPILER = AbstractCompiler.getCompiler();
     private static final AtomicInteger SEQ = new AtomicInteger(0);
@@ -93,8 +93,8 @@ public final class BeanCopierFactory {
         javaSourceBean.setClassDefinition(classDefinitionCode);
 
         javaSourceBean.addMethod(getMethodImplCode(sequence, sourceClass, targetClass, deepCopy, propCvtMap));
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(javaSourceBean.toString());
+        if (logger.isDebugEnabled()) {
+            logger.debug(javaSourceBean.toString());
         }
         return javaSourceBean.toString();
     }

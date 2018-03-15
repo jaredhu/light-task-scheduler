@@ -11,7 +11,7 @@ import com.github.ltsopensource.store.jdbc.exception.JdbcException;
  */
 public class DropTableSql {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DropTableSql.class);
+    private static final Logger logger = LoggerFactory.getLogger(DropTableSql.class);
 
     private SqlTemplate sqlTemplate;
     private StringBuilder sql = new StringBuilder();
@@ -30,8 +30,8 @@ public class DropTableSql {
         String finalSQL = sql.toString();
 
         try {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(SQLFormatter.format(finalSQL));
+            if (logger.isDebugEnabled()) {
+                logger.debug(SQLFormatter.format(finalSQL));
             }
 
             sqlTemplate.update(sql.toString());

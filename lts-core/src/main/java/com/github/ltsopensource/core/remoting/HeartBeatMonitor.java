@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class HeartBeatMonitor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeartBeatMonitor.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(HeartBeatMonitor.class.getSimpleName());
 
     // 用来定时发送心跳
     private final ScheduledExecutorService PING_EXECUTOR_SERVICE = Executors.newScheduledThreadPool(1, new NamedThreadFactory("LTS-HeartBeat-Ping", true));
@@ -98,10 +98,10 @@ public class HeartBeatMonitor {
                                 }
                             }, 30, 30, TimeUnit.SECONDS);      // 30s 一次心跳
                 }
-                LOGGER.debug("Start slow ping success.");
+                logger.debug("Start slow ping success.");
             }
         } catch (Throwable t) {
-            LOGGER.error("Start slow ping failed.", t);
+            logger.error("Start slow ping failed.", t);
         }
     }
 
@@ -111,10 +111,10 @@ public class HeartBeatMonitor {
 //                pingScheduledFuture.cancel(true);
 //                PING_EXECUTOR_SERVICE.shutdown();
                 appContext.getEventCenter().unSubscribe(EcTopic.NO_JOB_TRACKER_AVAILABLE, jobTrackerUnavailableEventSubscriber);
-                LOGGER.debug("Stop slow ping success.");
+                logger.debug("Stop slow ping success.");
             }
         } catch (Throwable t) {
-            LOGGER.error("Stop slow ping failed.", t);
+            logger.error("Stop slow ping failed.", t);
         }
     }
 
@@ -133,9 +133,9 @@ public class HeartBeatMonitor {
                                 }
                             }, 500, 500, TimeUnit.MILLISECONDS);
                 }
-                LOGGER.debug("Start fast ping success.");
+                logger.debug("Start fast ping success.");
             } catch (Throwable t) {
-                LOGGER.error("Start fast ping failed.", t);
+                logger.error("Start fast ping failed.", t);
             }
         }
     }
@@ -145,10 +145,10 @@ public class HeartBeatMonitor {
             if (fastPingStart.compareAndSet(true, false)) {
 //                fastPingScheduledFuture.cancel(true);
 //                FAST_PING_EXECUTOR.shutdown();
-                LOGGER.debug("Stop fast ping success.");
+                logger.debug("Stop fast ping success.");
             }
         } catch (Throwable t) {
-            LOGGER.error("Stop fast ping failed.", t);
+            logger.error("Stop fast ping failed.", t);
         }
     }
 
@@ -165,7 +165,7 @@ public class HeartBeatMonitor {
                 }
             }
         } catch (Throwable t) {
-            LOGGER.error("Ping JobTracker error", t);
+            logger.error("Ping JobTracker error", t);
         }
     }
 
@@ -209,13 +209,13 @@ public class HeartBeatMonitor {
             RemotingCommand response = remotingClient.getRemotingClient().invokeSync(addr, request, 5000);
             if (response != null && JobProtos.ResponseCode.HEART_BEAT_SUCCESS ==
                     JobProtos.ResponseCode.valueOf(response.getCode())) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("heart beat success. ");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("heart beat success. ");
                 }
                 return true;
             }
         } catch (Exception e) {
-            LOGGER.warn(e.getMessage());
+            logger.warn(e.getMessage());
         }
         return false;
     }

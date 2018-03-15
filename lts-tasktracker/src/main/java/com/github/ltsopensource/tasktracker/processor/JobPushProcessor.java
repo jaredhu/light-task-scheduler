@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class JobPushProcessor extends AbstractProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobPushProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobPushProcessor.class);
 
     private RetryScheduler<JobRunResult> retryScheduler;
     private JobRunnerCallback jobRunnerCallback;
@@ -144,16 +144,16 @@ public class JobPushProcessor extends AbstractProcessor {
                             if (commandResponse != null && commandResponse.getCode() == RemotingProtos.ResponseCode.SUCCESS.code()) {
                                 JobPushRequest jobPushRequest = commandResponse.getBody();
                                 if (jobPushRequest != null) {
-                                    if (LOGGER.isDebugEnabled()) {
-                                        LOGGER.debug("Get new job :{}", JSON.toJSONString(jobPushRequest.getJobMetaList()));
+                                    if (logger.isDebugEnabled()) {
+                                        logger.debug("Get new job :{}", JSON.toJSONString(jobPushRequest.getJobMetaList()));
                                     }
                                     if (CollectionUtils.isNotEmpty(jobPushRequest.getJobMetaList())) {
                                         returnResponse.setJobMeta(jobPushRequest.getJobMetaList().get(0));
                                     }
                                 }
                             } else {
-                                if (LOGGER.isInfoEnabled()) {
-                                    LOGGER.info("Job feedback failed, save local files。{}", jobRunResult);
+                                if (logger.isInfoEnabled()) {
+                                    logger.info("Job feedback failed, save local files。{}", jobRunResult);
                                 }
                                 try {
                                     if (isEnableFailStore()) {
@@ -161,12 +161,12 @@ public class JobPushProcessor extends AbstractProcessor {
                                                 jobRunResult.getJobMeta().getJobId().concat("_") + SystemClock.now(),
                                                 jobRunResult);
                                     } else {
-                                        LOGGER.error("Send Job Result to JobTracker Error, code={}, jobRunResult={}",
+                                        logger.error("Send Job Result to JobTracker Error, code={}, jobRunResult={}",
                                                 commandResponse != null ? commandResponse.getCode() : null, JSON.toJSONString(jobRunResult));
                                     }
 
                                 } catch (Exception e) {
-                                    LOGGER.error("Job feedback failed", e);
+                                    logger.error("Job feedback failed", e);
                                 }
                             }
                         } finally {
@@ -182,17 +182,17 @@ public class JobPushProcessor extends AbstractProcessor {
                 }
             } catch (JobTrackerNotFoundException e) {
                 try {
-                    LOGGER.warn("No job tracker available! save local files.");
+                    logger.warn("No job tracker available! save local files.");
 
                     if (isEnableFailStore()) {
                         retryScheduler.inSchedule(
                                 jobRunResult.getJobMeta().getJobId().concat("_") + SystemClock.now(),
                                 jobRunResult);
                     } else {
-                        LOGGER.error("Send Job Result to JobTracker Error, server is down, jobRunResult={}", JSON.toJSONString(jobRunResult));
+                        logger.error("Send Job Result to JobTracker Error, server is down, jobRunResult={}", JSON.toJSONString(jobRunResult));
                     }
                 } catch (Exception e1) {
-                    LOGGER.error("Save files failed, {}", jobRunResult.getJobMeta(), e1);
+                    logger.error("Save files failed, {}", jobRunResult.getJobMeta(), e1);
                 }
             }
 
@@ -222,11 +222,11 @@ public class JobPushProcessor extends AbstractProcessor {
             if (commandResponse != null && commandResponse.getCode() == RemotingProtos.ResponseCode.SUCCESS.code()) {
                 return true;
             } else {
-                LOGGER.warn("Send job failed, {}", commandResponse);
+                logger.warn("Send job failed, {}", commandResponse);
                 return false;
             }
         } catch (JobTrackerNotFoundException e) {
-            LOGGER.error("Retry send job result failed! jobResults={}", results, e);
+            logger.error("Retry send job result failed! jobResults={}", results, e);
         }
         return false;
     }

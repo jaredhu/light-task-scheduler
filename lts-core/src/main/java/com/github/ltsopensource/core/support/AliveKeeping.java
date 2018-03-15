@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class AliveKeeping {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AliveKeeping.class);
+    private static final Logger logger = LoggerFactory.getLogger(AliveKeeping.class);
 
     private static Timer timer;
 
@@ -30,8 +30,8 @@ public class AliveKeeping {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("I'm alive");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("I'm alive");
                     }
                 }
             }, 1000 * 60 * 10, 1000 * 60 * 10);

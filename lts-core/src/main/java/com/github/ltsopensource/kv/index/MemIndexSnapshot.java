@@ -54,8 +54,8 @@ public class MemIndexSnapshot<K, V> extends AbstractIndexSnapshot<K, V> {
 
             ConcurrentMap<K, IndexItem<K>> indexMap = null;
             if (fileHeader.getStoreTxLogRecordId() != 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Start to read IndexSnapshot File ....");
+                if (logger.isInfoEnabled()) {
+                    logger.info("Start to read IndexSnapshot File ....");
                 }
 
                 UnsafeByteArrayOutputStream os = new UnsafeByteArrayOutputStream();
@@ -71,8 +71,8 @@ public class MemIndexSnapshot<K, V> extends AbstractIndexSnapshot<K, V> {
                             }.getType());
                 }
 
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Finish read IndexSnapshot File");
+                if (logger.isInfoEnabled()) {
+                    logger.info("Finish read IndexSnapshot File");
                 }
             }
 
@@ -191,7 +191,7 @@ public class MemIndexSnapshot<K, V> extends AbstractIndexSnapshot<K, V> {
             // 删除多余的快照数目
             deleteOverSnapshot();
 
-            LOGGER.info("snapshot index finished: [" + name + "]");
+            logger.info("snapshot index finished: [" + name + "]");
 
             lastStoreTxLogPosition = storeTxLogPosition;
         } finally {
@@ -213,7 +213,7 @@ public class MemIndexSnapshot<K, V> extends AbstractIndexSnapshot<K, V> {
             for (int i = 0; i < indexFiles.length - storeConfig.getMaxIndexSnapshotSize(); i++) {
 
                 FileUtils.delete(new File(storeConfig.getIndexPath(), indexFiles[i]));
-                LOGGER.info("delete index snapshot [" + indexFiles[i] + "] succeed");
+                logger.info("delete index snapshot [" + indexFiles[i] + "] succeed");
             }
 
         }

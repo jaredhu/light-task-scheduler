@@ -15,15 +15,15 @@ import com.github.ltsopensource.remoting.Future;
  */
 public class EventHandler implements NioHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(EventHandler.class);
 
     @Override
     public void exceptionCaught(final NioChannel channel, Exception cause) {
-        LOGGER.error("exceptionCaught - " + channel.remoteAddress(), cause);
+        logger.error("exceptionCaught - " + channel.remoteAddress(), cause);
         channel.close().addListener(new IoFutureListener() {
             @Override
             public void operationComplete(Future future) throws Exception {
-                LOGGER.info("closeChannel: close the connection to remote address[{}] result: {}", channel.remoteAddress(),
+                logger.info("closeChannel: close the connection to remote address[{}] result: {}", channel.remoteAddress(),
                         future.isSuccess());
             }
         });
@@ -31,12 +31,12 @@ public class EventHandler implements NioHandler {
 
     @Override
     public void messageReceived(NioChannel channel, Object msg) throws Exception{
-        LOGGER.info("messageReceived : " + channel.remoteAddress() + "  " + JSON.toJSONString(msg));
+        logger.info("messageReceived : " + channel.remoteAddress() + "  " + JSON.toJSONString(msg));
     }
 
     @Override
     public void channelConnected(NioChannel channel) {
-        LOGGER.info("channelConnected - " + channel.remoteAddress());
+        logger.info("channelConnected - " + channel.remoteAddress());
     }
 
     @Override

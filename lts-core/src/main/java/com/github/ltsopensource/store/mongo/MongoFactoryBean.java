@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class MongoFactoryBean {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MongoFactoryBean.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoFactoryBean.class);
     private List<ServerAddress> replicaSetSeeds = new ArrayList<ServerAddress>();
     private MongoClientOptions mongoClientOptions;
     private List<MongoCredential> mongoCredentials = new ArrayList<MongoCredential>();
@@ -79,7 +79,7 @@ public class MongoFactoryBean {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
     }
 }

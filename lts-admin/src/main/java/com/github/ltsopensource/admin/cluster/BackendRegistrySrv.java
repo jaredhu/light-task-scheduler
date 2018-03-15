@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BackendRegistrySrv {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BackendRegistrySrv.class);
+    private static final Logger logger = LoggerFactory.getLogger(BackendRegistrySrv.class);
     private BackendAppContext appContext;
     private Registry registry;
     private NotifyListener notifyListener;
@@ -89,11 +89,11 @@ public class BackendRegistrySrv {
                 switch (event) {
                     case ADD:
                         appContext.getNodeMemCacheAccess().addNode(nodes);
-                        LOGGER.info("ADD NODE " + nodes);
+                        logger.info("ADD NODE " + nodes);
                         break;
                     case REMOVE:
                         appContext.getNodeMemCacheAccess().removeNode(nodes);
-                        LOGGER.info("REMOVE NODE " + nodes);
+                        logger.info("REMOVE NODE " + nodes);
                         break;
                 }
                 // 记录日志

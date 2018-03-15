@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class MDataAddHttpCmd implements HttpCmdProc {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MDataAddHttpCmd.class);
+    private static final Logger logger = LoggerFactory.getLogger(MDataAddHttpCmd.class);
 
     private MonitorAppContext appContext;
 
@@ -65,12 +65,12 @@ public class MDataAddHttpCmd implements HttpCmdProc {
             List<MData> mDatas = getMDataList(mNode.getNodeType(), mDataJson);
             appContext.getMDataSrv().addMDatas(mNode, mDatas);
         } catch (Exception e) {
-            LOGGER.error("Add Monitor Data error: " + JSON.toJSONString(request), e);
+            logger.error("Add Monitor Data error: " + JSON.toJSONString(request), e);
             return HttpCmdResponse.newResponse(false, "Add Monitor Data error: " + e.getMessage());
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Add Monitor Data success, mNode=" + mNodeJson + ", mData=" + mDataJson);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Add Monitor Data success, mNode=" + mNodeJson + ", mData=" + mDataJson);
         }
 
         return HttpCmdResponse.newResponse(true, "Add Monitor Data success");

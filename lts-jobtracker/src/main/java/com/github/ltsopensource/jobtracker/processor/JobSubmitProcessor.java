@@ -17,7 +17,7 @@ import com.github.ltsopensource.remoting.protocol.RemotingCommand;
  */
 public class JobSubmitProcessor extends AbstractRemotingProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobSubmitProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobSubmitProcessor.class);
 
     public JobSubmitProcessor(JobTrackerAppContext appContext) {
         super(appContext);
@@ -37,7 +37,7 @@ public class JobSubmitProcessor extends AbstractRemotingProcessor {
                     JobProtos.ResponseCode.JOB_RECEIVE_SUCCESS.code(), "job submit success!", jobSubmitResponse);
 
         } catch (JobReceiveException e) {
-            LOGGER.error("Receive job failed , jobs = " + jobSubmitRequest.getJobs(), e);
+            logger.error("Receive job failed , jobs = " + jobSubmitRequest.getJobs(), e);
             jobSubmitResponse.setSuccess(false);
             jobSubmitResponse.setMsg(e.getMessage());
             jobSubmitResponse.setFailedJobs(e.getJobs());

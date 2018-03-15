@@ -9,7 +9,7 @@ import java.util.TimerTask;
  */
 public class FutureTimerTask extends TimerTask {
 
-    private final Logger LOGGER = DB.LOGGER;
+    private final Logger logger = DB.logger;
     private String name;
     private boolean done;
     private Callable callable;
@@ -28,7 +28,7 @@ public class FutureTimerTask extends TimerTask {
         try {
             callable.call();
         } catch (Exception e) {
-            LOGGER.error(getName() + " run error:" + e.getMessage(), e);
+            logger.error(getName() + " run error:" + e.getMessage(), e);
         } finally {
             done = true;
         }

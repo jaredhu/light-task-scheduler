@@ -9,7 +9,7 @@ import com.github.ltsopensource.core.logger.LoggerFactory;
  */
 public abstract class ServiceThread implements Runnable {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     // 线程回收时间，默认90S
     private static final long JoinTime = 90 * 1000;
     // 执行线程
@@ -39,12 +39,12 @@ public abstract class ServiceThread implements Runnable {
 
     public void makeStop() {
         this.stopped = true;
-        LOGGER.info("makestop thread " + this.getServiceName());
+        logger.info("makestop thread " + this.getServiceName());
     }
 
     public void stop(final boolean interrupt) {
         this.stopped = true;
-        LOGGER.info("stop thread " + this.getServiceName() + " interrupt " + interrupt);
+        logger.info("stop thread " + this.getServiceName() + " interrupt " + interrupt);
         synchronized (this) {
             if (!this.hasNotified) {
                 this.hasNotified = true;
@@ -59,8 +59,8 @@ public abstract class ServiceThread implements Runnable {
 
     public void shutdown(final boolean interrupt) {
         this.stopped = true;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("shutdown thread " + this.getServiceName() + " interrupt " + interrupt);
+        if (logger.isDebugEnabled()) {
+            logger.debug("shutdown thread " + this.getServiceName() + " interrupt " + interrupt);
         }
         synchronized (this) {
             if (!this.hasNotified) {
@@ -76,13 +76,13 @@ public abstract class ServiceThread implements Runnable {
 
             long beginTime = System.currentTimeMillis();
             this.thread.join(this.getJointime());
-            if (LOGGER.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 long eclipseTime = System.currentTimeMillis() - beginTime;
-                LOGGER.info("join thread " + this.getServiceName() + " eclipse time(ms) " + eclipseTime + " "
+                logger.info("join thread " + this.getServiceName() + " eclipse time(ms) " + eclipseTime + " "
                         + this.getJointime());
             }
         } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -106,7 +106,7 @@ public abstract class ServiceThread implements Runnable {
             try {
                 this.wait(interval);
             } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             } finally {
                 this.hasNotified = false;
                 this.onWaitEnd();

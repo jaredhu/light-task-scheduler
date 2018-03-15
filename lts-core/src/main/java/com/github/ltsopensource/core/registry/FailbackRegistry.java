@@ -43,7 +43,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                 try {
                     retry();
                 } catch (Throwable t) { // 防御性容错
-                    LOGGER.error("Unexpected error occur at failed retry, cause: " + t.getMessage(), t);
+                    logger.error("Unexpected error occur at failed retry, cause: " + t.getMessage(), t);
                 }
             }
         }, retryPeriod, retryPeriod, TimeUnit.MILLISECONDS);
@@ -133,7 +133,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                 listeners = failedNotified.get(getNode());
             }
             listeners.put(listener, new NotifyPair<NotifyEvent, List<Node>>(event, nodes));
-            LOGGER.error("Failed to notify, waiting for retry, cause: " + e.getMessage(), e);
+            logger.error("Failed to notify, waiting for retry, cause: " + e.getMessage(), e);
         }
     }
 
@@ -143,7 +143,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         try {
             retryFuture.cancel(true);
         } catch (Throwable t) {
-            LOGGER.warn(t.getMessage(), t);
+            logger.warn(t.getMessage(), t);
         }
     }
 
@@ -152,8 +152,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         // register
         Set<Node> recoverRegistered = new HashSet<Node>(getRegistered());
         if (!recoverRegistered.isEmpty()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Recover register node " + recoverRegistered);
+            if (logger.isInfoEnabled()) {
+                logger.info("Recover register node " + recoverRegistered);
             }
             for (Node node : recoverRegistered) {
                 failedRegistered.add(node);
@@ -162,8 +162,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         // subscribe
         Map<Node, Set<NotifyListener>> recoverSubscribed = new HashMap<Node, Set<NotifyListener>>(getSubscribed());
         if (!recoverSubscribed.isEmpty()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Recover subscribe node " + recoverSubscribed.keySet());
+            if (logger.isInfoEnabled()) {
+                logger.info("Recover subscribe node " + recoverSubscribed.keySet());
             }
             for (Map.Entry<Node, Set<NotifyListener>> entry : recoverSubscribed.entrySet()) {
                 Node node = entry.getKey();
@@ -202,8 +202,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         if (!failedRegistered.isEmpty()) {
             Set<Node> failed = new HashSet<Node>(failedRegistered);
             if (failed.size() > 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Retry register {}", failed);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Retry register {}", failed);
                 }
                 try {
                     for (Node node : failed) {
@@ -211,15 +211,15 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                         failedRegistered.remove(node);
                     }
                 } catch (Throwable t) {     // 忽略所有异常，等待下次重试
-                    LOGGER.warn("Failed to retry register " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to retry register " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                 }
             }
         }
         if (!failedUnRegistered.isEmpty()) {
             Set<Node> failed = new HashSet<Node>(failedUnRegistered);
             if (failed.size() > 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Retry unregister {}", failed);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Retry unregister {}", failed);
                 }
                 try {
                     for (Node node : failed) {
@@ -227,7 +227,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                         failedUnRegistered.remove(node);
                     }
                 } catch (Throwable t) {     // 忽略所有异常，等待下次重试
-                    LOGGER.warn("Failed to retry unregister " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to retry unregister " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                 }
             }
         }
@@ -239,8 +239,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                 }
             }
             if (failed.size() > 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Retry subscribe " + failed);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Retry subscribe " + failed);
                 }
                 try {
                     for (Map.Entry<Node, Set<NotifyListener>> entry : failed.entrySet()) {
@@ -252,12 +252,12 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                                 listeners.remove(listener);
                                 failedSubscribed.remove(entry.getKey());
                             } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                                LOGGER.warn("Failed to retry subscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                                logger.warn("Failed to retry subscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                             }
                         }
                     }
                 } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                    LOGGER.warn("Failed to retry subscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to retry subscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                 }
             }
         }
@@ -269,8 +269,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                 }
             }
             if (failed.size() > 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Retry unsubscribe " + failed);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Retry unsubscribe " + failed);
                 }
                 try {
                     for (Map.Entry<Node, Set<NotifyListener>> entry : failed.entrySet()) {
@@ -281,12 +281,12 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                                 doUnsubscribe(node, listener);
                                 listeners.remove(listener);
                             } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                                LOGGER.warn("Failed to retry unsubscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                                logger.warn("Failed to retry unsubscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                             }
                         }
                     }
                 } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                    LOGGER.warn("Failed to retry unsubscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to retry unsubscribe " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                 }
             }
         }
@@ -298,8 +298,8 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                 }
             }
             if (failed.size() > 0) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Retry notify " + failed);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Retry notify " + failed);
                 }
                 try {
                     for (Map<NotifyListener, NotifyPair<NotifyEvent, List<Node>>> values : failed.values()) {
@@ -310,12 +310,12 @@ public abstract class FailbackRegistry extends AbstractRegistry {
                                 listener.notify(notifyPair.event, notifyPair.nodes);
                                 values.remove(listener);
                             } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                                LOGGER.warn("Failed to retry notify " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                                logger.warn("Failed to retry notify " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                             }
                         }
                     }
                 } catch (Throwable t) { // 忽略所有异常，等待下次重试
-                    LOGGER.warn("Failed to retry notify " + failed + ", waiting for again, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to retry notify " + failed + ", waiting for again, cause: " + t.getMessage(), t);
                 }
             }
         }

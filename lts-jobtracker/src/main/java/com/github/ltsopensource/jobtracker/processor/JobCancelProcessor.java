@@ -20,7 +20,7 @@ import com.github.ltsopensource.remoting.protocol.RemotingCommand;
  */
 public class JobCancelProcessor extends AbstractRemotingProcessor {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobCancelProcessor.class);
+    private final Logger logger = LoggerFactory.getLogger(JobCancelProcessor.class);
 
     public JobCancelProcessor(JobTrackerAppContext appContext) {
         super(appContext);
@@ -62,7 +62,7 @@ public class JobCancelProcessor extends AbstractRemotingProcessor {
             jobLogPo.setLevel(Level.INFO);
             appContext.getJobLogger().log(jobLogPo);
 
-            LOGGER.info("Cancel Job success , jobId={}, taskId={}, taskTrackerNodeGroup={}", jobPo.getJobId(), taskId, taskTrackerNodeGroup);
+            logger.info("Cancel Job success , jobId={}, taskId={}, taskTrackerNodeGroup={}", jobPo.getJobId(), taskId, taskTrackerNodeGroup);
             return RemotingCommand.createResponseCommand(JobProtos
                     .ResponseCode.JOB_CANCEL_SUCCESS.code());
         }

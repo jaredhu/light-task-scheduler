@@ -19,7 +19,7 @@ import org.mongodb.morphia.query.UpdateResults;
  */
 public class MongoTemplate {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MongoTemplate.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoTemplate.class);
 
     private AdvancedDatastore ds;
     // default DBCollection name
@@ -100,10 +100,10 @@ public class MongoTemplate {
 
         final BasicDBObject opts = (BasicDBObject) keyOpts.get();
         if (opts.isEmpty()) {
-            LOGGER.debug("Ensuring index for " + dbColl.getName() + " with keys:" + dbFields);
+            logger.debug("Ensuring index for " + dbColl.getName() + " with keys:" + dbFields);
             dbColl.createIndex(dbFields);
         } else {
-            LOGGER.debug("Ensuring index for " + dbColl.getName() + " with keys:" + fields + " and opts:" + opts);
+            logger.debug("Ensuring index for " + dbColl.getName() + " with keys:" + fields + " and opts:" + opts);
             dbColl.createIndex(dbFields, opts);
         }
     }

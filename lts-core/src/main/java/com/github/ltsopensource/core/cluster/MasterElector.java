@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class MasterElector {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MasterElector.class);
+    private static final Logger logger = LoggerFactory.getLogger(MasterElector.class);
 
     private AppContext appContext;
     private List<MasterChangeListener> listeners;
@@ -122,10 +122,10 @@ public class MasterElector {
     private void notifyListener() {
         boolean isMaster = false;
         if (appContext.getConfig().getIdentity().equals(master.getIdentity())) {
-            LOGGER.info("Current node become the master node:{}", master);
+            logger.info("Current node become the master node:{}", master);
             isMaster = true;
         } else {
-            LOGGER.info("Master node is :{}", master);
+            logger.info("Master node is :{}", master);
             isMaster = false;
         }
 
@@ -134,7 +134,7 @@ public class MasterElector {
                 try {
                     masterChangeListener.change(master, isMaster);
                 } catch (Throwable t) {
-                    LOGGER.error("MasterChangeListener notify error!", t);
+                    logger.error("MasterChangeListener notify error!", t);
                 }
             }
         }

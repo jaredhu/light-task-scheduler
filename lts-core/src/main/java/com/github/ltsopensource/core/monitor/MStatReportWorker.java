@@ -32,7 +32,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class MStatReportWorker implements Runnable {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(MStatReportWorker.class);
+    protected final Logger logger = LoggerFactory.getLogger(MStatReportWorker.class);
 
     private int interval = 1;    // 1分钟
     private Integer preMinute = null;  // 上一分钟
@@ -94,7 +94,7 @@ public class MStatReportWorker implements Runnable {
             }
 
         } catch (Throwable t) {
-            LOGGER.error("MStatReportWorker collect failed.", t);
+            logger.error("MStatReportWorker collect failed.", t);
         } finally {
             running = false;
         }
@@ -114,8 +114,8 @@ public class MStatReportWorker implements Runnable {
 
         final List<Node> monitorNodes = appContext.getSubscribedNodeManager().getNodeList(NodeType.MONITOR);
         if (CollectionUtils.isEmpty(monitorNodes)) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Please Start LTS-Monitor");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Please Start LTS-Monitor");
             }
             return;
         }
@@ -135,7 +135,7 @@ public class MStatReportWorker implements Runnable {
                     success = true;
                 }
             } catch (Throwable t) {
-                LOGGER.warn("Report monitor data Error : " + t.getMessage(), t);
+                logger.warn("Report monitor data Error : " + t.getMessage(), t);
             } finally {
                 if (!success) {
                     // 放回去
@@ -157,16 +157,16 @@ public class MStatReportWorker implements Runnable {
                 cmd.setNodeIdentity(node.getIdentity());
                 HttpCmdResponse response = HttpCmdClient.doPost(node.getIp(), node.getPort(), cmd);
                 if (response.isSuccess()) {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Report Monitor Data Success.");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Report Monitor Data Success.");
                     }
                     return true;
                 } else {
-                    LOGGER.warn("Report Monitor Data Failed: " + response.getMsg());
+                    logger.warn("Report Monitor Data Failed: " + response.getMsg());
                     monitorNodes.remove(node);
                 }
             } catch (Exception e) {
-                LOGGER.warn("Report Monitor Data Error: " + e.getMessage(), e);
+                logger.warn("Report Monitor Data Error: " + e.getMessage(), e);
                 // 重试下一个
             }
             if (monitorNodes.size() == 0) {

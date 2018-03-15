@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class JobFinishHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobFinishHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobFinishHandler.class);
 
     private JobTrackerAppContext appContext;
 
@@ -89,7 +89,7 @@ public class JobFinishHandler {
             jobPo.setInternalExtParam(Constants.EXE_SEQ_ID, JobUtils.generateExeSeqId(jobPo));
             appContext.getExecutableJobQueue().add(jobPo);
         } catch (DupEntryException e) {
-            LOGGER.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
+            logger.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
         }
     }
 
@@ -168,7 +168,7 @@ public class JobFinishHandler {
             jobPo.setInternalExtParam(Constants.EXE_SEQ_ID, JobUtils.generateExeSeqId(jobPo));
             appContext.getExecutableJobQueue().add(jobPo);
         } catch (DupEntryException e) {
-            LOGGER.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
+            logger.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
         }
     }
 

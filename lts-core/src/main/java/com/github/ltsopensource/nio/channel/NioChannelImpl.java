@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NioChannelImpl implements NioChannel {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NioChannelImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(NioChannelImpl.class);
 
     private final long id;
     private static final AtomicInteger CONN_ID = new AtomicInteger(0);
@@ -96,8 +96,8 @@ public class NioChannelImpl implements NioChannel {
             javaChannel().close();
             closeFuture.setSuccess(true);
         } catch (final IOException e) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("caught connection exception", e);
+            if (logger.isDebugEnabled()) {
+                logger.debug("caught connection exception", e);
             }
             closeFuture.setSuccess(false);
             closeFuture.setCause(e);

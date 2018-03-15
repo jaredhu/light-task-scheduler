@@ -7,7 +7,7 @@ import com.github.ltsopensource.core.constant.ExtConfig;
 /**
  * @author Robert HG (254963746@qq.com) on 5/19/15.
  */
-@SPI(key = ExtConfig.JOB_LOGGER, dftValue = "mysql")
+@SPI(key = ExtConfig.JOB_logger, dftValue = "mysql")
 public interface JobLoggerFactory {
 
     JobLogger getJobLogger(Config config);

@@ -37,7 +37,7 @@ public class SystemInitListener implements ServletContextListener {
             JSONFactory.setJSONAdapter(jsonAdapter);
         }
 
-        String loggerAdapter = AppConfigurer.getProperty("configs." + ExtConfig.LTS_LOGGER);
+        String loggerAdapter = AppConfigurer.getProperty("configs." + ExtConfig.LTS_logger);
         if (StringUtils.isNotEmpty(loggerAdapter)) {
             LoggerFactory.setLoggerAdapter(loggerAdapter);
         }

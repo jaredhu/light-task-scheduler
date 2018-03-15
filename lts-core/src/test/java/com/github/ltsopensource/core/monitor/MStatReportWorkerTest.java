@@ -15,7 +15,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class MStatReportWorkerTest {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(MStatReportWorker.class);
+    protected final Logger logger = LoggerFactory.getLogger(MStatReportWorker.class);
 
     private PriorityBlockingQueue<MData> queue = new PriorityBlockingQueue<MData>(16, new Comparator<MData>() {
         @Override
@@ -62,7 +62,7 @@ public class MStatReportWorkerTest {
                     success = true;
                 }
             } catch (Throwable t) {
-                LOGGER.warn("Report monitor data Error : " + t.getMessage(), t);
+                logger.warn("Report monitor data Error : " + t.getMessage(), t);
             } finally {
                 if (!success) {
                     // 放回去

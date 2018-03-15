@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
  * Remoting服务端实现
  */
 public abstract class AbstractRemotingServer extends AbstractRemoting implements RemotingServer {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemotingServer.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractRemotingServer.class);
 
     protected final RemotingServerConfig remotingServerConfig;
     // 处理Callback应答器
@@ -59,7 +59,7 @@ public abstract class AbstractRemotingServer extends AbstractRemoting implements
                 try {
                     AbstractRemotingServer.this.scanResponseTable();
                 } catch (Exception e) {
-                    LOGGER.error("scanResponseTable exception", e);
+                    logger.error("scanResponseTable exception", e);
                 }
             }
         }, 1000 * 3, 1000);
@@ -119,14 +119,14 @@ public abstract class AbstractRemotingServer extends AbstractRemoting implements
             serverShutdown();
 
         } catch (Exception e) {
-            LOGGER.error("RemotingServer shutdown exception, ", e);
+            logger.error("RemotingServer shutdown exception, ", e);
         }
 
         if (this.publicExecutor != null) {
             try {
                 this.publicExecutor.shutdown();
             } catch (Exception e) {
-                LOGGER.error("RemotingServer shutdown exception, ", e);
+                logger.error("RemotingServer shutdown exception, ", e);
             }
         }
     }

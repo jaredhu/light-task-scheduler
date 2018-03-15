@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class DeleteSql {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteSql.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeleteSql.class);
 
     private SqlTemplate sqlTemplate;
     private StringBuilder sql = new StringBuilder();
@@ -164,8 +164,8 @@ public class DeleteSql {
     public int doDelete() {
         String finalSQL = getSQL();
         try {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(SQLFormatter.format(finalSQL));
+            if (logger.isDebugEnabled()) {
+                logger.debug(SQLFormatter.format(finalSQL));
             }
             return sqlTemplate.delete(finalSQL, params.toArray());
         } catch (SQLException e) {

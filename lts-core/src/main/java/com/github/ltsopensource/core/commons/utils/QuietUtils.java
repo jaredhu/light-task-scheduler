@@ -9,13 +9,13 @@ import com.github.ltsopensource.core.logger.LoggerFactory;
  */
 public class QuietUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuietUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuietUtils.class);
 
     public static void doWithError(Callable callable) {
         try {
             callable.call();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -23,7 +23,7 @@ public class QuietUtils {
         try {
             callable.call();
         } catch (Exception e) {
-            LOGGER.warn(e.getMessage(), e);
+            logger.warn(e.getMessage(), e);
         }
     }
 
@@ -31,7 +31,7 @@ public class QuietUtils {
         try {
             callable.call();
         } catch (Exception e) {
-            LOGGER.info(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
         }
     }
 

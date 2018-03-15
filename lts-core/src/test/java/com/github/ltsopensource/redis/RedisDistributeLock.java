@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPool;
  */
 public class RedisDistributeLock {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(RedisDistributeLock.class);
+    private static Logger logger = LoggerFactory.getLogger(RedisDistributeLock.class);
 
     private static JedisPool pool;
     private JedisLock        jedisLock;
@@ -35,19 +35,19 @@ public class RedisDistributeLock {
         long begin = System.currentTimeMillis();
         try {
             // timeout超时，等待入锁的时间，设置为3秒；expiration过期，锁存在的时间设置为5分钟
-            LOGGER.info("begin logck,lockKey={},timeoutMsecs={},expireMsecs={}", lockKey, timeoutMsecs, expireMsecs);
+            logger.info("begin logck,lockKey={},timeoutMsecs={},expireMsecs={}", lockKey, timeoutMsecs, expireMsecs);
             if (jedisLock.acquire()) { // 启用锁
                 runnable.run();
             } else {
-                LOGGER.info("The time wait for lock more than [{}] ms ", timeoutMsecs);
+                logger.info("The time wait for lock more than [{}] ms ", timeoutMsecs);
             }
         } catch (Throwable t) {
             // 分布式锁异常
-            LOGGER.warn(t.getMessage(), t);
+            logger.warn(t.getMessage(), t);
         } finally {
             this.lockRelease(jedisLock, jedis);
         }
-        LOGGER.info("[{}]cost={}", lockKey, System.currentTimeMillis() - begin);
+        logger.info("[{}]cost={}", lockKey, System.currentTimeMillis() - begin);
     }
 
     /**
@@ -64,7 +64,7 @@ public class RedisDistributeLock {
         if (jedis != null) {
             jedis.close();
         }
-        LOGGER.info("release logck,lockKey={},timeoutMsecs={},expireMsecs={}", lockKey, timeoutMsecs, expireMsecs);
+        logger.info("release logck,lockKey={},timeoutMsecs={},expireMsecs={}", lockKey, timeoutMsecs, expireMsecs);
     }
 
     public static JedisPool getPool() {

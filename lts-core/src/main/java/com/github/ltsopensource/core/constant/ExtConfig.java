@@ -6,13 +6,13 @@ package com.github.ltsopensource.core.constant;
 public interface ExtConfig {
 
     // 是否延迟批量刷盘日志, 如果启用，采用队列的方式批量将日志刷盘(在应用关闭的时候，可能会造成日志丢失) , 默认关闭
-    String LAZY_JOB_LOGGER = "lazy.job.logger";
+    String LAZY_JOB_logger = "lazy.job.logger";
     // 延迟批量刷盘日志 内存中的最大日志量阀值
-    String LAZY_JOB_LOGGER_MEM_SIZE = "lazy.job.logger.mem.size";
+    String LAZY_JOB_logger_MEM_SIZE = "lazy.job.logger.mem.size";
     // 延迟批量刷盘日志 检查频率
-    String LAZY_JOB_LOGGER_CHECK_PERIOD = "lazy.job.logger.check.period";
-    String LAZY_JOB_LOGGER_BATCH_FLUSH_SIZE = "lazy.job.logger.batch.flush.size";
-    String LAZY_JOB_LOGGER_OVERFLOW_SIZE = "lazy.job.logger.overflow.size";
+    String LAZY_JOB_logger_CHECK_PERIOD = "lazy.job.logger.check.period";
+    String LAZY_JOB_logger_BATCH_FLUSH_SIZE = "lazy.job.logger.batch.flush.size";
+    String LAZY_JOB_logger_OVERFLOW_SIZE = "lazy.job.logger.overflow.size";
     /**
      * JobClient,JobTracker,TaskTracker端: 远程通讯请求处理线程数量, 默认 32 + AVAILABLE_PROCESSOR * 5
      */
@@ -48,11 +48,11 @@ public interface ExtConfig {
     /**
      * JobTracker端: 任务biz logger 可选值 console, mysql, mongo 默认 mysql
      */
-    String JOB_LOGGER = "job.logger";
+    String JOB_logger = "job.logger";
     /**
      * 各端: LTS的logger,可选值 slf4j, jcl, log4j, jdk 默认加载顺序 slf4j > jcl > log4j > jdk
      */
-    String LTS_LOGGER = "lts.logger";
+    String LTS_logger = "lts.logger";
     /**
      * 任务队列, 可选值 mysql, mongo 默认 mysql
      */
@@ -227,7 +227,7 @@ public interface ExtConfig {
 
     String JOB_TRACKER_PUSH_BATCH_SIZE = "lts.job.tracker.push.batch.size";
 
-    String TASK_TRACKER_BIZ_LOGGER_FAIL_STORE_CLOSE = "lts.task.tracker.biz.logger.failstore.close";
+    String TASK_TRACKER_BIZ_logger_FAIL_STORE_CLOSE = "lts.task.tracker.biz.logger.failstore.close";
 
     String TASK_TRACKER_JOB_RESULT_FAIL_STORE_CLOSE = "lts.task.tracker.job.result.failstore.close";
 

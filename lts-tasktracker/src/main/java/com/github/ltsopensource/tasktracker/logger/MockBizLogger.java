@@ -9,7 +9,7 @@ import com.github.ltsopensource.core.logger.LoggerFactory;
  */
 public class MockBizLogger extends BizLoggerAdapter implements BizLogger {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MockBizLogger.class);
+    private static final Logger logger = LoggerFactory.getLogger(MockBizLogger.class);
     private Level level;
 
     public MockBizLogger(Level level) {
@@ -22,21 +22,21 @@ public class MockBizLogger extends BizLoggerAdapter implements BizLogger {
     @Override
     public void debug(String msg) {
         if (level.ordinal() <= Level.DEBUG.ordinal()) {
-            LOGGER.debug(msg);
+            logger.debug(msg);
         }
     }
 
     @Override
     public void info(String msg) {
         if (level.ordinal() <= Level.INFO.ordinal()) {
-            LOGGER.info(msg);
+            logger.info(msg);
         }
     }
 
     @Override
     public void error(String msg) {
         if (level.ordinal() <= Level.ERROR.ordinal()) {
-            LOGGER.error(msg);
+            logger.error(msg);
         }
     }
 }

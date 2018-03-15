@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
  */
 public class RemotingClientDelegate {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RemotingClientDelegate.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemotingClientDelegate.class);
 
     private RemotingClient remotingClient;
     private AppContext appContext;
@@ -98,7 +98,7 @@ public class RemotingClientDelegate {
             try {
                 Thread.sleep(100L);
             } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
+                logger.error(e1.getMessage(), e1);
             }
             // 只要不是节点 不可用, 轮询所有节点请求
             return invokeSync(request);
@@ -123,7 +123,7 @@ public class RemotingClientDelegate {
             try {
                 Thread.sleep(100L);
             } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
+                logger.error(e1.getMessage(), e1);
             }
             // 只要不是节点 不可用, 轮询所有节点请求
             invokeAsync(request, asyncCallback);
@@ -148,7 +148,7 @@ public class RemotingClientDelegate {
             try {
                 Thread.sleep(100L);
             } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
+                logger.error(e1.getMessage(), e1);
             }
             // 只要不是节点 不可用, 轮询所有节点请求
             invokeOneway(request);

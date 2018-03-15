@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 public class JobClient<T extends JobClientNode, Context extends AppContext> extends
         AbstractClientNode<JobClientNode, JobClientAppContext> {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(JobClient.class);
+    protected static final Logger logger = LoggerFactory.getLogger(JobClient.class);
 
     private static final int BATCH_SIZE = 10;
 
@@ -110,7 +110,7 @@ public class JobClient<T extends JobClientNode, Context extends AppContext> exte
             RemotingCommand remotingResponse = remotingClient.invokeSync(requestCommand);
 
             if (JobProtos.ResponseCode.JOB_CANCEL_SUCCESS.code() == remotingResponse.getCode()) {
-                LOGGER.info("Cancel job success taskId={}, taskTrackerNodeGroup={} ", taskId, taskTrackerNodeGroup);
+                logger.info("Cancel job success taskId={}, taskTrackerNodeGroup={} ", taskId, taskTrackerNodeGroup);
                 response.setSuccess(true);
                 return response;
             }
@@ -118,7 +118,7 @@ public class JobClient<T extends JobClientNode, Context extends AppContext> exte
             response.setSuccess(false);
             response.setCode(JobProtos.ResponseCode.valueOf(remotingResponse.getCode()).name());
             response.setMsg(remotingResponse.getRemark());
-            LOGGER.warn("Cancel job failed: taskId={}, taskTrackerNodeGroup={}, msg={}", taskId,
+            logger.warn("Cancel job failed: taskId={}, taskTrackerNodeGroup={}, msg={}", taskId,
                     taskTrackerNodeGroup, remotingResponse.getRemark());
             return response;
 
@@ -163,13 +163,13 @@ public class JobClient<T extends JobClientNode, Context extends AppContext> exte
                         response.setFailedJobs(jobs);
                         response.setSuccess(false);
                         response.setMsg("Submit Job failed: JobTracker is broken");
-                        LOGGER.warn("Submit Job failed: {}, {}", jobs, "JobTracker is broken");
+                        logger.warn("Submit Job failed: {}, {}", jobs, "JobTracker is broken");
                         return;
                     }
 
                     if (JobProtos.ResponseCode.JOB_RECEIVE_SUCCESS.code() == responseCommand.getCode()) {
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Submit Job success: {}", jobs);
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Submit Job success: {}", jobs);
                         }
                         response.setSuccess(true);
                         return;
@@ -180,7 +180,7 @@ public class JobClient<T extends JobClientNode, Context extends AppContext> exte
                     response.setSuccess(false);
                     response.setCode(JobProtos.ResponseCode.valueOf(responseCommand.getCode()).name());
                     response.setMsg("Submit Job failed: " + responseCommand.getRemark() + " " + jobSubmitResponse.getMsg());
-                    LOGGER.warn("Submit Job failed: {}, {}, {}", jobs, responseCommand.getRemark(), jobSubmitResponse.getMsg());
+                    logger.warn("Submit Job failed: {}, {}, {}", jobs, responseCommand.getRemark(), jobSubmitResponse.getMsg());
                 }
             };
 

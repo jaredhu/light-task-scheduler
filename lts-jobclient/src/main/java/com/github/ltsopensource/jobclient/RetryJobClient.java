@@ -39,7 +39,7 @@ public class RetryJobClient extends JobClient<JobClientNode, JobClientAppContext
                     response = superSubmitJob(jobs, SubmitType.SYNC);
                     return response.isSuccess();
                 } catch (Throwable t) {
-                    RetryScheduler.LOGGER.error(t.getMessage(), t);
+                    RetryScheduler.logger.error(t.getMessage(), t);
                 } finally {
                     if (response != null && response.isSuccess()) {
                         stat.incSubmitFailStoreNum(jobs.size());
@@ -84,7 +84,7 @@ public class RetryJobClient extends JobClient<JobClientNode, JobClientAppContext
                 response.setSuccess(true);
                 response.setCode(ResponseCode.SUBMIT_FAILED_AND_SAVE_FOR_LATER);
                 response.setMsg(response.getMsg() + ", save local fail store and send later !");
-                LOGGER.warn(JSON.toJSONString(response));
+                logger.warn(JSON.toJSONString(response));
             } catch (Exception e) {
                 response.setSuccess(false);
                 response.setMsg(e.getMessage());

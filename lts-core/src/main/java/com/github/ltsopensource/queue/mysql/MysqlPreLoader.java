@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class MysqlPreLoader extends AbstractPreLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MysqlPreLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(MysqlPreLoader.class);
     private SqlTemplate sqlTemplate;
 
     public MysqlPreLoader(AppContext appContext) {
@@ -59,7 +59,7 @@ public class MysqlPreLoader extends AbstractPreLoader {
                     .and("gmt_modified = ?", gmtModified)
                     .doUpdate() == 1;
         } catch (Exception e) {
-            LOGGER.error("Error when lock job:" + e.getMessage(), e);
+            logger.error("Error when lock job:" + e.getMessage(), e);
             return false;
         }
     }
@@ -82,7 +82,7 @@ public class MysqlPreLoader extends AbstractPreLoader {
                     .limit(0, loadSize)
                     .list(RshHolder.JOB_PO_LIST_RSH);
         } catch (Exception e) {
-            LOGGER.error("Error when load job:" + e.getMessage(), e);
+            logger.error("Error when load job:" + e.getMessage(), e);
             return null;
         }
     }

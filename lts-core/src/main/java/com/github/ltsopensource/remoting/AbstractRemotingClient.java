@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Remoting客户端实现
  */
 public abstract class AbstractRemotingClient extends AbstractRemoting implements RemotingClient {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemotingClient.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractRemotingClient.class);
 
     private static final long LockTimeoutMillis = 3000;
 
@@ -64,7 +64,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                 try {
                     AbstractRemotingClient.this.scanResponseTable();
                 } catch (Exception e) {
-                    LOGGER.error("scanResponseTable exception", e);
+                    logger.error("scanResponseTable exception", e);
                 }
             }
         }, 1000 * 3, 1000);
@@ -94,14 +94,14 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
             clientShutdown();
 
         } catch (Exception e) {
-            LOGGER.error("NettyRemotingClient shutdown exception, ", e);
+            logger.error("NettyRemotingClient shutdown exception, ", e);
         }
 
         if (this.publicExecutor != null) {
             try {
                 this.publicExecutor.shutdown();
             } catch (Exception e) {
-                LOGGER.error("NettyRemotingServer shutdown exception, ", e);
+                logger.error("NettyRemotingServer shutdown exception, ", e);
             }
         }
     }
@@ -152,17 +152,17 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                 if (createNewConnection) {
                     ChannelFuture channelFuture =
                             connect(RemotingHelper.string2SocketAddress(addr));
-                    LOGGER.info("createChannel: begin to connect remote host[{}] asynchronously", addr);
+                    logger.info("createChannel: begin to connect remote host[{}] asynchronously", addr);
                     cw = new ChannelWrapper(channelFuture);
                     this.channelTables.put(addr, cw);
                 }
             } catch (Exception e) {
-                LOGGER.error("createChannel: create channel exception", e);
+                logger.error("createChannel: create channel exception", e);
             } finally {
                 this.lockChannelTables.unlock();
             }
         } else {
-            LOGGER.warn("createChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
+            logger.warn("createChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
         }
 
         if (cw != null) {
@@ -170,16 +170,16 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
             if (channelFuture.awaitUninterruptibly(this.remotingClientConfig.getConnectTimeoutMillis())) {
                 if (cw.isConnected()) {
-                    LOGGER.info("createChannel: connect remote host[{}] success, {}", addr,
+                    logger.info("createChannel: connect remote host[{}] success, {}", addr,
                             channelFuture.toString());
                     return cw.getChannel();
                 } else {
-                    LOGGER.warn(
+                    logger.warn(
                             "createChannel: connect remote host[" + addr + "] failed, "
                                     + channelFuture.toString(), channelFuture.cause());
                 }
             } else {
-                LOGGER.warn("createChannel: connect remote host[{}] timeout {}ms, {}", addr,
+                logger.warn("createChannel: connect remote host[{}] timeout {}ms, {}", addr,
                         this.remotingClientConfig.getConnectTimeoutMillis(), channelFuture.toString());
             }
         }
@@ -202,16 +202,16 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                     boolean removeItemFromTable = true;
                     final ChannelWrapper prevCW = this.channelTables.get(addrRemote);
 
-                    LOGGER.info("closeChannel: begin close the channel[{}] Found: {}", addrRemote,
+                    logger.info("closeChannel: begin close the channel[{}] Found: {}", addrRemote,
                             (prevCW != null));
 
                     if (null == prevCW) {
-                        LOGGER.info(
+                        logger.info(
                                 "closeChannel: the channel[{}] has been removed from the channel table before",
                                 addrRemote);
                         removeItemFromTable = false;
                     } else if (prevCW.getChannel() != channel) {
-                        LOGGER.info(
+                        logger.info(
                                 "closeChannel: the channel[{}] has been closed before, and has been created again, nothing to do.",
                                 addrRemote);
                         removeItemFromTable = false;
@@ -219,20 +219,20 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
 
                     if (removeItemFromTable) {
                         this.channelTables.remove(addrRemote);
-                        LOGGER.info("closeChannel: the channel[{}] was removed from channel table", addrRemote);
+                        logger.info("closeChannel: the channel[{}] was removed from channel table", addrRemote);
                     }
 
                     RemotingHelper.closeChannel(channel);
                 } catch (Exception e) {
-                    LOGGER.error("closeChannel: close the channel exception", e);
+                    logger.error("closeChannel: close the channel exception", e);
                 } finally {
                     this.lockChannelTables.unlock();
                 }
             } else {
-                LOGGER.warn("closeChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
+                logger.warn("closeChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
             }
         } catch (InterruptedException e) {
-            LOGGER.error("closeChannel exception", e);
+            logger.error("closeChannel exception", e);
         }
     }
 
@@ -260,26 +260,26 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
                     }
 
                     if (null == prevCW) {
-                        LOGGER.info(
+                        logger.info(
                                 "eventCloseChannel: the channel has been removed from the channel table before");
                         removeItemFromTable = false;
                     }
 
                     if (removeItemFromTable) {
                         this.channelTables.remove(addrRemote);
-                        LOGGER.info("closeChannel: the channel[{}] was removed from channel table", addrRemote);
+                        logger.info("closeChannel: the channel[{}] was removed from channel table", addrRemote);
                         RemotingHelper.closeChannel(channel);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("closeChannel: close the channel exception", e);
+                    logger.error("closeChannel: close the channel exception", e);
                 } finally {
                     this.lockChannelTables.unlock();
                 }
             } else {
-                LOGGER.warn("closeChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
+                logger.warn("closeChannel: try to lock channel table, but timeout, {}ms", LockTimeoutMillis);
             }
         } catch (InterruptedException e) {
-            LOGGER.error("closeChannel exception", e);
+            logger.error("closeChannel exception", e);
         }
     }
 
@@ -309,11 +309,11 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
             try {
                 return this.invokeSyncImpl(channel, request, timeoutMillis);
             } catch (RemotingSendRequestException e) {
-                LOGGER.warn("invokeSync: send request exception, so close the channel[{}]", addr);
+                logger.warn("invokeSync: send request exception, so close the channel[{}]", addr);
                 this.closeChannel(addr, channel);
                 throw e;
             } catch (RemotingTimeoutException e) {
-                LOGGER.warn("invokeSync: wait response timeout exception, the channel[{}]", addr);
+                logger.warn("invokeSync: wait response timeout exception, the channel[{}]", addr);
                 // 超时异常如果关闭连接可能会产生连锁反应
                 // this.closeChannel(addr, channel);
                 throw e;
@@ -333,7 +333,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
             try {
                 this.invokeAsyncImpl(channel, request, timeoutMillis, asyncCallback);
             } catch (RemotingSendRequestException e) {
-                LOGGER.warn("invokeAsync: send request exception, so close the channel[{}]", addr);
+                logger.warn("invokeAsync: send request exception, so close the channel[{}]", addr);
                 this.closeChannel(addr, channel);
                 throw e;
             }
@@ -352,7 +352,7 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
             try {
                 this.invokeOnewayImpl(channel, request, timeoutMillis);
             } catch (RemotingSendRequestException e) {
-                LOGGER.warn("invokeOneway: send request exception, so close the channel[{}]", addr);
+                logger.warn("invokeOneway: send request exception, so close the channel[{}]", addr);
                 this.closeChannel(addr, channel);
                 throw e;
             }

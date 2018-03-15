@@ -15,7 +15,7 @@ import com.github.ltsopensource.jobtracker.domain.JobTrackerAppContext;
  */
 public class LoadJobHttpCmd implements HttpCmdProc {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(LoadJobHttpCmd.class);
+    private final Logger logger = LoggerFactory.getLogger(LoadJobHttpCmd.class);
 
     private JobTrackerAppContext appContext;
 
@@ -39,7 +39,7 @@ public class LoadJobHttpCmd implements HttpCmdProc {
         String taskTrackerNodeGroup = request.getParam("nodeGroup");
         appContext.getPreLoader().load(taskTrackerNodeGroup);
 
-        LOGGER.info("load job succeed : nodeGroup={}", taskTrackerNodeGroup);
+        logger.info("load job succeed : nodeGroup={}", taskTrackerNodeGroup);
 
         return HttpCmdResponse.newResponse(true, "load job succeed");
     }

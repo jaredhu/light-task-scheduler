@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class JobRetryHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobRetryHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobRetryHandler.class);
 
     private JobTrackerAppContext appContext;
     private int retryInterval = 30 * 1000;     // 默认30s
@@ -106,7 +106,7 @@ public class JobRetryHandler {
             try {
                 appContext.getExecutableJobQueue().add(jobPo);
             } catch (DupEntryException e) {
-                LOGGER.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
+                logger.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
             }
             // 从正在执行的队列中移除
             appContext.getExecutingJobQueue().remove(jobPo.getJobId());

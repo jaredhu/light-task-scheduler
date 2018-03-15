@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class RegistryStatMonitor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistryStatMonitor.class);
+    private static final Logger logger = LoggerFactory.getLogger(RegistryStatMonitor.class);
     private AppContext appContext;
     private AtomicBoolean available = new AtomicBoolean(false);
 
@@ -24,8 +24,8 @@ public class RegistryStatMonitor {
     public void setAvailable(boolean available) {
         this.available.set(available);
 
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Registry {}", available ? "available" : "unavailable");
+        if (logger.isInfoEnabled()) {
+            logger.info("Registry {}", available ? "available" : "unavailable");
         }
         // 发布事件
         appContext.getEventCenter().publishAsync(new EventInfo(

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class NodeMemCacheAccess extends MemoryAccess {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeMemCacheAccess.class);
+    private static final Logger logger = LoggerFactory.getLogger(NodeMemCacheAccess.class);
 
     public NodeMemCacheAccess() {
         createTable(readSqlFile("sql/h2/lts_node.sql"));
@@ -68,7 +68,7 @@ public class NodeMemCacheAccess extends MemoryAccess {
                                 node.getHttpCmdPort())
                         .doInsert();
             } catch (Exception e) {
-                LOGGER.error("Insert {} error!", node, e);
+                logger.error("Insert {} error!", node, e);
             }
         }
     }
@@ -91,7 +91,7 @@ public class NodeMemCacheAccess extends MemoryAccess {
                         .where("identity = ?", node.getIdentity())
                         .doDelete();
             } catch (Exception e) {
-                LOGGER.error("Delete {} error!", node, e);
+                logger.error("Delete {} error!", node, e);
             }
         }
     }

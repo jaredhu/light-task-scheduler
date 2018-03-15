@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ChannelManager {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ChannelManager.class);
+    private final Logger logger = LoggerFactory.getLogger(ChannelManager.class);
     // 客户端列表 (要保证同一个group的node要是无状态的)
     private final ConcurrentHashMap<String/*clientGroup*/, List<ChannelWrapper>> clientChannelMap = new ConcurrentHashMap<String, List<ChannelWrapper>>();
     // 任务节点列表
@@ -43,15 +43,15 @@ public class ChannelManager {
                     public void run() {
                         try {
                             checkCloseChannel(NodeType.JOB_CLIENT, clientChannelMap);
-                            if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug("JobClient Channel Pool " + clientChannelMap);
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("JobClient Channel Pool " + clientChannelMap);
                             }
                             checkCloseChannel(NodeType.TASK_TRACKER, taskTrackerChannelMap);
-                            if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug("TaskTracker Channel Pool " + taskTrackerChannelMap);
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("TaskTracker Channel Pool " + taskTrackerChannelMap);
                             }
                         } catch (Throwable t) {
-                            LOGGER.error("Check channel error!", t);
+                            logger.error("Check channel error!", t);
                         }
                     }
                 }, 10, 10, TimeUnit.SECONDS);
@@ -69,15 +69,15 @@ public class ChannelManager {
                                 }
                             }
                         } catch (Throwable t) {
-                            LOGGER.error("Check offline channel error!", t);
+                            logger.error("Check offline channel error!", t);
                         }
                     }
                 }, 1, 1, TimeUnit.MINUTES);     // 1分钟检查一次
 
             }
-            LOGGER.info("Start channel manager success!");
+            logger.info("Start channel manager success!");
         } catch (Throwable t) {
-            LOGGER.error("Start channel manager failed!", t);
+            logger.error("Start channel manager failed!", t);
         }
     }
 
@@ -89,9 +89,9 @@ public class ChannelManager {
                 offlineTaskTrackerScheduledFuture.cancel(true);
                 offlineTaskTrackerCheckExecutorService.shutdown();
             }
-            LOGGER.info("Stop channel manager success!");
+            logger.info("Stop channel manager success!");
         } catch (Throwable t) {
-            LOGGER.error("Stop channel manager failed!", t);
+            logger.error("Stop channel manager failed!", t);
         }
     }
 
@@ -105,7 +105,7 @@ public class ChannelManager {
             for (ChannelWrapper channel : channels) {
                 if (channel.isClosed()) {
                     removeList.add(channel);
-                    LOGGER.info("close channel={}", channel);
+                    logger.info("close channel={}", channel);
                 }
             }
             channels.removeAll(removeList);
@@ -161,11 +161,11 @@ public class ChannelManager {
                 }
             }
             channels.add(channel);
-            LOGGER.info("new connected channel={}", channel);
+            logger.info("new connected channel={}", channel);
         } else {
             if (!channels.contains(channel)) {
                 channels.add(channel);
-                LOGGER.info("new connected channel={}", channel);
+                logger.info("new connected channel={}", channel);
             }
         }
     }
@@ -180,7 +180,7 @@ public class ChannelManager {
         List<ChannelWrapper> channels = getChannels(nodeGroup, nodeType);
         if (channels != null) {
             channels.remove(channel);
-            LOGGER.info("remove channel={}", channel);
+            logger.info("remove channel={}", channel);
         }
     }
 }

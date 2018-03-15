@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ServiceLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServiceLoader.class);
     private static final String LTS_DIRECTORY = "META-INF/lts/";
     private static final String LTS_INTERNAL = "internal";
     private static final String LTS_INTERNAL_DIRECTORY = LTS_DIRECTORY + LTS_INTERNAL + "/";
@@ -172,7 +172,7 @@ public class ServiceLoader {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("parse " + urlDefinition.uri + " error:" + e.getMessage(), e);
+            logger.error("parse " + urlDefinition.uri + " error:" + e.getMessage(), e);
         }
         return nameClassMap;
     }
@@ -197,7 +197,7 @@ public class ServiceLoader {
             return urlDefinitions;
 
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
         return Collections.emptySet();
     }

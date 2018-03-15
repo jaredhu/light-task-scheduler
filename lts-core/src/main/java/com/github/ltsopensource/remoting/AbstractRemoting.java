@@ -27,7 +27,7 @@ import java.util.concurrent.*;
  * Server与Client公用抽象类
  */
 public abstract class AbstractRemoting {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRemoting.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractRemoting.class);
 
     // 信号量，Oneway情况会使用，防止本地缓存请求过多
     protected final Semaphore semaphoreOneway;
@@ -81,24 +81,24 @@ public abstract class AbstractRemoting {
                                         @Override
                                         public void operationComplete(Future future) throws Exception {
                                             if (!future.isSuccess()) {
-                                                LOGGER.error("response to " + RemotingHelper.parseChannelRemoteAddr(channel) + " failed", future.cause());
-                                                LOGGER.error(cmd.toString());
-                                                LOGGER.error(response.toString());
+                                                logger.error("response to " + RemotingHelper.parseChannelRemoteAddr(channel) + " failed", future.cause());
+                                                logger.error(cmd.toString());
+                                                logger.error(response.toString());
                                             }
                                         }
                                     });
                                 } catch (Exception e) {
-                                    LOGGER.error("process request over, but response failed", e);
-                                    LOGGER.error(cmd.toString());
-                                    LOGGER.error(response.toString());
+                                    logger.error("process request over, but response failed", e);
+                                    logger.error(cmd.toString());
+                                    logger.error(response.toString());
                                 }
                             } else {
                                 // 收到请求，但是没有返回应答，可能是processRequest中进行了应答，忽略这种情况
                             }
                         }
                     } catch (Exception e) {
-                        LOGGER.error("process request exception", e);
-                        LOGGER.error(cmd.toString());
+                        logger.error("process request exception", e);
+                        logger.error(cmd.toString());
 
                         if (!RemotingCommandHelper.isOnewayRPC(cmd)) {
                             final RemotingCommand response =
@@ -115,7 +115,7 @@ public abstract class AbstractRemoting {
                 // 这里需要做流控，要求线程池对应的队列必须是有大小限制的
                 pair.getValue().submit(run);
             } catch (RejectedExecutionException e) {
-                LOGGER.warn(RemotingHelper.parseChannelRemoteAddr(channel) //
+                logger.warn(RemotingHelper.parseChannelRemoteAddr(channel) //
                         + ", too many requests and system thread pool busy, RejectedExecutionException " //
                         + pair.getKey().toString() //
                         + " request code: " + cmd.getCode());
@@ -134,7 +134,7 @@ public abstract class AbstractRemoting {
                             error);
             response.setOpaque(cmd.getOpaque());
             channel.writeAndFlush(response);
-            LOGGER.error(RemotingHelper.parseChannelRemoteAddr(channel) + error);
+            logger.error(RemotingHelper.parseChannelRemoteAddr(channel) + error);
         }
     }
 
@@ -157,13 +157,13 @@ public abstract class AbstractRemoting {
                                 try {
                                     responseFuture.executeInvokeCallback();
                                 } catch (Exception e) {
-                                    LOGGER.warn("execute callback in executor exception, and callback throw", e);
+                                    logger.warn("execute callback in executor exception, and callback throw", e);
                                 }
                             }
                         });
                     } catch (Exception e) {
                         runInThisThread = true;
-                        LOGGER.warn("execute callback in executor exception, maybe executor busy", e);
+                        logger.warn("execute callback in executor exception, maybe executor busy", e);
                     }
                 } else {
                     runInThisThread = true;
@@ -173,7 +173,7 @@ public abstract class AbstractRemoting {
                     try {
                         responseFuture.executeInvokeCallback();
                     } catch (Exception e) {
-                        LOGGER.warn("", e);
+                        logger.warn("", e);
                     }
                 }
             }
@@ -182,9 +182,9 @@ public abstract class AbstractRemoting {
                 responseFuture.putResponse(cmd);
             }
         } else {
-            LOGGER.warn("receive response, but not matched any request, "
+            logger.warn("receive response, but not matched any request, "
                     + RemotingHelper.parseChannelRemoteAddr(channel));
-            LOGGER.warn(cmd.toString());
+            logger.warn(cmd.toString());
         }
 
         responseTable.remove(cmd.getOpaque());
@@ -219,10 +219,10 @@ public abstract class AbstractRemoting {
                 try {
                     rep.executeInvokeCallback();
                 } catch (Exception e) {
-                    LOGGER.error("scanResponseTable, operationComplete exception", e);
+                    logger.error("scanResponseTable, operationComplete exception", e);
                 }
 
-                LOGGER.warn("remove timeout request, " + rep);
+                logger.warn("remove timeout request, " + rep);
             }
         }
     }
@@ -247,8 +247,8 @@ public abstract class AbstractRemoting {
                     responseTable.remove(request.getOpaque());
                     responseFuture.setCause(future.cause());
                     responseFuture.putResponse(null);
-                    LOGGER.warn("send a request command to channel <" + channel.remoteAddress() + "> failed.");
-                    LOGGER.warn(request.toString());
+                    logger.warn("send a request command to channel <" + channel.remoteAddress() + "> failed.");
+                    logger.warn(request.toString());
                 }
             });
 
@@ -301,22 +301,22 @@ public abstract class AbstractRemoting {
 						}
 
                         responseTable.remove(request.getOpaque());
-                        LOGGER.warn("send a request command to channel <" + channel.remoteAddress() + "> failed.");
-                        LOGGER.warn(request.toString());
+                        logger.warn("send a request command to channel <" + channel.remoteAddress() + "> failed.");
+                        logger.warn(request.toString());
                     }
                 });
             } catch (Exception e) {
                 once.release();
-                LOGGER.warn("write send a request command to channel <" + channel.remoteAddress() + "> failed.");
+                logger.warn("write send a request command to channel <" + channel.remoteAddress() + "> failed.");
                 throw new RemotingSendRequestException(RemotingHelper.parseChannelRemoteAddr(channel), e);
             }
         } else {
             if (timeoutMillis <= 0) {
                 throw new RemotingTooMuchRequestException("invokeAsyncImpl invoke too fast");
             } else {
-                LOGGER.warn("invokeAsyncImpl tryAcquire semaphore timeout, " + timeoutMillis
+                logger.warn("invokeAsyncImpl tryAcquire semaphore timeout, " + timeoutMillis
                         + " waiting thread nums: " + this.semaphoreAsync.getQueueLength());
-                LOGGER.warn(request.toString());
+                logger.warn(request.toString());
 
                 throw new RemotingTimeoutException("tryAcquire timeout(ms) " + timeoutMillis);
             }
@@ -336,24 +336,24 @@ public abstract class AbstractRemoting {
                     public void operationComplete(Future future) throws Exception {
                         once.release();
                         if (!future.isSuccess()) {
-                            LOGGER.warn("send a request command to channel <" + channel.remoteAddress()
+                            logger.warn("send a request command to channel <" + channel.remoteAddress()
                                     + "> failed.");
-                            LOGGER.warn(request.toString());
+                            logger.warn(request.toString());
                         }
                     }
                 });
             } catch (Exception e) {
                 once.release();
-                LOGGER.warn("write send a request command to channel <" + channel.remoteAddress() + "> failed.");
+                logger.warn("write send a request command to channel <" + channel.remoteAddress() + "> failed.");
                 throw new RemotingSendRequestException(RemotingHelper.parseChannelRemoteAddr(channel), e);
             }
         } else {
             if (timeoutMillis <= 0) {
                 throw new RemotingTooMuchRequestException("invokeOnewayImpl invoke too fast");
             } else {
-                LOGGER.warn("invokeOnewayImpl tryAcquire semaphore timeout, " + timeoutMillis
+                logger.warn("invokeOnewayImpl tryAcquire semaphore timeout, " + timeoutMillis
                         + " waiting thread nums: " + this.semaphoreOneway.getQueueLength());
-                LOGGER.warn(request.toString());
+                logger.warn(request.toString());
 
                 throw new RemotingTimeoutException("tryAcquire timeout(ms) " + timeoutMillis);
             }
@@ -368,7 +368,7 @@ public abstract class AbstractRemoting {
             if (this.eventQueue.size() <= MaxSize) {
                 this.eventQueue.add(event);
             } else {
-                LOGGER.warn("event queue size[{}] enough, so drop this event {}", this.eventQueue.size(),
+                logger.warn("event queue size[{}] enough, so drop this event {}", this.eventQueue.size(),
                         event.toString());
             }
         }
@@ -376,7 +376,7 @@ public abstract class AbstractRemoting {
         @Override
         public void run() {
 
-            LOGGER.info(this.getServiceName() + " service started");
+            logger.info(this.getServiceName() + " service started");
 
             final ChannelEventListener listener = AbstractRemoting.this.getChannelEventListener();
 
@@ -408,11 +408,11 @@ public abstract class AbstractRemoting {
                         }
                     }
                 } catch (Exception e) {
-                    LOGGER.warn(this.getServiceName() + " service has exception. ", e);
+                    logger.warn(this.getServiceName() + " service has exception. ", e);
                 }
             }
 
-            LOGGER.info(this.getServiceName() + " service end");
+            logger.info(this.getServiceName() + " service end");
         }
 
         @Override

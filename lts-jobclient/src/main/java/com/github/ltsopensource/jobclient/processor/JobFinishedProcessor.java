@@ -17,7 +17,7 @@ import com.github.ltsopensource.remoting.protocol.RemotingCommand;
  */
 public class JobFinishedProcessor implements RemotingProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobFinishedProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobFinishedProcessor.class);
 
     private JobClientAppContext appContext;
     private JobClientMStatReporter stat;
@@ -38,7 +38,7 @@ public class JobFinishedProcessor implements RemotingProcessor {
                 stat.incHandleFeedbackNum(CollectionUtils.sizeOf(requestBody.getJobResults()));
             }
         } catch (Exception t) {
-            LOGGER.error(t.getMessage(), t);
+            logger.error(t.getMessage(), t);
         }
 
         return RemotingCommand.createResponseCommand(JobProtos.ResponseCode.JOB_NOTIFY_SUCCESS.code(),

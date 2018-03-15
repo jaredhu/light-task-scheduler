@@ -56,7 +56,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                         appContext.getRegistryStatMonitor().setAvailable(true);
                         recover();
                     } catch (Exception e) {
-                        LOGGER.error(e.getMessage(), e);
+                        logger.error(e.getMessage(), e);
                     }
                 }
             }
@@ -178,7 +178,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         try {
             zkClient.close();
         } catch (Exception e) {
-            LOGGER.warn("Failed to close zookeeper client " + getNode() + ", cause: " + e.getMessage(), e);
+            logger.warn("Failed to close zookeeper client " + getNode() + ", cause: " + e.getMessage(), e);
         }
     }
 }

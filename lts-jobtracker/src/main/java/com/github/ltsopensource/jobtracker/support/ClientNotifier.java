@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"rawtypes","unchecked"})
 public class ClientNotifier {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientNotifier.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(ClientNotifier.class.getSimpleName());
 	private ClientNotifyHandler clientNotifyHandler;
     private JobTrackerAppContext appContext;
 
@@ -142,7 +142,7 @@ public class ClientNotifier {
             }
 
         } catch (RemotingSendException e) {
-            LOGGER.error("Notify client failed!", e);
+            logger.error("Notify client failed!", e);
         }
         return result.get() == null ? false : result.get();
     }

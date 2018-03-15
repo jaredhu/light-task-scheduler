@@ -9,7 +9,7 @@ import java.io.File;
 /**
  * 日志输出器供给器
  */
-@SPI(key = ExtConfig.LTS_LOGGER, dftValue = "slf4j")
+@SPI(key = ExtConfig.LTS_logger, dftValue = "slf4j")
 public interface LoggerAdapter {
 
     /**

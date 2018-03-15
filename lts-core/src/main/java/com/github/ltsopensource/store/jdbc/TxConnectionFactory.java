@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class TxConnectionFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TxConnectionFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(TxConnectionFactory.class);
 
     private static final ThreadLocal<Connection> TRANSACT_CONN = new ThreadLocal<Connection>();
 
@@ -40,7 +40,7 @@ public class TxConnectionFactory {
                 conn.close();
             }
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         } finally {
             TRANSACT_CONN.set(null);
         }

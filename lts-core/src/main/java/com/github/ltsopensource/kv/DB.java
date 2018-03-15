@@ -9,7 +9,7 @@ import com.github.ltsopensource.core.logger.LoggerFactory;
  */
 public interface DB<K, V> {
 
-    Logger LOGGER = LoggerFactory.getLogger(DB.class);
+    Logger logger = LoggerFactory.getLogger(DB.class);
 
     void init() throws DBException;
 

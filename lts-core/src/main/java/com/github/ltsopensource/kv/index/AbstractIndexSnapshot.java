@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractIndexSnapshot<K, V> implements IndexSnapshot<K, V> {
 
-    protected static final Logger LOGGER = DB.LOGGER;
+    protected static final Logger logger = DB.logger;
     private ScheduledExecutorService executorService;
     private ScheduledFuture<?> future;
     protected Index<K, V> index;
@@ -45,7 +45,7 @@ public abstract class AbstractIndexSnapshot<K, V> implements IndexSnapshot<K, V>
                                                                      try {
                                                                          snapshot();
                                                                      } catch (Throwable t) {
-                                                                         LOGGER.error("MemIndexSnapshot snapshot error:" + t.getMessage(), t);
+                                                                         logger.error("MemIndexSnapshot snapshot error:" + t.getMessage(), t);
                                                                      }
                                                                  }
                                                              }, storeConfig.getIndexSnapshotInterval(),

@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class MonitorAgent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorAgent.class);
+    private static final Logger logger = LoggerFactory.getLogger(MonitorAgent.class);
     private HttpCmdServer httpCmdServer;
     private MonitorAppContext appContext;
     private Config config;
@@ -82,10 +82,10 @@ public class MonitorAgent {
             JVMMonitor.start();
             AliveKeeping.start();
 
-            LOGGER.info("========== Start Monitor Success");
+            logger.info("========== Start Monitor Success");
 
         } catch (Throwable t) {
-            LOGGER.error("========== Start Monitor Error:", t);
+            logger.error("========== Start Monitor Error:", t);
         }
     }
 
@@ -152,10 +152,10 @@ public class MonitorAgent {
             JVMMonitor.stop();
             AliveKeeping.stop();
 
-            LOGGER.error("========== Stop Monitor Success");
+            logger.error("========== Stop Monitor Success");
 
         } catch (Throwable t) {
-            LOGGER.error("========== Stop Monitor Error:", t);
+            logger.error("========== Stop Monitor Error:", t);
         }
     }
 

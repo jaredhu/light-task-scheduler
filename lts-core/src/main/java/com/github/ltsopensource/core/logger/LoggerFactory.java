@@ -22,9 +22,9 @@ public class LoggerFactory {
     private LoggerFactory() {
     }
 
-    private static volatile LoggerAdapter LOGGER_ADAPTER;
+    private static volatile LoggerAdapter logger_ADAPTER;
 
-    private static final ConcurrentMap<String, FailsafeLogger> LOGGERS = new ConcurrentHashMap<String, FailsafeLogger>();
+    private static final ConcurrentMap<String, FailsafeLogger> loggerS = new ConcurrentHashMap<String, FailsafeLogger>();
 
     // 查找常用的日志框架
     static {
@@ -75,9 +75,9 @@ public class LoggerFactory {
         if (loggerAdapter != null) {
             Logger logger = loggerAdapter.getLogger(LoggerFactory.class.getName());
             logger.info("using logger: " + loggerAdapter.getClass().getName());
-            LoggerFactory.LOGGER_ADAPTER = loggerAdapter;
-            for (Map.Entry<String, FailsafeLogger> entry : LOGGERS.entrySet()) {
-                entry.getValue().setLogger(LOGGER_ADAPTER.getLogger(entry.getKey()));
+            LoggerFactory.logger_ADAPTER = loggerAdapter;
+            for (Map.Entry<String, FailsafeLogger> entry : loggerS.entrySet()) {
+                entry.getValue().setLogger(logger_ADAPTER.getLogger(entry.getKey()));
             }
         }
     }
@@ -89,10 +89,10 @@ public class LoggerFactory {
      * @return 日志输出器, 后验条件: 不返回null.
      */
     public static Logger getLogger(Class<?> key) {
-        FailsafeLogger logger = LOGGERS.get(key.getName());
+        FailsafeLogger logger = loggerS.get(key.getName());
         if (logger == null) {
-            LOGGERS.putIfAbsent(key.getName(), new FailsafeLogger(LOGGER_ADAPTER.getLogger(key)));
-            logger = LOGGERS.get(key.getName());
+            loggerS.putIfAbsent(key.getName(), new FailsafeLogger(logger_ADAPTER.getLogger(key)));
+            logger = loggerS.get(key.getName());
         }
         return logger;
     }
@@ -104,10 +104,10 @@ public class LoggerFactory {
      * @return 日志输出器, 后验条件: 不返回null.
      */
     public static Logger getLogger(String key) {
-        FailsafeLogger logger = LOGGERS.get(key);
+        FailsafeLogger logger = loggerS.get(key);
         if (logger == null) {
-            LOGGERS.putIfAbsent(key, new FailsafeLogger(LOGGER_ADAPTER.getLogger(key)));
-            logger = LOGGERS.get(key);
+            loggerS.putIfAbsent(key, new FailsafeLogger(logger_ADAPTER.getLogger(key)));
+            logger = loggerS.get(key);
         }
         return logger;
     }
@@ -118,7 +118,7 @@ public class LoggerFactory {
      * @param level 日志级别
      */
     public static void setLevel(Level level) {
-        LOGGER_ADAPTER.setLevel(level);
+        logger_ADAPTER.setLevel(level);
     }
 
     /**
@@ -127,7 +127,7 @@ public class LoggerFactory {
      * @return 日志级别
      */
     public static Level getLevel() {
-        return LOGGER_ADAPTER.getLevel();
+        return logger_ADAPTER.getLevel();
     }
 
     /**
@@ -136,7 +136,7 @@ public class LoggerFactory {
      * @return 日志文件
      */
     public static File getFile() {
-        return LOGGER_ADAPTER.getFile();
+        return logger_ADAPTER.getFile();
     }
 
 }

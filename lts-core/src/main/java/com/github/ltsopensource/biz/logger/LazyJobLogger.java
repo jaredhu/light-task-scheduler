@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class LazyJobLogger implements JobLogger {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmartJobLogger.class);
+    private static final Logger logger = LoggerFactory.getLogger(SmartJobLogger.class);
     private JobLogger delegate;
     // 无界Queue
     private BlockingQueue<JobLogPo> memoryQueue = new LinkedBlockingQueue<JobLogPo>();
@@ -43,10 +43,10 @@ public class LazyJobLogger implements JobLogger {
         this.delegate = delegate;
 
         Config config = appContext.getConfig();
-        maxMemoryLogSize = config.getParameter(ExtConfig.LAZY_JOB_LOGGER_MEM_SIZE, 1000);
-        int flushPeriod = config.getParameter(ExtConfig.LAZY_JOB_LOGGER_CHECK_PERIOD, 3);
-        batchFlushSize = config.getParameter(ExtConfig.LAZY_JOB_LOGGER_BATCH_FLUSH_SIZE, 100);
-        overflowSize = config.getParameter(ExtConfig.LAZY_JOB_LOGGER_OVERFLOW_SIZE, 10000);
+        maxMemoryLogSize = config.getParameter(ExtConfig.LAZY_JOB_logger_MEM_SIZE, 1000);
+        int flushPeriod = config.getParameter(ExtConfig.LAZY_JOB_logger_CHECK_PERIOD, 3);
+        batchFlushSize = config.getParameter(ExtConfig.LAZY_JOB_logger_BATCH_FLUSH_SIZE, 100);
+        overflowSize = config.getParameter(ExtConfig.LAZY_JOB_logger_OVERFLOW_SIZE, 10000);
 
         final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
                 new NamedThreadFactory("LazyJobLogger", true));
@@ -58,7 +58,7 @@ public class LazyJobLogger implements JobLogger {
                         checkAndFlush();
                     }
                 } catch (Throwable t) {
-                    LOGGER.error("CheckAndFlush log error", t);
+                    logger.error("CheckAndFlush log error", t);
                 }
             }
         }, flushPeriod, flushPeriod, TimeUnit.SECONDS);
@@ -133,7 +133,7 @@ public class LazyJobLogger implements JobLogger {
                         try {
                             checkAndFlush();
                         } catch (Throwable t) {
-                            LOGGER.error("Capacity full flush error", t);
+                            logger.error("Capacity full flush error", t);
                         }
                     }
                 }).start();

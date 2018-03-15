@@ -16,14 +16,14 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class TestJobRunner implements JobRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestJobRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestJobRunner.class);
     private static AtomicLong counter = new AtomicLong(0);
     @Override
     public Result run(JobContext jobContext) throws Throwable {
         try {
-            LOGGER.error(DateUtils.formatYMD_HMS(new Date()) + "   " + counter.incrementAndGet());
+            logger.error(DateUtils.formatYMD_HMS(new Date()) + "   " + counter.incrementAndGet());
         } catch (Exception e) {
-            LOGGER.info("Run job failed!", e);
+            logger.info("Run job failed!", e);
             return new Result(Action.EXECUTE_FAILED, e.getMessage());
         }
         return new Result(Action.EXECUTE_SUCCESS, "执行成功了，哈哈");

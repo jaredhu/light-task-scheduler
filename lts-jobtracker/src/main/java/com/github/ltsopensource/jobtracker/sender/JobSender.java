@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class JobSender {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobSender.class);
+    private final Logger logger = LoggerFactory.getLogger(JobSender.class);
 
     private JobTrackerAppContext appContext;
 
@@ -60,8 +60,8 @@ public class JobSender {
             // 从mongo 中取一个可运行的job
             final JobPo jobPo = appContext.getPreLoader().take(taskTrackerNodeGroup, taskTrackerIdentity);
             if (jobPo == null) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Job push failed: no job! nodeGroup=" + taskTrackerNodeGroup + ", identity=" + taskTrackerIdentity);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Job push failed: no job! nodeGroup=" + taskTrackerNodeGroup + ", identity=" + taskTrackerIdentity);
                 }
                 break;
             }
@@ -70,7 +70,7 @@ public class JobSender {
             try {
                 appContext.getExecutingJobQueue().add(jobPo);
             } catch (DupEntryException e) {
-                LOGGER.warn("ExecutingJobQueue already exist:" + JSON.toJSONString(jobPo));
+                logger.warn("ExecutingJobQueue already exist:" + JSON.toJSONString(jobPo));
                 appContext.getExecutableJobQueue().resume(jobPo);
                 continue;
             }

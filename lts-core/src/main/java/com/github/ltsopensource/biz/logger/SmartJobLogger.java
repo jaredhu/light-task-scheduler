@@ -23,7 +23,7 @@ public class SmartJobLogger implements JobLogger {
         Config config = appContext.getConfig();
         JobLoggerFactory jobLoggerFactory = ServiceLoader.load(JobLoggerFactory.class, config);
         JobLogger jobLogger = jobLoggerFactory.getJobLogger(config);
-        if (config.getParameter(ExtConfig.LAZY_JOB_LOGGER, false)) {
+        if (config.getParameter(ExtConfig.LAZY_JOB_logger, false)) {
             this.delegate = new LazyJobLogger(appContext, jobLogger);
         } else {
             this.delegate = jobLogger;

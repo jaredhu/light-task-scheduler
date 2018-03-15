@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class HttpCmdExecutor implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpCmdExecutor.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpCmdExecutor.class);
     private HttpCmdContext context;
     private Socket socket;
 
@@ -49,7 +49,7 @@ public class HttpCmdExecutor implements Runnable {
         } catch (IllegalArgumentException e) {
             sendError(HTTP_BADREQUEST, JSON.toJSONString(HttpCmdResponse.newResponse(false, e.getMessage())), false);
         } catch (Throwable t) {
-            LOGGER.error("Error When Execute Command", t);
+            logger.error("Error When Execute Command", t);
             sendError(HTTP_INTERNALERROR, JSON.toJSONString(HttpCmdResponse.newResponse(false, "Error:" + t.getMessage())), false);
         }
     }

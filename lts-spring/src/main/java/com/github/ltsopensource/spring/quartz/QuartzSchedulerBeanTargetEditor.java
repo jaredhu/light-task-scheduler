@@ -20,7 +20,7 @@ import java.util.*;
  */
 class QuartzSchedulerBeanTargetEditor extends PropertyEditorSupport {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzSchedulerBeanTargetEditor.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuartzSchedulerBeanTargetEditor.class);
     private QuartzProxyContext context;
 
     public QuartzSchedulerBeanTargetEditor(QuartzProxyContext context) {
@@ -43,7 +43,7 @@ class QuartzSchedulerBeanTargetEditor extends PropertyEditorSupport {
                 } else if (trigger instanceof SimpleTriggerImpl) {
                     quartzJobContexts.add(buildQuartzSimpleJob((SimpleTriggerImpl) trigger));
                 } else {
-                    LOGGER.warn("Can't Proxy " + trigger.getClass().getName() + " Then Use Quartz Scheduler");
+                    logger.warn("Can't Proxy " + trigger.getClass().getName() + " Then Use Quartz Scheduler");
                     nativeQuartzTriggers.add(trigger);
                 }
             }

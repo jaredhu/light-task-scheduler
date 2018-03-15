@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MemIndex<K, V> implements Index<K, V> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemIndex.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemIndex.class);
     private StoreTxLogPosition lastTxLog;
     private ConcurrentMap<K, IndexItem<K>> indexMap;
     private StoreConfig storeConfig;
@@ -44,7 +44,7 @@ public class MemIndex<K, V> implements Index<K, V> {
                         indexSnapshot.snapshot();
                     }
                 } catch (Throwable t) {
-                    LOGGER.error("SNAPSHOT Error", t);
+                    logger.error("SNAPSHOT Error", t);
                 }
             }
         }, 3, 2, TimeUnit.SECONDS);

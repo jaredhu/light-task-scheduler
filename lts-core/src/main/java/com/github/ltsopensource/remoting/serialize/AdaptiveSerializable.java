@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class AdaptiveSerializable implements RemotingSerializable {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(RemotingSerializable.class);
+    private final static Logger logger = LoggerFactory.getLogger(RemotingSerializable.class);
 
     private static volatile String defaultSerializable;
 
@@ -37,7 +37,7 @@ public class AdaptiveSerializable implements RemotingSerializable {
 
     public static void setDefaultSerializable(String defaultSerializable) {
         AdaptiveSerializable.defaultSerializable = defaultSerializable;
-        LOGGER.info("Using defaultSerializable [{}]", defaultSerializable);
+        logger.info("Using defaultSerializable [{}]", defaultSerializable);
     }
 
     private RemotingSerializable getRemotingSerializable() {

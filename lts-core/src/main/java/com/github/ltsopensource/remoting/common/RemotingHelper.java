@@ -15,7 +15,7 @@ import java.net.SocketAddress;
  */
 public class RemotingHelper {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RemotingHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemotingHelper.class);
 
     /**
      * IP:PORT
@@ -49,7 +49,7 @@ public class RemotingHelper {
         channel.close().addListener(new ChannelHandlerListener() {
             @Override
             public void operationComplete(Future future) throws Exception {
-                LOGGER.info("closeChannel: close the connection to remote address[{}] result: {}", addrRemote,
+                logger.info("closeChannel: close the connection to remote address[{}] result: {}", addrRemote,
                         future.isSuccess());
             }
         });

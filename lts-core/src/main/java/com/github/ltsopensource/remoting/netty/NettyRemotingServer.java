@@ -24,7 +24,7 @@ import java.net.InetSocketAddress;
  */
 public class NettyRemotingServer extends AbstractRemotingServer {
 
-    public static final Logger LOGGER = AbstractRemotingServer.LOGGER;
+    public static final Logger logger = AbstractRemotingServer.logger;
 
     private final ServerBootstrap serverBootstrap;
     private final EventLoopGroup bossSelectorGroup;
@@ -106,7 +106,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
         @Override
         public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(new NettyChannel(ctx));
-            LOGGER.info("SERVER : channelRegistered {}", remoteAddress);
+            logger.info("SERVER : channelRegistered {}", remoteAddress);
             super.channelRegistered(ctx);
         }
 
@@ -114,7 +114,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
         @Override
         public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(new NettyChannel(ctx));
-            LOGGER.info("SERVER : channelUnregistered, the channel[{}]", remoteAddress);
+            logger.info("SERVER : channelUnregistered, the channel[{}]", remoteAddress);
             super.channelUnregistered(ctx);
         }
 
@@ -122,7 +122,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
             com.github.ltsopensource.remoting.Channel channel = new NettyChannel(ctx);
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.info("SERVER: channelActive, the channel[{}]", remoteAddress);
+            logger.info("SERVER: channelActive, the channel[{}]", remoteAddress);
             super.channelActive(ctx);
 
             if (channelEventListener != null) {
@@ -135,7 +135,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
             com.github.ltsopensource.remoting.Channel channel = new NettyChannel(ctx);
 
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.info("SERVER: channelInactive, the channel[{}]", remoteAddress);
+            logger.info("SERVER: channelInactive, the channel[{}]", remoteAddress);
             super.channelInactive(ctx);
 
             if (channelEventListener != null) {
@@ -153,7 +153,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
                 final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
 
                 if (event.state().equals(IdleState.ALL_IDLE)) {
-                    LOGGER.warn("SERVER: IDLE [{}]", remoteAddress);
+                    logger.warn("SERVER: IDLE [{}]", remoteAddress);
                     RemotingHelper.closeChannel(channel);
                 }
 
@@ -174,7 +174,7 @@ public class NettyRemotingServer extends AbstractRemotingServer {
             com.github.ltsopensource.remoting.Channel channel = new NettyChannel(ctx);
 
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.warn("SERVER: exceptionCaught {}", remoteAddress, cause);
+            logger.warn("SERVER: exceptionCaught {}", remoteAddress, cause);
 
             if (channelEventListener != null) {
                 putRemotingEvent(new RemotingEvent(RemotingEventType.EXCEPTION, remoteAddress, channel));

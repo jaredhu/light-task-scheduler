@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class JobStatBiz implements JobCompletedBiz {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JobStatBiz.class);
+    private final static Logger logger = LoggerFactory.getLogger(JobStatBiz.class);
 
     private JobTrackerAppContext appContext;
     private JobTrackerMStatReporter stat;
@@ -46,8 +46,8 @@ public class JobStatBiz implements JobCompletedBiz {
                     "JobResults can not be empty!");
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Job execute completed : {}", results);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Job execute completed : {}", results);
         }
 
         LogType logType = request.isReSend() ? LogType.RESEND : LogType.FINISHED;

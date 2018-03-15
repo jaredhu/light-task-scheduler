@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TaskTrackerManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaskTrackerManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaskTrackerManager.class);
     // 单例
     private final ConcurrentHashMap<String/*nodeGroup*/, Set<TaskTrackerNode>> NODE_MAP = new ConcurrentHashMap<String, Set<TaskTrackerNode>>();
     private JobTrackerAppContext appContext;
@@ -54,7 +54,7 @@ public class TaskTrackerManager {
 
         TaskTrackerNode taskTrackerNode = new TaskTrackerNode(node.getGroup(),
                 node.getThreads(), node.getIdentity(), channel);
-        LOGGER.info("Add TaskTracker node:{}", taskTrackerNode);
+        logger.info("Add TaskTracker node:{}", taskTrackerNode);
         taskTrackerNodes.add(taskTrackerNode);
 
         // create executable queue
@@ -72,7 +72,7 @@ public class TaskTrackerManager {
         if (taskTrackerNodes != null && taskTrackerNodes.size() != 0) {
             TaskTrackerNode taskTrackerNode = new TaskTrackerNode(node.getIdentity());
             taskTrackerNode.setNodeGroup(node.getGroup());
-            LOGGER.info("Remove TaskTracker node:{}", taskTrackerNode);
+            logger.info("Remove TaskTracker node:{}", taskTrackerNode);
             taskTrackerNodes.remove(taskTrackerNode);
         }
     }
@@ -92,7 +92,7 @@ public class TaskTrackerManager {
                     if (channel != null) {
                         // 更新channel
                         taskTrackerNode.setChannel(channel);
-                        LOGGER.info("update node channel , taskTackerNode={}", taskTrackerNode);
+                        logger.info("update node channel , taskTackerNode={}", taskTrackerNode);
                         return taskTrackerNode;
                     }
                 } else {
@@ -121,8 +121,8 @@ public class TaskTrackerManager {
                 if (trackerNode.getIdentity().equals(identity) && (trackerNode.getTimestamp() == null || trackerNode.getTimestamp() <= timestamp)) {
                     trackerNode.setAvailableThread(availableThreads);
                     trackerNode.setTimestamp(timestamp);
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("更新节点线程数: {}", trackerNode);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("更新节点线程数: {}", trackerNode);
                     }
                 }
             }

@@ -24,7 +24,7 @@ import java.nio.channels.SocketChannel;
  */
 public class NioServerProcessor extends AbstractNioProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NioServerProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(NioServerProcessor.class);
     private NioServerConfig serverConfig;
     private ServerSocketChannel serverSocketChannel;
 
@@ -81,7 +81,7 @@ public class NioServerProcessor extends AbstractNioProcessor {
             socketChannel.register(selectorLoop.selector(), SelectionKey.OP_READ, channel);
 
         } catch (IOException e) {
-            LOGGER.info("accept the connection IOE", e);
+            logger.info("accept the connection IOE", e);
         }
 
         if (channel != null) {

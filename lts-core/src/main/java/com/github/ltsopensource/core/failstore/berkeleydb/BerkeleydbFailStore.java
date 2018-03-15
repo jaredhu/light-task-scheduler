@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class BerkeleydbFailStore extends AbstractFailStore {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BerkeleydbFailStore.class);
+    private static final Logger logger = LoggerFactory.getLogger(BerkeleydbFailStore.class);
     private Environment environment;
     private Database db;
     private EnvironmentConfig envConfig;
@@ -127,7 +127,7 @@ public class BerkeleydbFailStore extends AbstractFailStore {
                 try {
                     cursor.close();
                 } catch (DatabaseException e) {
-                    LOGGER.warn("close cursor failed! ", e);
+                    logger.warn("close cursor failed! ", e);
                 }
             }
         }

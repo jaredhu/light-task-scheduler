@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
  */
 public class InjvmEventCenter implements EventCenter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventCenter.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EventCenter.class.getName());
 
     private final ConcurrentHashMap<String, Set<EventSubscriber>> ecMap =
             new ConcurrentHashMap<String, Set<EventSubscriber>>();
@@ -65,7 +65,7 @@ public class InjvmEventCenter implements EventCenter {
                 try {
                     subscriber.getObserver().onObserved(eventInfo);
                 } catch (Throwable t) {      // 防御性容错
-                    LOGGER.error(" eventInfo:{}, subscriber:{}",
+                    logger.error(" eventInfo:{}, subscriber:{}",
                             JSON.toJSONString(eventInfo), JSON.toJSONString(subscriber), t);
                 }
             }
@@ -86,7 +86,7 @@ public class InjvmEventCenter implements EventCenter {
                             eventInfo.setTopic(topic);
                             subscriber.getObserver().onObserved(eventInfo);
                         } catch (Throwable t) {     // 防御性容错
-                            LOGGER.error(" eventInfo:{}, subscriber:{}",
+                            logger.error(" eventInfo:{}, subscriber:{}",
                                     JSON.toJSONString(eventInfo), JSON.toJSONString(subscriber), t);
                         }
                     }

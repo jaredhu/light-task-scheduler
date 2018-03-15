@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class InsertSql {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InsertSql.class);
+    private static final Logger logger = LoggerFactory.getLogger(InsertSql.class);
 
     private SqlTemplate sqlTemplate;
     private StringBuilder sql = new StringBuilder();
@@ -89,8 +89,8 @@ public class InsertSql {
 
         String execSql = sql.toString();
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(execSql);
+        if (logger.isDebugEnabled()) {
+            logger.debug(execSql);
         }
         try {
             return sqlTemplate.insert(execSql, params.get(0));
@@ -114,8 +114,8 @@ public class InsertSql {
 
         String finalSQL = sql.toString();
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(SQLFormatter.format(finalSQL));
+        if (logger.isDebugEnabled()) {
+            logger.debug(SQLFormatter.format(finalSQL));
         }
 
         try {

@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public abstract class AbstractRegistry implements Registry {
 
-    protected final static Logger LOGGER = LoggerFactory.getLogger(Registry.class);
+    protected final static Logger logger = LoggerFactory.getLogger(Registry.class);
 
     private final Set<Node> registered = new ConcurrentHashSet<Node>();
     private final ConcurrentMap<Node, Set<NotifyListener>> subscribed = new ConcurrentHashMap<Node, Set<NotifyListener>>();
@@ -33,8 +33,8 @@ public abstract class AbstractRegistry implements Registry {
         if (node == null) {
             throw new IllegalArgumentException("register node == null");
         }
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Register: " + node);
+        if (logger.isInfoEnabled()) {
+            logger.info("Register: " + node);
         }
         registered.add(node);
     }
@@ -44,8 +44,8 @@ public abstract class AbstractRegistry implements Registry {
         if (node == null) {
             throw new IllegalArgumentException("unregister node == null");
         }
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Unregister: " + node);
+        if (logger.isInfoEnabled()) {
+            logger.info("Unregister: " + node);
         }
         registered.remove(node);
     }
@@ -58,8 +58,8 @@ public abstract class AbstractRegistry implements Registry {
         if (listener == null) {
             throw new IllegalArgumentException("subscribe listener == null");
         }
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Subscribe: " + node);
+        if (logger.isInfoEnabled()) {
+            logger.info("Subscribe: " + node);
         }
         Set<NotifyListener> listeners = subscribed.get(node);
         if (listeners == null) {
@@ -78,8 +78,8 @@ public abstract class AbstractRegistry implements Registry {
         if (listener == null) {
             throw new IllegalArgumentException("unsubscribe listener == null");
         }
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("unsubscribe: " + node);
+        if (logger.isInfoEnabled()) {
+            logger.info("unsubscribe: " + node);
         }
         Set<NotifyListener> listeners = subscribed.get(node);
         if (listeners != null) {
@@ -95,7 +95,7 @@ public abstract class AbstractRegistry implements Registry {
             throw new IllegalArgumentException("notify listener == null");
         }
         if (CollectionUtils.isEmpty(nodes)) {
-            LOGGER.warn("Ignore empty notify nodes for subscribe node " + getNode());
+            logger.warn("Ignore empty notify nodes for subscribe node " + getNode());
             return;
         }
 
@@ -104,19 +104,19 @@ public abstract class AbstractRegistry implements Registry {
 
     @Override
     public void destroy() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Destroy registry:" + getNode());
+        if (logger.isInfoEnabled()) {
+            logger.info("Destroy registry:" + getNode());
         }
         Set<Node> destroyRegistered = new HashSet<Node>(getRegistered());
         if (!destroyRegistered.isEmpty()) {
             for (Node node : new HashSet<Node>(getRegistered())) {
                 try {
                     unregister(node);
-                    if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("Destroy unregister node " + node);
+                    if (logger.isInfoEnabled()) {
+                        logger.info("Destroy unregister node " + node);
                     }
                 } catch (Throwable t) {
-                    LOGGER.warn("Failed to unregister node " + node + " to registry " + getNode() + " on destroy, cause: " + t.getMessage(), t);
+                    logger.warn("Failed to unregister node " + node + " to registry " + getNode() + " on destroy, cause: " + t.getMessage(), t);
                 }
             }
         }
@@ -127,11 +127,11 @@ public abstract class AbstractRegistry implements Registry {
                 for (NotifyListener listener : entry.getValue()) {
                     try {
                         unsubscribe(node, listener);
-                        if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Destroy unsubscribe node " + node);
+                        if (logger.isInfoEnabled()) {
+                            logger.info("Destroy unsubscribe node " + node);
                         }
                     } catch (Throwable t) {
-                        LOGGER.warn("Failed to unsubscribe node " + node + " to registry " + getNode() + " on destroy, cause: " + t.getMessage(), t);
+                        logger.warn("Failed to unsubscribe node " + node + " to registry " + getNode() + " on destroy, cause: " + t.getMessage(), t);
                     }
                 }
             }
@@ -163,8 +163,8 @@ public abstract class AbstractRegistry implements Registry {
         // register
         Set<Node> recoverRegistered = new HashSet<Node>(getRegistered());
         if (!recoverRegistered.isEmpty()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Recover register node " + recoverRegistered);
+            if (logger.isInfoEnabled()) {
+                logger.info("Recover register node " + recoverRegistered);
             }
             for (Node node : recoverRegistered) {
                 register(node);
@@ -173,8 +173,8 @@ public abstract class AbstractRegistry implements Registry {
         // subscribe
         Map<Node, Set<NotifyListener>> recoverSubscribed = new HashMap<Node, Set<NotifyListener>>(getSubscribed());
         if (!recoverSubscribed.isEmpty()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("Recover subscribe node " + recoverSubscribed.keySet());
+            if (logger.isInfoEnabled()) {
+                logger.info("Recover subscribe node " + recoverSubscribed.keySet());
             }
             for (Map.Entry<Node, Set<NotifyListener>> entry : recoverSubscribed.entrySet()) {
                 Node node = entry.getKey();

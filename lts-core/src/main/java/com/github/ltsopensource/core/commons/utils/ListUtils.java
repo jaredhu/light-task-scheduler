@@ -13,7 +13,7 @@ public class ListUtils {
      */
     public static <E> List<E> filter(final List<E> list, Filter<E> filter) {
         List<E> newList = new ArrayList<E>();
-        if (list != null && list.size() != 0) {
+        if (list != null && list.isEmpty()) {
             for (E e : list) {
                 if (filter.filter(e)) {
                     newList.add(e);

@@ -18,7 +18,7 @@ import com.github.ltsopensource.kv.txlog.StoreTxLogPosition;
  */
 public class TxLogReplay<K, V> {
 
-    private static final Logger LOGGER = DB.LOGGER;
+    private static final Logger logger = DB.logger;
     private StoreTxLogEngine<K, V> storeTxLogEngine;
     private DataBlockEngine<K, V> dataBlockEngine;
     private Index<K, V> index;
@@ -33,7 +33,7 @@ public class TxLogReplay<K, V> {
 
     public void replay(StoreTxLogPosition startPosition) {
 
-        LOGGER.info("start to replay txLog ...");
+        logger.info("start to replay txLog ...");
 
         Cursor<StoreTxLogCursorEntry<K, V>> cursor = storeTxLogEngine.cursor(startPosition);
 
@@ -76,7 +76,7 @@ public class TxLogReplay<K, V> {
             count++;
         }
 
-        LOGGER.info("replay txLog complete, txLog size:" + count + ", cost mills:" + (SystemClock.now() - startTime));
+        logger.info("replay txLog complete, txLog size:" + count + ", cost mills:" + (SystemClock.now() - startTime));
 
     }
 

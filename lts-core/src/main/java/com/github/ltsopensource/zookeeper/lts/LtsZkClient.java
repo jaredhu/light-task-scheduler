@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> implements Watcher {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LtsZkClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(LtsZkClient.class);
     public static final int connectionTimeout = 30000;
 
     private final ReentrantLock lock = new ReentrantLock();
@@ -53,12 +53,12 @@ public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> i
                     lock.lock();
                     try {
                         if (zk == null || !zk.getState().isAlive()) {
-                            LOGGER.info("is not alive, try close before and new connect to zk");
+                            logger.info("is not alive, try close before and new connect to zk");
                             tryReConnect();
                         }
                         conditionNotConnect.await(1000, TimeUnit.MILLISECONDS);
                     } catch (Exception e) {
-                        LOGGER.error("guard error, sleep 1000 to retry", e);
+                        logger.error("guard error, sleep 1000 to retry", e);
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException ignored) {
@@ -80,7 +80,7 @@ public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> i
 
         if (event.getType() == Watcher.Event.EventType.None) {
             if (Event.KeeperState.SyncConnected == event.getState()) {
-                LOGGER.info("connected signal from zk: " + hosts
+                logger.info("connected signal from zk: " + hosts
                         + ", sessionId=" + getSessionId()
                         + ", sessionTimeout="
                         + getSessionTimeout());
@@ -89,12 +89,12 @@ public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> i
 
 
             } else if (Event.KeeperState.Disconnected == event.getState()) {
-                LOGGER.info("disconnected signal from zk: " + hosts
+                logger.info("disconnected signal from zk: " + hosts
                         + ", sessionId=" + getSessionId()
                         + ", sessionTimeout=" + getSessionTimeout());
                 notifyNotConnect();
             } else if (Event.KeeperState.Expired == event.getState()) {
-                LOGGER
+                logger
                         .info("expired signal from zk: " + hosts
                                 + ", sessionId=" + getSessionId()
                                 + ", sessionTimeout=" + getSessionTimeout());
@@ -190,7 +190,7 @@ public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> i
             try {
                 this.zk.close();
             } catch (Exception e) {
-                LOGGER.error("close error ", e);
+                logger.error("close error ", e);
             } finally {
                 zk = null;
             }
@@ -445,7 +445,7 @@ public class LtsZkClient extends AbstractZkClient<ChildListener, DataListener> i
             try {
                 conditionConnected.await(10000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
-                LOGGER.error(e);
+                logger.error(e);
             } finally {
                 lock.unlock();
             }

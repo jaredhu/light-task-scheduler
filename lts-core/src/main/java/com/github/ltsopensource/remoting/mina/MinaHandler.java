@@ -17,7 +17,7 @@ import org.apache.mina.core.session.IoSession;
  */
 public class MinaHandler extends IoHandlerAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinaHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MinaHandler.class);
 
     private AbstractRemoting remoting;
     private String sideType;      // SERVER , CLIENT
@@ -34,7 +34,7 @@ public class MinaHandler extends IoHandlerAdapter {
     @Override
     public void sessionCreated(IoSession session) throws Exception {
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(new MinaChannel(session));
-        LOGGER.info("{} : sessionCreated {}", sideType, remoteAddress);
+        logger.info("{} : sessionCreated {}", sideType, remoteAddress);
         super.sessionCreated(session);
     }
 
@@ -42,7 +42,7 @@ public class MinaHandler extends IoHandlerAdapter {
     public void sessionOpened(IoSession session) throws Exception {
         Channel channel = new MinaChannel(session);
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-        LOGGER.info("{}: sessionOpened, the channel[{}]", sideType, remoteAddress);
+        logger.info("{}: sessionOpened, the channel[{}]", sideType, remoteAddress);
 
         if (remoting.getChannelEventListener() != null) {
             remoting.putRemotingEvent(new RemotingEvent(RemotingEventType.CONNECT, remoteAddress, channel));
@@ -54,7 +54,7 @@ public class MinaHandler extends IoHandlerAdapter {
         com.github.ltsopensource.remoting.Channel channel = new MinaChannel(session);
 
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-        LOGGER.info("{}: sessionClosed, the channel[{}]", sideType, remoteAddress);
+        logger.info("{}: sessionClosed, the channel[{}]", sideType, remoteAddress);
 
         if (remoting.getChannelEventListener() != null) {
             remoting.putRemotingEvent(new RemotingEvent(RemotingEventType.CLOSE, remoteAddress, channel));
@@ -68,7 +68,7 @@ public class MinaHandler extends IoHandlerAdapter {
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
 
         if (IdleStatus.BOTH_IDLE == status) {
-            LOGGER.info("{}: IDLE [{}]", sideType, remoteAddress);
+            logger.info("{}: IDLE [{}]", sideType, remoteAddress);
             RemotingHelper.closeChannel(channel);
         }
 
@@ -91,7 +91,7 @@ public class MinaHandler extends IoHandlerAdapter {
         com.github.ltsopensource.remoting.Channel channel = new MinaChannel(session);
 
         final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-        LOGGER.warn("{}: exceptionCaught {}. ", sideType, remoteAddress, cause);
+        logger.warn("{}: exceptionCaught {}. ", sideType, remoteAddress, cause);
 
         if (remoting.getChannelEventListener() != null) {
             remoting.putRemotingEvent(new RemotingEvent(RemotingEventType.EXCEPTION, remoteAddress, channel));

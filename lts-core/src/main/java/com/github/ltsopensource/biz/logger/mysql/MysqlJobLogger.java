@@ -136,7 +136,7 @@ public class MysqlJobLogger extends JdbcAbstractAccess implements JobLogger {
                 .orderBy()
                 .column("log_time", OrderByType.DESC)
                 .limit(request.getStart(), request.getLimit())
-                .list(RshHolder.JOB_LOGGER_LIST_RSH);
+                .list(RshHolder.JOB_logger_LIST_RSH);
         response.setRows(rows);
 
         return response;

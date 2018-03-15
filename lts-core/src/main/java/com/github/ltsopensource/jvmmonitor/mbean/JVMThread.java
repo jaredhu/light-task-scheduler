@@ -16,7 +16,7 @@ import java.math.MathContext;
 @SuppressWarnings("restriction")
 public class JVMThread implements JVMThreadMBean {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(JVMThread.class);
+    private final static Logger logger = LoggerFactory.getLogger(JVMThread.class);
 
     private volatile long lastCPUTime;
     private volatile long lastCPUUpTime;
@@ -39,7 +39,7 @@ public class JVMThread implements JVMThreadMBean {
         try {
             lastCPUTime = OperatingSystem.getProcessCpuTime();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
     }
 

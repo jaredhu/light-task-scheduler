@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class MongoExecutableJobQueue extends AbstractMongoJobQueue implements ExecutableJobQueue {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MongoExecutableJobQueue.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoExecutableJobQueue.class);
 
     public MongoExecutableJobQueue(Config config) {
         super(config);
@@ -56,7 +56,7 @@ public class MongoExecutableJobQueue extends AbstractMongoJobQueue implements Ex
             template.ensureIndex(tableName, "idx_realTaskId_taskTrackerNodeGroup", "realTaskId, taskTrackerNodeGroup");
             template.ensureIndex(tableName, "idx_priority_triggerTime_gmtCreated", "priority,triggerTime,gmtCreated");
             template.ensureIndex(tableName, "idx_isRunning", "isRunning");
-            LOGGER.info("create queue " + tableName);
+            logger.info("create queue " + tableName);
         }
         EXIST_TABLE.add(tableName);
         return true;
@@ -67,7 +67,7 @@ public class MongoExecutableJobQueue extends AbstractMongoJobQueue implements Ex
         String tableName = JobQueueUtils.getExecutableQueueName(taskTrackerNodeGroup);
         DBCollection dbCollection = template.getCollection(tableName);
         dbCollection.drop();
-        LOGGER.info("drop queue " + tableName);
+        logger.info("drop queue " + tableName);
 
         return true;
     }

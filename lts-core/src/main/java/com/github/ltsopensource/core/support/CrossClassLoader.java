@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public class CrossClassLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CrossClassLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(CrossClassLoader.class);
 
     private static Field classes;
     private static final Object LOCK = new Object();
@@ -22,7 +22,7 @@ public class CrossClassLoader {
             classes = ClassLoader.class.getDeclaredField("classes");
             classes.setAccessible(true);
         } catch (Throwable e) {
-            LOGGER.error("get ClassLoader 'classes' Field Error", e);
+            logger.error("get ClassLoader 'classes' Field Error", e);
         }
     }
 

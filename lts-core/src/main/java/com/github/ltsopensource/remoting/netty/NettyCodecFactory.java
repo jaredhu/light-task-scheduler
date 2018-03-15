@@ -22,7 +22,7 @@ import java.nio.ByteBuffer;
  */
 public class NettyCodecFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NettyCodecFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(NettyCodecFactory.class);
 
     private Codec codec;
     private AppContext appContext;
@@ -39,7 +39,7 @@ public class NettyCodecFactory {
                 throws Exception {
 
             if (remotingCommand == null) {
-                LOGGER.error("Message is null");
+                logger.error("Message is null");
                 return;
             }
 
@@ -48,7 +48,7 @@ public class NettyCodecFactory {
                 out.writeBytes(byteBuffer);
             } catch (Exception e) {
                 Channel channel = new NettyChannel(ctx);
-                LOGGER.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(channel), remotingCommand.toString(), e);
+                logger.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(channel), remotingCommand.toString(), e);
                 RemotingHelper.closeChannel(channel);
             }
         }
@@ -78,7 +78,7 @@ public class NettyCodecFactory {
                 return codec.decode(byteBuffer);
             } catch (Exception e) {
                 Channel channel = new NettyChannel(ctx);
-                LOGGER.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
+                logger.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
                 // 这里关闭后， 会在pipeline中产生事件，通过具体的close事件来清理数据结构
                 RemotingHelper.closeChannel(channel);
             }

@@ -11,7 +11,7 @@ import org.springframework.beans.PropertyEditorRegistry;
  */
 class QuartzSchedulerBeanRegistrar implements PropertyEditorRegistrar {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzSchedulerBeanRegistrar.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuartzSchedulerBeanRegistrar.class);
 
     private static final String SchedulerFactoryBean = "org.springframework.scheduling.quartz.SchedulerFactoryBean";
 
@@ -33,7 +33,7 @@ class QuartzSchedulerBeanRegistrar implements PropertyEditorRegistrar {
         try {
             clazz = Class.forName(SchedulerFactoryBean, true, registry.getClass().getClassLoader());
         } catch (Throwable e) {
-            LOGGER.info("cannot find class for " + SchedulerFactoryBean, e);
+            logger.info("cannot find class for " + SchedulerFactoryBean, e);
         }
 
         if (null == clazz

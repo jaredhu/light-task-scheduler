@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class AbstractMStatReporter implements MStatReporter {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(AbstractMStatReporter.class);
+    protected final Logger logger = LoggerFactory.getLogger(AbstractMStatReporter.class);
 
     protected AppContext appContext;
     protected Config config;
@@ -50,11 +50,11 @@ public abstract class AbstractMStatReporter implements MStatReporter {
             if (!config.getParameter(ExtConfig.M_STAT_REPORTER_CLOSED, false)) {
                 if (start.compareAndSet(false, true)) {
                     scheduledFuture = executor.scheduleWithFixedDelay(worker, 1, 1, TimeUnit.SECONDS);
-                    LOGGER.info("MStatReporter start succeed.");
+                    logger.info("MStatReporter start succeed.");
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("MStatReporter start failed.", e);
+            logger.error("MStatReporter start failed.", e);
         }
 
         NodeShutdownHook.registerHook(appContext, this.getClass().getName(), new Callable() {
@@ -79,10 +79,10 @@ public abstract class AbstractMStatReporter implements MStatReporter {
                 scheduledFuture.cancel(true);
                 executor.shutdown();
                 JVMMonitor.stop();
-                LOGGER.info("MStatReporter stop succeed.");
+                logger.info("MStatReporter stop succeed.");
             }
         } catch (Exception e) {
-            LOGGER.error("MStatReporter stop failed.", e);
+            logger.error("MStatReporter stop failed.", e);
         }
     }
 

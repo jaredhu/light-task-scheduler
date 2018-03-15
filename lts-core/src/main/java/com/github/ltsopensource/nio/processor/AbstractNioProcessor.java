@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Robert HG (254963746@qq.com) on 1/24/16.
  */
 public abstract class AbstractNioProcessor implements NioProcessor {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(NioProcessor.class);
+    protected static final Logger logger = LoggerFactory.getLogger(NioProcessor.class);
     private NioHandler eventHandler;
     protected NioSelectorLoop selectorLoop;
     private Executor executor;
@@ -121,8 +121,8 @@ public abstract class AbstractNioProcessor implements NioProcessor {
                             // 已经写的字节数
                             int written = channel.socketChannel().write(buf);
 
-                            if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug("wrote bytes {}", written);
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("wrote bytes {}", written);
                             }
 
                             channel.setLastWriteTime(SystemClock.now());
@@ -139,7 +139,7 @@ public abstract class AbstractNioProcessor implements NioProcessor {
                                 break;
                             }
                         } catch (Exception e) {
-                            LOGGER.error("IOE while writing", e);
+                            logger.error("IOE while writing", e);
                             writeFuture.setSuccess(false);
                             writeFuture.setCause(e);
                             writeFuture.notifyListeners();
@@ -168,13 +168,13 @@ public abstract class AbstractNioProcessor implements NioProcessor {
 
             final int readCount = channel.socketChannel().read(readBuffer);
 
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("read {} bytes", readCount);
+            if (logger.isDebugEnabled()) {
+                logger.debug("read {} bytes", readCount);
             }
 
             if (readCount < 0) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("channel closed by the remote peer");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("channel closed by the remote peer");
                 }
                 channel.close();
             } else if (readCount > 0) {
@@ -189,7 +189,7 @@ public abstract class AbstractNioProcessor implements NioProcessor {
             }
 
         } catch (IOException e) {
-            LOGGER.error("IOE while reading : ", e);
+            logger.error("IOE while reading : ", e);
             eventHandler().exceptionCaught(channel, e);
         }
     }

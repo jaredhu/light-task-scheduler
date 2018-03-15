@@ -25,7 +25,7 @@ import java.net.SocketAddress;
  * @author Robert HG (254963746@qq.com) on 11/3/15.
  */
 public class NettyRemotingClient extends AbstractRemotingClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NettyRemotingClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(NettyRemotingClient.class);
 
     private final Bootstrap bootstrap = new Bootstrap();
     private final EventLoopGroup eventLoopGroup;
@@ -102,7 +102,7 @@ public class NettyRemotingClient extends AbstractRemotingClient {
                             SocketAddress localAddress, ChannelPromise promise) throws Exception {
             final String local = localAddress == null ? "UNKNOW" : localAddress.toString();
             final String remote = remoteAddress == null ? "UNKNOW" : remoteAddress.toString();
-            LOGGER.info("CLIENT : CONNECT  {} => {}", local, remote);
+            logger.info("CLIENT : CONNECT  {} => {}", local, remote);
             super.connect(ctx, remoteAddress, localAddress, promise);
 
             if (channelEventListener != null) {
@@ -118,7 +118,7 @@ public class NettyRemotingClient extends AbstractRemotingClient {
             Channel channel = new NettyChannel(ctx);
 
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.info("CLIENT : DISCONNECT {}", remoteAddress);
+            logger.info("CLIENT : DISCONNECT {}", remoteAddress);
             closeChannel(channel);
             super.disconnect(ctx, promise);
 
@@ -133,7 +133,7 @@ public class NettyRemotingClient extends AbstractRemotingClient {
             Channel channel = new NettyChannel(ctx);
 
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.info("CLIENT : CLOSE {}", remoteAddress);
+            logger.info("CLIENT : CLOSE {}", remoteAddress);
             closeChannel(channel);
             super.close(ctx, promise);
 
@@ -148,8 +148,8 @@ public class NettyRemotingClient extends AbstractRemotingClient {
             Channel channel = new NettyChannel(ctx);
 
             final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
-            LOGGER.warn("CLIENT : exceptionCaught {}", remoteAddress);
-            LOGGER.warn("CLIENT : exceptionCaught exception.", cause);
+            logger.warn("CLIENT : exceptionCaught {}", remoteAddress);
+            logger.warn("CLIENT : exceptionCaught exception.", cause);
             closeChannel(channel);
             if (channelEventListener != null) {
                 putRemotingEvent(new RemotingEvent(RemotingEventType.EXCEPTION, remoteAddress, channel));
@@ -166,7 +166,7 @@ public class NettyRemotingClient extends AbstractRemotingClient {
                 final String remoteAddress = RemotingHelper.parseChannelRemoteAddr(channel);
 
                 if (event.state().equals(io.netty.handler.timeout.IdleState.ALL_IDLE)) {
-                    LOGGER.warn("CLIENT : IDLE [{}]", remoteAddress);
+                    logger.warn("CLIENT : IDLE [{}]", remoteAddress);
                     closeChannel(channel);
                 }
 

@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JobClientManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobClientManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobClientManager.class);
 
     private final ConcurrentHashMap<String/*nodeGroup*/, Set<JobClientNode>> NODE_MAP = new ConcurrentHashMap<String, Set<JobClientNode>>();
 
@@ -60,7 +60,7 @@ public class JobClientManager {
         }
 
         JobClientNode jobClientNode = new JobClientNode(node.getGroup(), node.getIdentity(), channel);
-        LOGGER.info("add JobClient node:{}", jobClientNode);
+        logger.info("add JobClient node:{}", jobClientNode);
         jobClientNodes.add(jobClientNode);
 
         // create feedback queue
@@ -76,7 +76,7 @@ public class JobClientManager {
         if (jobClientNodes != null && jobClientNodes.size() != 0) {
             for (JobClientNode jobClientNode : jobClientNodes) {
                 if (node.getIdentity().equals(jobClientNode.getIdentity())) {
-                    LOGGER.info("remove JobClient node:{}", jobClientNode);
+                    logger.info("remove JobClient node:{}", jobClientNode);
                     jobClientNodes.remove(jobClientNode);
                 }
             }

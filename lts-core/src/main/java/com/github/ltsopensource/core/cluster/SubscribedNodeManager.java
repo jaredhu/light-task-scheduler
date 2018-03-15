@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SubscribedNodeManager implements NodeChangeListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribedNodeManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(SubscribedNodeManager.class);
     private final ConcurrentHashMap<NodeType, Set<Node>> NODES = new ConcurrentHashMap<NodeType, Set<Node>>();
 
     private AppContext appContext;
@@ -61,7 +61,7 @@ public class SubscribedNodeManager implements NodeChangeListener {
         EventInfo eventInfo = new EventInfo(EcTopic.NODE_ADD);
         eventInfo.setParam("node", node);
         appContext.getEventCenter().publishSync(eventInfo);
-        LOGGER.info("Add {}", node);
+        logger.info("Add {}", node);
     }
 
     public List<Node> getNodeList(final NodeType nodeType, final String nodeGroup) {
@@ -90,7 +90,7 @@ public class SubscribedNodeManager implements NodeChangeListener {
                     EventInfo eventInfo = new EventInfo(EcTopic.NODE_REMOVE);
                     eventInfo.setParam("node", node);
                     appContext.getEventCenter().publishSync(eventInfo);
-                    LOGGER.info("Remove {}", node);
+                    logger.info("Remove {}", node);
                 }
             }
         }

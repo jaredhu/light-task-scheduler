@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class NioSelectorLoop {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NioSelectorLoop.class);
+    private static final Logger logger = LoggerFactory.getLogger(NioSelectorLoop.class);
     private static final int SELECTOR_AUTO_REBUILD_THRESHOLD = 512;
     private static final int MIN_PREMATURE_SELECTOR_RETURNS = 3;
     private Selector selector;
@@ -48,8 +48,8 @@ public class NioSelectorLoop {
                 System.setProperty(key, "");
             }
         } catch (SecurityException e) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Unable to get/set System Property: {}", key, e);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Unable to get/set System Property: {}", key, e);
             }
         }
     }
@@ -129,7 +129,7 @@ public class NioSelectorLoop {
                 }
 
                 if (selectCnt >= SELECTOR_AUTO_REBUILD_THRESHOLD) {
-                    LOGGER.warn("Selector.select() returned prematurely {} times in a row; rebuilding selector.", selectCnt);
+                    logger.warn("Selector.select() returned prematurely {} times in a row; rebuilding selector.", selectCnt);
 
                     rebuildSelector();
                     selector = this.selector;
@@ -144,13 +144,13 @@ public class NioSelectorLoop {
             }
 
             if (selectCnt > MIN_PREMATURE_SELECTOR_RETURNS) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Selector.select() returned prematurely {} times in a row.", selectCnt - 1);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Selector.select() returned prematurely {} times in a row.", selectCnt - 1);
                 }
             }
         } catch (CancelledKeyException e) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(CancelledKeyException.class.getSimpleName() + " raised by a Selector - JDK bug?", e);
+            if (logger.isDebugEnabled()) {
+                logger.debug(CancelledKeyException.class.getSimpleName() + " raised by a Selector - JDK bug?", e);
             }
         }
     }
@@ -173,7 +173,7 @@ public class NioSelectorLoop {
         try {
             newSelector = openSelector();
         } catch (Exception e) {
-            LOGGER.warn("Failed to create a new Selector.", e);
+            logger.warn("Failed to create a new Selector.", e);
             return;
         }
 
@@ -193,7 +193,7 @@ public class NioSelectorLoop {
                         key.channel().register(newSelector, interestOps, a);
                         nChannels++;
                     } catch (Exception e) {
-                        LOGGER.warn("Failed to re-register a Channel to the new Selector.", e);
+                        logger.warn("Failed to re-register a Channel to the new Selector.", e);
                     }
                 }
             } catch (ConcurrentModificationException e) {
@@ -210,12 +210,12 @@ public class NioSelectorLoop {
             // time to close the old selector as everything else is registered to the new one
             oldSelector.close();
         } catch (Throwable t) {
-            if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn("Failed to close the old Selector.", t);
+            if (logger.isWarnEnabled()) {
+                logger.warn("Failed to close the old Selector.", t);
             }
         }
 
-        LOGGER.info("Migrated " + nChannels + " channel(s) to the new Selector.");
+        logger.info("Migrated " + nChannels + " channel(s) to the new Selector.");
     }
 
     private class SelectorWorker extends Thread {
@@ -270,7 +270,7 @@ public class NioSelectorLoop {
                     }
 
                 } catch (Throwable t) {
-                    LOGGER.warn("Unexpected exception in the selector loop.", t);
+                    logger.warn("Unexpected exception in the selector loop.", t);
 
                     // 睡眠1S, 防止连续的异常导致cpu消耗
                     try {
@@ -282,30 +282,30 @@ public class NioSelectorLoop {
         }
 
         private void doAccept(SelectionKey key) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("doAccept:" + key.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug("doAccept:" + key.toString());
             }
             processor.accept(key);
         }
 
         private void doConnect(SelectionKey key) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("doConnect:" + key.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug("doConnect:" + key.toString());
             }
             processor.connect(key);
         }
 
         private void doRead(SelectionKey key) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("doRead:" + key.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug("doRead:" + key.toString());
             }
             NioChannel channel = (NioChannel) key.attachment();
             processor.read(channel);
         }
 
         private void doWrite(SelectionKey key) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("doWrite:" + key.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug("doWrite:" + key.toString());
             }
             NioChannel channel = (NioChannel) key.attachment();
             processor.flush(channel);

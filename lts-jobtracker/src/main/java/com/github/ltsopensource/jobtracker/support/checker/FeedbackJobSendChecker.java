@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class FeedbackJobSendChecker {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackJobSendChecker.class);
+    private static final Logger logger = LoggerFactory.getLogger(FeedbackJobSendChecker.class);
 
     private ScheduledExecutorService RETRY_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("LTS-FeedbackJobSend-Executor", true));
     private ScheduledFuture<?> scheduledFuture;
@@ -71,10 +71,10 @@ public class FeedbackJobSendChecker {
                 scheduledFuture = RETRY_EXECUTOR_SERVICE.scheduleWithFixedDelay(new Runner()
                         , 30, 30, TimeUnit.SECONDS);
             }
-            LOGGER.info("Feedback job checker started!");
+            logger.info("Feedback job checker started!");
 
         } catch (Throwable t) {
-            LOGGER.error("Feedback job checker start failed!", t);
+            logger.error("Feedback job checker start failed!", t);
         }
     }
 
@@ -86,10 +86,10 @@ public class FeedbackJobSendChecker {
             if (start.compareAndSet(true, false)) {
                 scheduledFuture.cancel(true);
                 RETRY_EXECUTOR_SERVICE.shutdown();
-                LOGGER.info("Feedback job checker stopped!");
+                logger.info("Feedback job checker stopped!");
             }
         } catch (Throwable t) {
-            LOGGER.error("Feedback job checker stop failed!", t);
+            logger.error("Feedback job checker stop failed!", t);
         }
     }
 
@@ -118,7 +118,7 @@ public class FeedbackJobSendChecker {
                 }
 
             } catch (Throwable t) {
-                LOGGER.error(t.getMessage(), t);
+                logger.error(t.getMessage(), t);
             } finally {
                 isRunning = false;
             }
@@ -137,7 +137,7 @@ public class FeedbackJobSendChecker {
                 return;
             }
 
-            LOGGER.info("{} jobs need to feedback.", count);
+            logger.info("{} jobs need to feedback.", count);
             // 检测是否有可用的客户端
 
             List<JobFeedbackPo> jobFeedbackPos;
@@ -158,7 +158,7 @@ public class FeedbackJobSendChecker {
                 // 返回发送成功的个数
                 int sentSize = clientNotifier.send(jobResults);
 
-                LOGGER.info("Send to client: {} success, {} failed.", sentSize, jobResults.size() - sentSize);
+                logger.info("Send to client: {} success, {} failed.", sentSize, jobResults.size() - sentSize);
             } while (jobFeedbackPos.size() > 0);
         }
     }

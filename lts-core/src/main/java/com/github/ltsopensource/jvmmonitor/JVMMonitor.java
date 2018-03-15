@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class JVMMonitor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JVMMonitor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JVMMonitor.class);
 
     private static final MBeanServer MBEAN_SERVER = ManagementFactory.getPlatformMBeanServer();
     private static final AtomicBoolean start = new AtomicBoolean(false);
@@ -39,7 +39,7 @@ public class JVMMonitor {
             refCountField.setAccessible(true);
             refCount = (AtomicLong) refCountField.get(null);
         } catch (Throwable t) {
-            LOGGER.warn("load " + className + " error", t);
+            logger.warn("load " + className + " error", t);
             refCount = new AtomicLong(0);
         }
     }
@@ -66,9 +66,9 @@ public class JVMMonitor {
                         MBEAN_SERVER.registerMBean(entry.getValue(), objectName);
                     }
                 }
-                LOGGER.info("Start JVMMonitor succeed ");
+                logger.info("Start JVMMonitor succeed ");
             } catch (Exception e) {
-                LOGGER.error("Start JVMMonitor error ", e);
+                logger.error("Start JVMMonitor error ", e);
             }
         }
     }
@@ -84,10 +84,10 @@ public class JVMMonitor {
                         MBEAN_SERVER.unregisterMBean(objectName);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Stop JVMMonitor {} error", entry.getKey(), e);
+                    logger.error("Stop JVMMonitor {} error", entry.getKey(), e);
                 }
             }
-            LOGGER.info("Stop JVMMonitor succeed ");
+            logger.info("Stop JVMMonitor succeed ");
         }
     }
 
@@ -102,7 +102,7 @@ public class JVMMonitor {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("get Attribute error, objectName=" + objectName + ", attributeName=" + attributeNames, e);
+            logger.error("get Attribute error, objectName=" + objectName + ", attributeName=" + attributeNames, e);
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class JVMMonitor {
         try {
             return MBEAN_SERVER.getAttribute(new ObjectName(objectName), attributeName);
         } catch (Exception e) {
-            LOGGER.error("get Attribute error, objectName=" + objectName + ", attributeName=" + attributeName, e);
+            logger.error("get Attribute error, objectName=" + objectName + ", attributeName=" + attributeName, e);
         }
         return null;
     }

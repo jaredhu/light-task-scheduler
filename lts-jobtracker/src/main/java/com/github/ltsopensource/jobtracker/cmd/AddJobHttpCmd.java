@@ -21,7 +21,7 @@ import java.util.Collections;
  */
 public class AddJobHttpCmd implements HttpCmdProc {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddJobHttpCmd.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddJobHttpCmd.class);
 
     private JobTrackerAppContext appContext;
 
@@ -68,12 +68,12 @@ public class AddJobHttpCmd implements HttpCmdProc {
             jobSubmitRequest.setJobs(Collections.singletonList(job));
             appContext.getJobReceiver().receive(jobSubmitRequest);
 
-            LOGGER.info("add job succeed, {}", job);
+            logger.info("add job succeed, {}", job);
 
             response.setSuccess(true);
 
         } catch (Exception e) {
-            LOGGER.error("add job error, message:", e);
+            logger.error("add job error, message:", e);
             response.setMsg("add job error, message:" + e.getMessage());
         }
         return response;

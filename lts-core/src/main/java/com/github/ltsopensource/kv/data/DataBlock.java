@@ -29,7 +29,7 @@ import java.nio.channels.ReadableByteChannel;
  */
 public class DataBlock {
 
-    private final static Logger LOGGER = DB.LOGGER;
+    private final static Logger logger = DB.logger;
 
     private File file;
     private long fileId;
@@ -104,10 +104,10 @@ public class DataBlock {
 
             success = true;
         } catch (FileNotFoundException e) {
-            LOGGER.error("create file channel " + fileName + " error ", e);
+            logger.error("create file channel " + fileName + " error ", e);
             throw e;
         } catch (IOException e) {
-            LOGGER.error("map file " + fileName + " error ", e);
+            logger.error("map file " + fileName + " error ", e);
             throw e;
         } finally {
             if (!success) {
@@ -203,8 +203,8 @@ public class DataBlock {
         totalNum = fileHeader.getTotalNum().get();
         aliveNum = fileHeader.getAliveNum().get();
 
-        if (DataBlock.LOGGER.isDebugEnabled()) {
-            DataBlock.LOGGER.debug("flush Data start");
+        if (DataBlock.logger.isDebugEnabled()) {
+            DataBlock.logger.debug("flush Data start");
         }
 
         synchronized (this) {
@@ -215,8 +215,8 @@ public class DataBlock {
         // 再写文件头部汇总信息
         fileHeader.write(fileChannel);
 
-        if (DataBlock.LOGGER.isDebugEnabled()) {
-            DataBlock.LOGGER.debug("flush Data end:" + JSON.toJSONString(fileHeader));
+        if (DataBlock.logger.isDebugEnabled()) {
+            DataBlock.logger.debug("flush Data end:" + JSON.toJSONString(fileHeader));
         }
     }
 
@@ -230,7 +230,7 @@ public class DataBlock {
         @Override
         public void run() {
 
-            DataBlock.LOGGER.info(this.getServiceName() + " service started");
+            DataBlock.logger.info(this.getServiceName() + " service started");
 
             while (!this.isStopped()) {
                 try {
@@ -242,7 +242,7 @@ public class DataBlock {
                     // 刷到磁盘
                     flushDisk();
                 } catch (Exception e) {
-                    DataBlock.LOGGER.error(this.getServiceName() + " error:" + e.getMessage(), e);
+                    DataBlock.logger.error(this.getServiceName() + " error:" + e.getMessage(), e);
                 }
             }
         }

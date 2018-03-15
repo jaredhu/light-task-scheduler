@@ -18,7 +18,7 @@ import java.io.StringWriter;
  */
 public class ExceptionHandlerResolver implements HandlerExceptionResolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("[LTS-Admin]");
+    private static final Logger logger = LoggerFactory.getLogger("[LTS-Admin]");
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
@@ -38,10 +38,10 @@ public class ExceptionHandlerResolver implements HandlerExceptionResolver {
                 writer.write(json);
                 writer.flush();
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             }
         } else {
-            LOGGER.error(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
 //            request.setAttribute("message", ex.getMessage());
 //            return new ModelAndView("common/error");
         }

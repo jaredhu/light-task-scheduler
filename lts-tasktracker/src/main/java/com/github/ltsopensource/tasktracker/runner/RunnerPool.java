@@ -21,7 +21,7 @@ import java.util.concurrent.*;
  */
 public class RunnerPool {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(RunnerPool.class);
+    private final Logger logger = LoggerFactory.getLogger(RunnerPool.class);
 
     private ThreadPoolExecutor threadPoolExecutor = null;
 
@@ -62,11 +62,11 @@ public class RunnerPool {
         try {
             threadPoolExecutor.execute(
                     new JobRunnerDelegate(appContext, jobMeta, callback));
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Receive job success ! " + jobMeta);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Receive job success ! " + jobMeta);
             }
         } catch (RejectedExecutionException e) {
-            LOGGER.warn("No more thread to run job .");
+            logger.warn("No more thread to run job .");
             throw new NoAvailableJobRunnerException(e);
         }
     }
@@ -86,7 +86,7 @@ public class RunnerPool {
         threadPoolExecutor.setMaximumPoolSize(workThread);
         threadPoolExecutor.setCorePoolSize(workThread);
 
-        LOGGER.info("workThread update to {}", workThread);
+        logger.info("workThread update to {}", workThread);
     }
 
     /**
@@ -112,18 +112,18 @@ public class RunnerPool {
             threadPoolExecutor.shutdownNow();
             Thread.sleep(1000);
             threadPoolExecutor = initThreadPoolExecutor();
-            LOGGER.info("stop working succeed ");
+            logger.info("stop working succeed ");
         } catch (Throwable t) {
-            LOGGER.error("stop working failed ", t);
+            logger.error("stop working failed ", t);
         }
     }
 
     public void shutDown() {
         try {
             threadPoolExecutor.shutdownNow();
-            LOGGER.info("stop working succeed ");
+            logger.info("stop working succeed ");
         } catch (Throwable t) {
-            LOGGER.error("stop working failed ", t);
+            logger.error("stop working failed ", t);
         }
     }
 
@@ -151,8 +151,8 @@ public class RunnerPool {
          */
         public List<String> getNotExists(List<String> jobIds) {
 
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Ask jobs: " + jobIds + " Running jobs ：" + JOBS.keySet());
+            if (logger.isDebugEnabled()) {
+                logger.debug("Ask jobs: " + jobIds + " Running jobs ：" + JOBS.keySet());
             }
             List<String> notExistList = new ArrayList<String>();
             for (String jobId : jobIds) {
@@ -169,7 +169,7 @@ public class RunnerPool {
                 try {
                     jobRunnerDelegate.currentThread().interrupt();
                 } catch (Throwable e) {
-                    LOGGER.error("terminateJob [" + jobId + "]  error", e);
+                    logger.error("terminateJob [" + jobId + "]  error", e);
                 }
             }
         }

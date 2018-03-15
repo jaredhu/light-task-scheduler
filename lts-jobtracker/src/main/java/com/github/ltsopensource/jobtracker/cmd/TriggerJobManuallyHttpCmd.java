@@ -16,7 +16,7 @@ import com.github.ltsopensource.jobtracker.domain.JobTrackerAppContext;
  */
 public class TriggerJobManuallyHttpCmd implements HttpCmdProc {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(TriggerJobManuallyHttpCmd.class);
+    private final Logger logger = LoggerFactory.getLogger(TriggerJobManuallyHttpCmd.class);
 
     private JobTrackerAppContext appContext;
 
@@ -49,7 +49,7 @@ public class TriggerJobManuallyHttpCmd implements HttpCmdProc {
 
         appContext.getPreLoader().loadOne2First(taskTrackerNodeGroup, jobId);
 
-        LOGGER.info("Trigger Job jobId={} taskTrackerNodeGroup={}", jobId, taskTrackerNodeGroup);
+        logger.info("Trigger Job jobId={} taskTrackerNodeGroup={}", jobId, taskTrackerNodeGroup);
 
         return HttpCmdResponse.newResponse(true, "trigger job succeed");
     }

@@ -9,7 +9,7 @@ import com.github.ltsopensource.core.support.SystemClock;
  */
 public class PeriodUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PeriodUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(PeriodUtils.class);
     private static final ThreadLocal<Period> TL = new ThreadLocal<Period>();
 
     public static void start() {
@@ -31,7 +31,7 @@ public class PeriodUtils {
         }
         long mills = SystemClock.now() - period.start;
         TL.remove();
-        LOGGER.warn("[Period]" + msg + ", mills:{}", args, mills);
+        logger.warn("[Period]" + msg + ", mills:{}", args, mills);
     }
 
     private static class Period {

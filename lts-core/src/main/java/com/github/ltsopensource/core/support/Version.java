@@ -18,7 +18,7 @@ public final class Version {
 
     private Version() {}
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Version.class);
+    private static final Logger logger = LoggerFactory.getLogger(Version.class);
 
     private static final String VERSION = getVersion(Version.class, "1.7.2-SNAPSHOT");
 
@@ -42,7 +42,7 @@ public final class Version {
                 // 如果规范中没有版本号，基于jar包名获取版本号
                 CodeSource codeSource = cls.getProtectionDomain().getCodeSource();
                 if(codeSource == null) {
-                    LOGGER.info("No codeSource for class " + cls.getName() + " when getVersion, use default version " + defaultVersion);
+                    logger.info("No codeSource for class " + cls.getName() + " when getVersion, use default version " + defaultVersion);
                 }
                 else {
                     String file = codeSource.getLocation().getFile();
@@ -72,7 +72,7 @@ public final class Version {
             return version == null || version.length() == 0 ? defaultVersion : version;
         } catch (Throwable e) { // 防御性容错
             // 忽略异常，返回缺省版本号
-            LOGGER.error("return default version, ignore exception " + e.getMessage(), e);
+            logger.error("return default version, ignore exception " + e.getMessage(), e);
             return defaultVersion;
         }
     }
@@ -105,11 +105,11 @@ public final class Version {
                 if (failOnError) {
                     throw new IllegalStateException(error);
                 } else {
-                    LOGGER.error(error);
+                    logger.error(error);
                 }
             }
         } catch (Throwable e) { // 防御性容错
-            LOGGER.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
     }
 

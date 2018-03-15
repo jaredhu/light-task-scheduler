@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class StopWorkingMonitor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StopWorkingMonitor.class);
+    private static final Logger logger = LoggerFactory.getLogger(StopWorkingMonitor.class);
     private TaskTrackerAppContext appContext;
     private AtomicBoolean start = new AtomicBoolean(false);
     private final ScheduledExecutorService SCHEDULED_CHECKER = Executors.newScheduledThreadPool(1, new NamedThreadFactory("LTS-StopWorking-Monitor", true));
@@ -64,14 +64,14 @@ public class StopWorkingMonitor {
                                 offlineTimestamp = null;
                             }
                         } catch (Throwable t) {
-                            LOGGER.error("Check ", t);
+                            logger.error("Check ", t);
                         }
                     }
                 }, 3, 3, TimeUnit.SECONDS);
-                LOGGER.info("start succeed ");
+                logger.info("start succeed ");
             }
         } catch (Throwable t) {
-            LOGGER.error("start failed ", t);
+            logger.error("start failed ", t);
         }
     }
 
@@ -83,10 +83,10 @@ public class StopWorkingMonitor {
 
                 appContext.getEventCenter().unSubscribe(EcTopic.JOB_TRACKER_AVAILABLE, eventSubscriber);
 
-                LOGGER.info("stop succeed ");
+                logger.info("stop succeed ");
             }
         } catch (Throwable t) {
-            LOGGER.error("stop failed ", t);
+            logger.error("stop failed ", t);
         }
     }
 

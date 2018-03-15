@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class Scanner implements DisposableBean, BeanFactoryPostProcessor, BeanPostProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Scanner.class);
+    private static final Logger logger = LoggerFactory.getLogger(Scanner.class);
 
     private String[] annotationPackages;
 
@@ -43,7 +43,7 @@ public class Scanner implements DisposableBean, BeanFactoryPostProcessor, BeanPo
                 Method scan = scannerClass.getMethod("scan", String[].class);
                 scan.invoke(scanner, new Object[]{annotationPackages});
             } catch (Throwable e) {
-                LOGGER.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             }
         }
     }

@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ExecutableDeadJobChecker {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutableDeadJobChecker.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecutableDeadJobChecker.class);
 
     // 1 分钟还锁着的，说明是有问题的
     private static final long MAX_TIME_OUT = 60 * 1000;
@@ -53,14 +53,14 @@ public class ExecutableDeadJobChecker {
                             }
                             fix();
                         } catch (Throwable t) {
-                            LOGGER.error(t.getMessage(), t);
+                            logger.error(t.getMessage(), t);
                         }
                     }
                 }, 30, 60, TimeUnit.SECONDS);// 3分钟执行一次
             }
-            LOGGER.info("Executable dead job checker started!");
+            logger.info("Executable dead job checker started!");
         } catch (Throwable t) {
-            LOGGER.info("Executable dead job checker start failed!");
+            logger.info("Executable dead job checker start failed!");
         }
     }
 
@@ -77,7 +77,7 @@ public class ExecutableDeadJobChecker {
             if (CollectionUtils.isNotEmpty(deadJobPo)) {
                 for (JobPo jobPo : deadJobPo) {
                     appContext.getExecutableJobQueue().resume(jobPo);
-                    LOGGER.info("Fix executable job : {} ", JSON.toJSONString(jobPo));
+                    logger.info("Fix executable job : {} ", JSON.toJSONString(jobPo));
                 }
             }
         }
@@ -89,9 +89,9 @@ public class ExecutableDeadJobChecker {
                 scheduledFuture.cancel(true);
                 FIXED_EXECUTOR_SERVICE.shutdown();
             }
-            LOGGER.info("Executable dead job checker stopped!");
+            logger.info("Executable dead job checker stopped!");
         } catch (Throwable t) {
-            LOGGER.error("Executable dead job checker stop failed!", t);
+            logger.error("Executable dead job checker stop failed!", t);
         }
     }
 }

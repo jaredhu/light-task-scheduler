@@ -18,7 +18,7 @@ import java.nio.ByteBuffer;
  */
 public class LtsCodecFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LtsCodecFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(LtsCodecFactory.class);
 
     private Codec codec;
 
@@ -32,7 +32,7 @@ public class LtsCodecFactory {
         public ByteBuffer encode(NioChannel channel, Object msg) {
 
             if (msg == null) {
-                LOGGER.error("Message is null");
+                logger.error("Message is null");
                 return null;
             }
 
@@ -41,11 +41,11 @@ public class LtsCodecFactory {
                     return codec.encode((RemotingCommand) msg);
                 } catch (Exception e) {
                     Channel c = new LtsChannel(channel);
-                    LOGGER.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(c), ((RemotingCommand) msg).toString(), e);
+                    logger.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(c), ((RemotingCommand) msg).toString(), e);
                     RemotingHelper.closeChannel(c);
                 }
             } else {
-                LOGGER.error("Message is not instance of " + RemotingCommand.class.getName());
+                logger.error("Message is not instance of " + RemotingCommand.class.getName());
             }
             return null;
         }
@@ -59,7 +59,7 @@ public class LtsCodecFactory {
                 return codec.decode(byteBuffer);
             } catch (Exception e) {
                 Channel channel = new LtsChannel(ch);
-                LOGGER.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
+                logger.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
                 RemotingHelper.closeChannel(channel);
                 throw e;
             }

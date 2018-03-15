@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class DataBlockEngine<K, V> {
 
-    private static final Logger LOGGER = DB.LOGGER;
+    private static final Logger logger = DB.logger;
 
     private final ConcurrentMap<Long/*fileId*/, DataBlock> NAME_BLOCK_MAP = new ConcurrentHashMap<Long, DataBlock>();
     private CopyOnWriteArrayList<DataBlock> writableBlocks = new CopyOnWriteArrayList<DataBlock>();
@@ -54,7 +54,7 @@ public class DataBlockEngine<K, V> {
         try {
             FileUtils.createDirIfNotExist(dataPath);
         } catch (IOException e) {
-            LOGGER.error("create dataPath " + dataPath + " error:" + e.getMessage(), e);
+            logger.error("create dataPath " + dataPath + " error:" + e.getMessage(), e);
             throw e;
         }
 
@@ -87,7 +87,7 @@ public class DataBlockEngine<K, V> {
                 }
 
             } catch (IOException e) {
-                LOGGER.error("load data block [" + dataFile + "] error:" + e.getMessage(), e);
+                logger.error("load data block [" + dataFile + "] error:" + e.getMessage(), e);
             }
         }
         storeConfig.setLastTxLogPositionOnDataBlock(maxTxLog);

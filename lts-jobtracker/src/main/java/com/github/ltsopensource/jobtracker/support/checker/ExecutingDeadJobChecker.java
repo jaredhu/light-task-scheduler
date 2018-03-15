@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ExecutingDeadJobChecker {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutingDeadJobChecker.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecutingDeadJobChecker.class);
 
     private final ScheduledExecutorService FIXED_EXECUTOR_SERVICE = Executors.newScheduledThreadPool(1, new NamedThreadFactory("LTS-ExecutingJobQueue-Fix-Executor", true));
 
@@ -83,14 +83,14 @@ public class ExecutingDeadJobChecker {
                             }
                             checkAndFix();
                         } catch (Throwable t) {
-                            LOGGER.error("Check executing dead job error ", t);
+                            logger.error("Check executing dead job error ", t);
                         }
                     }
                 }, fixCheckPeriodSeconds, fixCheckPeriodSeconds, TimeUnit.SECONDS);
             }
-            LOGGER.info("Executing dead job checker started!");
+            logger.info("Executing dead job checker started!");
         } catch (Throwable e) {
-            LOGGER.error("Executing dead job checker start failed!", e);
+            logger.error("Executing dead job checker start failed!", e);
         }
     }
 
@@ -177,7 +177,7 @@ public class ExecutingDeadJobChecker {
                 }
             });
         } catch (RemotingSendException e) {
-            LOGGER.error("Ask timeout Job error, ", e);
+            logger.error("Ask timeout Job error, ", e);
         }
 
     }
@@ -203,7 +203,7 @@ public class ExecutingDeadJobChecker {
             try {
                 appContext.getExecutableJobQueue().add(jobPo);
             } catch (DupEntryException e) {
-                LOGGER.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
+                logger.warn("ExecutableJobQueue already exist:" + JSON.toJSONString(jobPo));
             }
 
             // 2. remove from executing queue
@@ -219,9 +219,9 @@ public class ExecutingDeadJobChecker {
             stat.incFixExecutingJobNum();
 
         } catch (Throwable t) {
-            LOGGER.error(t.getMessage(), t);
+            logger.error(t.getMessage(), t);
         }
-        LOGGER.info("checkAndFix dead job ! {}", JSON.toJSONString(jobPo));
+        logger.info("checkAndFix dead job ! {}", JSON.toJSONString(jobPo));
     }
 
     public void stop() {
@@ -230,9 +230,9 @@ public class ExecutingDeadJobChecker {
                 scheduledFuture.cancel(true);
                 FIXED_EXECUTOR_SERVICE.shutdown();
             }
-            LOGGER.info("Executing dead job checker stopped!");
+            logger.info("Executing dead job checker stopped!");
         } catch (Throwable t) {
-            LOGGER.error("Executing dead job checker stop failed!", t);
+            logger.error("Executing dead job checker stop failed!", t);
         }
     }
 

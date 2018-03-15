@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class AbstractJobNode<T extends Node, Context extends AppContext> implements JobNode {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(JobNode.class);
+    protected static final Logger logger = LoggerFactory.getLogger(JobNode.class);
 
     protected Registry registry;
     protected T node;
@@ -84,13 +84,13 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
 
                 AliveKeeping.start();
 
-                LOGGER.info("========== Start success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
+                logger.info("========== Start success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
             }
         } catch (Throwable e) {
             if (e.getMessage().contains("Address already in use")) {
-                LOGGER.error("========== Start failed at listen port {}, nodeType={}, identity={}", config.getListenPort(), config.getNodeType(), config.getIdentity(), e);
+                logger.error("========== Start failed at listen port {}, nodeType={}, identity={}", config.getListenPort(), config.getNodeType(), config.getIdentity(), e);
             } else {
-                LOGGER.error("========== Start failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
+                logger.error("========== Start failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
             }
         }
     }
@@ -129,10 +129,10 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
 
                 AliveKeeping.stop();
 
-                LOGGER.info("========== Stop success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
+                logger.info("========== Stop success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
             }
         } catch (Throwable e) {
-            LOGGER.error("========== Stop failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
+            logger.error("========== Stop failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
         }
     }
 
@@ -140,9 +140,9 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
     public void destroy() {
         try {
             registry.destroy();
-            LOGGER.info("Destroy success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
+            logger.info("Destroy success, nodeType={}, identity={}", config.getNodeType(), config.getIdentity());
         } catch (Throwable e) {
-            LOGGER.error("Destroy failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
+            logger.error("Destroy failed, nodeType={}, identity={}", config.getNodeType(), config.getIdentity(), e);
         }
     }
 
@@ -167,7 +167,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
         }
         NodeFactory.build(node, config);
 
-        LOGGER.info("Current Node config :{}", config);
+        logger.info("Current Node config :{}", config);
 
         appContext.setEventCenter(ServiceLoader.load(EventCenter.class, config));
 
@@ -202,7 +202,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
         }
 
         // 设置logger
-        String logger = config.getParameter(ExtConfig.LTS_LOGGER);
+        String logger = config.getParameter(ExtConfig.LTS_logger);
         if (StringUtils.isNotEmpty(logger)) {
             LoggerFactory.setLoggerAdapter(logger);
         }
@@ -214,7 +214,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
             ((AbstractRegistry) registry).setNode(node);
         }
         registry.subscribe(node, new NotifyListener() {
-            private final Logger NOTIFY_LOGGER = LoggerFactory.getLogger(NotifyListener.class);
+            private final Logger NOTIFY_logger = LoggerFactory.getLogger(NotifyListener.class);
 
             @Override
             public void notify(NotifyEvent event, List<Node> nodes) {
@@ -227,7 +227,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
                             try {
                                 listener.addNodes(nodes);
                             } catch (Throwable t) {
-                                NOTIFY_LOGGER.error("{} add nodes failed , cause: {}", listener.getClass().getName(), t.getMessage(), t);
+                                NOTIFY_logger.error("{} add nodes failed , cause: {}", listener.getClass().getName(), t.getMessage(), t);
                             }
                         }
                         break;
@@ -236,7 +236,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
                             try {
                                 listener.removeNodes(nodes);
                             } catch (Throwable t) {
-                                NOTIFY_LOGGER.error("{} remove nodes failed , cause: {}", listener.getClass().getName(), t.getMessage(), t);
+                                NOTIFY_logger.error("{} remove nodes failed , cause: {}", listener.getClass().getName(), t.getMessage(), t);
                             }
                         }
                         break;

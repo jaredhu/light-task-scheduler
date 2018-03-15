@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
  */
 public class MinaCodecFactory implements ProtocolCodecFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinaCodecFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(MinaCodecFactory.class);
 
     private Codec codec;
 
@@ -44,11 +44,11 @@ public class MinaCodecFactory implements ProtocolCodecFactory {
         @Override
         public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
             if (message == null) {
-                LOGGER.error("Message is null");
+                logger.error("Message is null");
                 return;
             }
             if (!(message instanceof RemotingCommand)) {
-                LOGGER.error("{} is not instanceof RemotingCommand", message);
+                logger.error("{} is not instanceof RemotingCommand", message);
                 return;
             }
             RemotingCommand remotingCommand = (RemotingCommand) message;
@@ -60,7 +60,7 @@ public class MinaCodecFactory implements ProtocolCodecFactory {
                 out.flush();
             } catch (Exception e) {
                 Channel channel = new MinaChannel(session);
-                LOGGER.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(channel), remotingCommand.toString(), e);
+                logger.error("encode exception, addr={}, remotingCommand={}", RemotingHelper.parseChannelRemoteAddr(channel), remotingCommand.toString(), e);
                 RemotingHelper.closeChannel(channel);
             }
         }
@@ -95,7 +95,7 @@ public class MinaCodecFactory implements ProtocolCodecFactory {
                     out.write(remotingCommand);
                 } catch (Exception e) {
                     Channel channel = new MinaChannel(session);
-                    LOGGER.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
+                    logger.error("decode exception, {}", RemotingHelper.parseChannelRemoteAddr(channel), e);
                     RemotingHelper.closeChannel(channel);
                 }
             }

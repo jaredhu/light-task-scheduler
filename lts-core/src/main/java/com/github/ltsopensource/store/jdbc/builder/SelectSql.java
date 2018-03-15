@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class SelectSql {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SelectSql.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectSql.class);
 
     private SqlTemplate sqlTemplate;
     private StringBuilder sql = new StringBuilder();
@@ -264,8 +264,8 @@ public class SelectSql {
         String finalSQL = getSQL();
         try {
 
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(SQLFormatter.format(finalSQL));
+            if (logger.isDebugEnabled()) {
+                logger.debug(SQLFormatter.format(finalSQL));
             }
 
             return sqlTemplate.queryForValue(finalSQL, params.toArray());

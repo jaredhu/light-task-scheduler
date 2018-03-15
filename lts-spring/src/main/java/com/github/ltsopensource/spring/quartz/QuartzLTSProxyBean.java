@@ -14,7 +14,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  */
 public class QuartzLTSProxyBean implements BeanFactoryPostProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzLTSProxyBean.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuartzLTSProxyBean.class);
     // 是否使用LTS
     private boolean ltsEnable = true;
 
@@ -24,7 +24,7 @@ public class QuartzLTSProxyBean implements BeanFactoryPostProcessor {
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         if (ltsEnable) {
             // 如果启用才进行代理
-            LOGGER.info("========LTS====== Proxy Quartz Scheduler");
+            logger.info("========LTS====== Proxy Quartz Scheduler");
 
             JobClientProperties jobClientProperties = PropertiesConfigurationFactory.createPropertiesConfiguration(JobClientProperties.class, locations);
             jobClientProperties.checkProperties();

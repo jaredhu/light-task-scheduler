@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class NonRelyOnPrevCycleJobScheduler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NonRelyOnPrevCycleJobScheduler.class);
+    private static final Logger logger = LoggerFactory.getLogger(NonRelyOnPrevCycleJobScheduler.class);
     private JobTrackerAppContext appContext;
     private int scheduleIntervalMinute;
     private ScheduledExecutorService executorService;
@@ -66,12 +66,12 @@ public class NonRelyOnPrevCycleJobScheduler {
                             }
                         }
                     } catch (Throwable t) {
-                        LOGGER.error("Error On Schedule", t);
+                        logger.error("Error On Schedule", t);
                     }
                 }
             }, 10, (scheduleIntervalMinute - 1) * 60, TimeUnit.SECONDS);
         } catch (Throwable t) {
-            LOGGER.error("Scheduler Start Error", t);
+            logger.error("Scheduler Start Error", t);
         }
     }
 
@@ -88,13 +88,13 @@ public class NonRelyOnPrevCycleJobScheduler {
                 executorService = null;
             }
         } catch (Throwable t) {
-            LOGGER.error("Scheduler Stop Error", t);
+            logger.error("Scheduler Stop Error", t);
         }
     }
 
     private void schedule() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("========= Scheduler start =========");
+        if (logger.isDebugEnabled()) {
+            logger.debug("========= Scheduler start =========");
         }
 
         Date now = new Date();
@@ -105,8 +105,8 @@ public class NonRelyOnPrevCycleJobScheduler {
             if (CollectionUtils.sizeOf(jobPos) == 0) {
                 break;
             }
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("========= CronJob size[{}] =========", CollectionUtils.sizeOf(jobPos));
+            if (logger.isDebugEnabled()) {
+                logger.debug("========= CronJob size[{}] =========", CollectionUtils.sizeOf(jobPos));
             }
             for (JobPo jobPo : jobPos) {
                 Long lastGenerateTriggerTime = jobPo.getLastGenerateTriggerTime();
@@ -123,8 +123,8 @@ public class NonRelyOnPrevCycleJobScheduler {
             if (CollectionUtils.sizeOf(jobPos) == 0) {
                 break;
             }
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("========= Repeat size[{}] =========", CollectionUtils.sizeOf(jobPos));
+            if (logger.isDebugEnabled()) {
+                logger.debug("========= Repeat size[{}] =========", CollectionUtils.sizeOf(jobPos));
             }
             for (JobPo jobPo : jobPos) {
                 Long lastGenerateTriggerTime = jobPo.getLastGenerateTriggerTime();
@@ -134,8 +134,8 @@ public class NonRelyOnPrevCycleJobScheduler {
                 addRepeatJobForInterval(jobPo, new Date(lastGenerateTriggerTime));
             }
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("========= Scheduler End =========");
+        if (logger.isDebugEnabled()) {
+            logger.debug("========= Scheduler End =========");
         }
     }
 

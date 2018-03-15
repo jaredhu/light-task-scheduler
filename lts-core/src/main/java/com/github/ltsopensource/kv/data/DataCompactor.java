@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DataCompactor<K, V> {
 
-    private static final Logger LOGGER = DB.LOGGER;
+    private static final Logger logger = DB.logger;
     private ScheduledExecutorService executorService;
     private ScheduledFuture<?> future;
     private StoreConfig storeConfig;
@@ -38,7 +38,7 @@ public class DataCompactor<K, V> {
 
                             compact();
                         } catch (Throwable t) {
-                            LOGGER.error("DataCompactor compactor error:" + t.getMessage(), t);
+                            logger.error("DataCompactor compactor error:" + t.getMessage(), t);
                         } finally {
                             running.set(false);
                         }

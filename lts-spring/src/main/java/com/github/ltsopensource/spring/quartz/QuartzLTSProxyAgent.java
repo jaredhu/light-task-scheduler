@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 class QuartzLTSProxyAgent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzLTSProxyAgent.class);
+    private static final Logger logger = LoggerFactory.getLogger(QuartzLTSProxyAgent.class);
     private QuartzLTSConfig quartzLTSConfig;
     private List<QuartzJobContext> quartzJobContexts = new CopyOnWriteArrayList<QuartzJobContext>();
     private AtomicBoolean ready = new AtomicBoolean(false);
@@ -56,7 +56,7 @@ class QuartzLTSProxyAgent {
                     QuietUtils.sleep(3000);
                     startProxy0();
                 } catch (Throwable t) {
-                    LOGGER.error("Error on start " + QuartzLTSProxyAgent.class.getSimpleName(), t);
+                    logger.error("Error on start " + QuartzLTSProxyAgent.class.getSimpleName(), t);
                 }
             }
         }).start();
@@ -109,9 +109,9 @@ class QuartzLTSProxyAgent {
                 jobs.add(buildSimpleJob(quartzJobContext));
             }
         }
-        LOGGER.info("=============LTS=========== Submit start");
+        logger.info("=============LTS=========== Submit start");
         submitJobs0(jobClient, jobs);
-        LOGGER.info("=============LTS=========== Submit end");
+        logger.info("=============LTS=========== Submit end");
     }
 
     private Job buildCronJob(QuartzJobContext quartzJobContext) {
@@ -186,17 +186,17 @@ class QuartzLTSProxyAgent {
         try {
             Response response = jobClient.submitJob(jobs);
             if (!response.isSuccess()) {
-                LOGGER.warn("Submit Quartz Jobs to LTS failed: {}", JSON.toJSONString(response));
+                logger.warn("Submit Quartz Jobs to LTS failed: {}", JSON.toJSONString(response));
                 failedJobs = response.getFailedJobs();
             }
         } catch (JobSubmitException e) {
-            LOGGER.warn("Submit Quartz Jobs to LTS error", e);
+            logger.warn("Submit Quartz Jobs to LTS error", e);
             failedJobs = jobs;
         }
 
         if (CollectionUtils.isNotEmpty(failedJobs)) {
             // 没提交成功要重试 3S 之后重试
-            LOGGER.info("=============LTS=========== Sleep 3 Seconds and retry");
+            logger.info("=============LTS=========== Sleep 3 Seconds and retry");
             QuietUtils.sleep(3000);
             submitJobs0(jobClient, failedJobs);
             return;

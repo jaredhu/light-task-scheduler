@@ -111,7 +111,7 @@ public class RshHolder {
         }
     };
 
-    public static final ResultSetHandler<List<JobLogPo>> JOB_LOGGER_LIST_RSH = new ResultSetHandler<List<JobLogPo>>() {
+    public static final ResultSetHandler<List<JobLogPo>> JOB_logger_LIST_RSH = new ResultSetHandler<List<JobLogPo>>() {
         @Override
         public List<JobLogPo> handle(ResultSet rs) throws SQLException {
             List<JobLogPo> result = new ArrayList<JobLogPo>();

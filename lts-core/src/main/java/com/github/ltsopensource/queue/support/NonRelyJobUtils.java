@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class NonRelyJobUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NonRelyJobUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(NonRelyJobUtils.class);
 
     /**
      * 生成一个小时的任务
@@ -50,7 +50,7 @@ public class NonRelyJobUtils {
                         jobPo.setInternalExtParam(Constants.EXE_SEQ_ID, JobUtils.generateExeSeqId(jobPo));
                         executableJobQueue.add(jobPo);
                     } catch (DupEntryException e) {
-                        LOGGER.warn("Cron Job[taskId={}, taskTrackerNodeGroup={}] Already Exist in ExecutableJobQueue",
+                        logger.warn("Cron Job[taskId={}, taskTrackerNodeGroup={}] Already Exist in ExecutableJobQueue",
                                 jobPo.getTaskId(), jobPo.getTaskTrackerNodeGroup());
                     }
                 } else {
@@ -60,8 +60,8 @@ public class NonRelyJobUtils {
             timeAfter = nextTriggerTime;
         }
         cronJobQueue.updateLastGenerateTriggerTime(finalJobPo.getJobId(), endTime);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Add CronJob {} to {}", jobPo, DateUtils.formatYMD_HMS(new Date(endTime)));
+        if (logger.isDebugEnabled()) {
+            logger.debug("Add CronJob {} to {}", jobPo, DateUtils.formatYMD_HMS(new Date(endTime)));
         }
     }
 
@@ -105,7 +105,7 @@ public class NonRelyJobUtils {
                     jobPo.setInternalExtParam(Constants.EXE_SEQ_ID, JobUtils.generateExeSeqId(jobPo));
                     executableJobQueue.add(jobPo);
                 } catch (DupEntryException e) {
-                    LOGGER.warn("Repeat Job[taskId={}, taskTrackerNodeGroup={}] Already Exist in ExecutableJobQueue",
+                    logger.warn("Repeat Job[taskId={}, taskTrackerNodeGroup={}] Already Exist in ExecutableJobQueue",
                             jobPo.getTaskId(), jobPo.getTaskTrackerNodeGroup());
                 }
                 repeatedCount++;
@@ -115,8 +115,8 @@ public class NonRelyJobUtils {
         }
         // 更新时间
         repeatJobQueue.updateLastGenerateTriggerTime(finalJobPo.getJobId(), endTime);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Add RepeatJob {} to {}", jobPo, DateUtils.formatYMD_HMS(new Date(endTime)));
+        if (logger.isDebugEnabled()) {
+            logger.debug("Add RepeatJob {} to {}", jobPo, DateUtils.formatYMD_HMS(new Date(endTime)));
         }
     }
 }

@@ -29,7 +29,7 @@ import java.util.concurrent.*;
  */
 public class RedisRegistry extends FailbackRegistry {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisRegistry.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisRegistry.class);
 
     private final Map<String, JedisPool> jedisPools = new ConcurrentHashMap<String, JedisPool>();
 
@@ -78,7 +78,7 @@ public class RedisRegistry extends FailbackRegistry {
                 try {
                     deferExpired(); // 延长过期时间
                 } catch (Throwable t) { // 防御性容错
-                    LOGGER.error("Unexpected exception occur at defer expire time, cause: " + t.getMessage(), t);
+                    logger.error("Unexpected exception occur at defer expire time, cause: " + t.getMessage(), t);
                 }
             }
         }, expirePeriod / 2, expirePeriod / 2, TimeUnit.MILLISECONDS);
@@ -106,7 +106,7 @@ public class RedisRegistry extends FailbackRegistry {
                     jedis.close();
                 }
             } catch (Throwable t) {
-                LOGGER.warn("Failed to write provider heartbeat to redis registry. registry: " + entry.getKey() + ", cause: " + t.getMessage(), t);
+                logger.warn("Failed to write provider heartbeat to redis registry. registry: " + entry.getKey() + ", cause: " + t.getMessage(), t);
             }
         }
     }
@@ -130,8 +130,8 @@ public class RedisRegistry extends FailbackRegistry {
                                 if (expire < now) {
                                     jedis.hdel(nodePath, key);
                                     delete = true;
-                                    if (LOGGER.isWarnEnabled()) {
-                                        LOGGER.warn("Delete expired key: " + nodePath + " -> value: " + entry.getKey() + ", expire: " + new Date(expire) + ", now: " + new Date(now));
+                                    if (logger.isWarnEnabled()) {
+                                        logger.warn("Delete expired key: " + nodePath + " -> value: " + entry.getKey() + ", expire: " + new Date(expire) + ", now: " + new Date(now));
                                     }
                                 }
                             }
@@ -171,7 +171,7 @@ public class RedisRegistry extends FailbackRegistry {
         }
         if (exception != null) {
             if (success) {
-                LOGGER.warn(exception.getMessage(), exception);
+                logger.warn(exception.getMessage(), exception);
             } else {
                 throw exception;
             }
@@ -203,7 +203,7 @@ public class RedisRegistry extends FailbackRegistry {
         }
         if (exception != null) {
             if (success) {
-                LOGGER.warn(exception.getMessage(), exception);
+                logger.warn(exception.getMessage(), exception);
             } else {
                 throw exception;
             }
@@ -250,7 +250,7 @@ public class RedisRegistry extends FailbackRegistry {
             }
             if (exception != null) {
                 if (success) {
-                    LOGGER.warn(exception.getMessage(), exception);
+                    logger.warn(exception.getMessage(), exception);
                 } else {
                     throw exception;
                 }
@@ -269,21 +269,21 @@ public class RedisRegistry extends FailbackRegistry {
         try {
             expireFuture.cancel(true);
         } catch (Throwable t) {
-            LOGGER.warn(t.getMessage(), t);
+            logger.warn(t.getMessage(), t);
         }
         try {
             for (Notifier notifier : notifiers.values()) {
                 notifier.shutdown();
             }
         } catch (Throwable t) {
-            LOGGER.warn(t.getMessage(), t);
+            logger.warn(t.getMessage(), t);
         }
         for (Map.Entry<String, JedisPool> entry : jedisPools.entrySet()) {
             JedisPool jedisPool = entry.getValue();
             try {
                 jedisPool.destroy();
             } catch (Throwable t) {
-                LOGGER.warn("Failed to destroy the redis registry client. registry: " + entry.getKey() + ", cause: " + t.getMessage(), t);
+                logger.warn("Failed to destroy the redis registry client. registry: " + entry.getKey() + ", cause: " + t.getMessage(), t);
             }
         }
     }
@@ -347,8 +347,8 @@ public class RedisRegistry extends FailbackRegistry {
 
         @Override
         public void onMessage(String key, String msg) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("redis event: " + key + " = " + msg);
+            if (logger.isInfoEnabled()) {
+                logger.info("redis event: " + key + " = " + msg);
             }
             if (msg.equals(Constants.REGISTER)
                     || msg.equals(Constants.UNREGISTER)) {
@@ -360,7 +360,7 @@ public class RedisRegistry extends FailbackRegistry {
                         jedis.close();
                     }
                 } catch (Throwable t) {
-                    LOGGER.error(t.getMessage(), t);
+                    logger.error(t.getMessage(), t);
                 }
             }
         }
@@ -408,7 +408,7 @@ public class RedisRegistry extends FailbackRegistry {
                                 jedis.close();
                             }
                         } catch (Throwable t) { // 重试另一台
-                            LOGGER.warn("Failed to subscribe node from redis registry. registry: " + entry.getKey(), t);
+                            logger.warn("Failed to subscribe node from redis registry. registry: " + entry.getKey(), t);
                             if (++retryTimes % jedisPools.size() == 0) {
                                 // 如果在所有redis都不可用，需要休息一会，避免空转占用过多cpu资源
                                 sleep(reconnectPeriod);
@@ -421,7 +421,7 @@ public class RedisRegistry extends FailbackRegistry {
                     }
                 }
             } catch (Throwable t) {
-                LOGGER.error(t.getMessage(), t);
+                logger.error(t.getMessage(), t);
             }
         }
 
@@ -430,7 +430,7 @@ public class RedisRegistry extends FailbackRegistry {
                 running = false;
                 jedis.disconnect();
             } catch (Throwable t) {
-                LOGGER.warn(t.getMessage(), t);
+                logger.warn(t.getMessage(), t);
             }
         }
     }

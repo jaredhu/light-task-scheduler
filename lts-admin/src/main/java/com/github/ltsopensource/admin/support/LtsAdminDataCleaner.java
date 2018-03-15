@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class LtsAdminDataCleaner implements InitializingBean {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LtsAdminDataCleaner.class);
+    private static final Logger logger = LoggerFactory.getLogger(LtsAdminDataCleaner.class);
 
     @Autowired
     private BackendAppContext appContext;
@@ -43,11 +43,11 @@ public class LtsAdminDataCleaner implements InitializingBean {
                     try {
                         clean();
                     } catch (Throwable t) {
-                        LOGGER.error("Clean monitor data error ", t);
+                        logger.error("Clean monitor data error ", t);
                     }
                 }
             }, 1, 24, TimeUnit.HOURS);
-            LOGGER.info("LtsAdminDataCleaner start succeed ");
+            logger.info("LtsAdminDataCleaner start succeed ");
         }
     }
 
@@ -108,7 +108,7 @@ public class LtsAdminDataCleaner implements InitializingBean {
             }
         });
 
-        LOGGER.info("Clean monitor data succeed ");
+        logger.info("Clean monitor data succeed ");
     }
 
     @Override
