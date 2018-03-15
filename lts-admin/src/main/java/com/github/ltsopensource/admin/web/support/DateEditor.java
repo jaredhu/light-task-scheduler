@@ -43,9 +43,9 @@ public class DateEditor extends PropertyEditorSupport {
             setValue(null);
         } else {
             try {
-                if (this.dateFormat != null)
+                if (this.dateFormat != null) {
                     setValue(this.dateFormat.parse(text));
-                else {
+                } else {
                     setValue(DateUtils.parse(text));
                 }
             } catch (ParseException ex) {
@@ -61,8 +61,9 @@ public class DateEditor extends PropertyEditorSupport {
     public String getAsText() {
         Date value = (Date) getValue();
         DateFormat dateFormat = this.dateFormat;
-        if (dateFormat == null)
+        if (dateFormat == null) {
             dateFormat = TIME_FORMAT;
+        }
         return (value != null ? dateFormat.format(value) : "");
     }
 }

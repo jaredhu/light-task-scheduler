@@ -19,6 +19,7 @@ public class MasterElectionListener implements NodeChangeListener {
         this.appContext = appContext;
     }
 
+    @Override
     public void removeNodes(List<Node> nodes) {
         if (CollectionUtils.isEmpty(nodes)) {
             return;
@@ -35,6 +36,7 @@ public class MasterElectionListener implements NodeChangeListener {
         }
     }
 
+    @Override
     public void addNodes(List<Node> nodes) {
         if (CollectionUtils.isEmpty(nodes)) {
             return;

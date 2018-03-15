@@ -50,6 +50,7 @@ public class MemIndex<K, V> implements Index<K, V> {
         }, 3, 2, TimeUnit.SECONDS);
     }
 
+    @Override
     public IndexItem<K> getIndexItem(K key) {
         return indexMap.get(key);
     }

@@ -146,6 +146,7 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         return true;
     }
 
+    @Override
     public void write(byte b[], int off, int len) throws IOException {
 
         long writeEndPos = this.curPos + len - 1;
@@ -160,12 +161,14 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
             super.write(b, off, len);
         }
 
-        if (writeEndPos > this.fileEndPos)
+        if (writeEndPos > this.fileEndPos) {
             this.fileEndPos = writeEndPos;
+        }
 
         this.seek(writeEndPos + 1);
     }
 
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
 
         long readEndPos = this.curPos + len - 1;
@@ -186,14 +189,17 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         return len;
     }
 
+    @Override
     public void write(byte b[]) throws IOException {
         this.write(b, 0, b.length);
     }
 
+    @Override
     public int read(byte b[]) throws IOException {
         return this.read(b, 0, b.length);
     }
 
+    @Override
     public void seek(long pos) throws IOException {
 
         if ((pos < this.bufStartPos) || (pos > this.bufEndPos)) { // seek pos not in buf
@@ -213,10 +219,12 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         this.curPos = pos;
     }
 
+    @Override
     public long length() throws IOException {
         return this.max(this.fileEndPos + 1, this.initFileLen);
     }
 
+    @Override
     public void setLength(long newLength) throws IOException {
         if (newLength > 0) {
             this.fileEndPos = newLength - 1;
@@ -226,15 +234,19 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         super.setLength(newLength);
     }
 
+    @Override
     public long getFilePointer() throws IOException {
         return this.curPos;
     }
 
     private long max(long a, long b) {
-        if (a > b) return a;
+        if (a > b) {
+            return a;
+        }
         return b;
     }
 
+    @Override
     public void close() throws IOException {
         this.flushBuf();
         super.close();

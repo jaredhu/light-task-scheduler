@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
  */
 public class CharacterUtils {
 
+    private static Pattern p = Pattern.compile("[A-Z]");
+
     /**
      * 下划线格式字符串转换成驼峰格式字符串
      * eg: player_id -> playerId;<br>
@@ -39,7 +41,6 @@ public class CharacterUtils {
      *              playerName -> player_name;
      */
     public static String camelCase2Underscore(String param) {
-        Pattern p = Pattern.compile("[A-Z]");
         if (param == null || param.equals("")) {
             return "";
         }

@@ -207,6 +207,7 @@ public class FastJSONObject implements JSONObject {
         return jsonObject.toJSONString();
     }
 
+    @Override
     public String toString() {
         return toJSONString();
     }

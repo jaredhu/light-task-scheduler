@@ -133,6 +133,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
 
             listeners.putIfAbsent(listener, new ChildListener() {
 
+                @Override
                 public void childChanged(String parentPath, List<String> currentChildren) {
 
                     if (CollectionUtils.isEmpty(currentChildren)) {

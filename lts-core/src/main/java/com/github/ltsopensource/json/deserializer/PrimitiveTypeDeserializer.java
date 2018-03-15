@@ -11,6 +11,7 @@ import java.math.BigInteger;
  */
 public class PrimitiveTypeDeserializer implements Deserializer {
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T deserialize(Object object, Type type) {
         return PrimitiveTypeUtils.convert(object, type);

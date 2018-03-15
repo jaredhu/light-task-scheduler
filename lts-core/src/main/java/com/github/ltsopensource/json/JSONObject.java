@@ -28,14 +28,17 @@ import static com.github.ltsopensource.core.json.TypeUtils.*;
 public class JSONObject {
 
     private static final class Null {
+        @Override
         protected final Object clone() {
             return this;
         }
 
+        @Override
         public boolean equals(Object object) {
             return object == null || object == this;
         }
 
+        @Override
         public String toString() {
             return "null";
         }
@@ -357,6 +360,7 @@ public class JSONObject {
         return this.map.remove(key);
     }
 
+    @Override
     public String toString() {
         try {
             StringWriter w = new StringWriter();

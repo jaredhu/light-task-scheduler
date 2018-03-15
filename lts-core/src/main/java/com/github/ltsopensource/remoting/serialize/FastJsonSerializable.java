@@ -14,6 +14,7 @@ public class FastJsonSerializable implements RemotingSerializable {
         return 1;
     }
 
+    @Override
     public byte[] serialize(Object obj) throws Exception {
         String json = toJson(obj, false);
         return json.getBytes(Charset.forName("UTF-8"));

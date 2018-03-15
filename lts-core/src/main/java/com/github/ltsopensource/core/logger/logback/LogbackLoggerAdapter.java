@@ -17,10 +17,12 @@ public class LogbackLoggerAdapter implements LoggerAdapter {
         }
     }
 
+    @Override
     public Logger getLogger(String key) {
         return new LogbackLogger((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(key));
     }
 
+    @Override
     public Logger getLogger(Class<?> key) {
         return new LogbackLogger((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(key));
     }
@@ -29,18 +31,22 @@ public class LogbackLoggerAdapter implements LoggerAdapter {
 
     private File file;
 
+    @Override
     public void setLevel(Level level) {
         this.level = level;
     }
 
+    @Override
     public Level getLevel() {
         return level;
     }
 
+    @Override
     public File getFile() {
         return file;
     }
 
+    @Override
     public void setFile(File file) {
         this.file = file;
     }

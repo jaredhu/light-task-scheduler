@@ -31,6 +31,7 @@ public abstract class AbstractIndexSnapshot<K, V> implements IndexSnapshot<K, V>
         this.executorService = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("ltsdb-index-snapshot-service", true));
     }
 
+    @Override
     public void init() throws IOException {
         // 1. load from disk
         loadFromDisk();

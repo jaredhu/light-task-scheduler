@@ -53,6 +53,7 @@ public class DBImpl<K, V> implements DB<K, V>, Closeable {
         }
     }
 
+    @Override
     public void init() throws DBException {
         try {
             FileUtils.createDirIfNotExist(storeConfig.getDbPath());
@@ -66,14 +67,17 @@ public class DBImpl<K, V> implements DB<K, V>, Closeable {
         }
     }
 
+    @Override
     public int size() {
         return index.size();
     }
 
+    @Override
     public boolean containsKey(K key) {
         return index.containsKey(key);
     }
 
+    @Override
     public V get(K key) {
         // 1. 从缓存中获取
         V value = dataCache.get(key);
@@ -89,6 +93,7 @@ public class DBImpl<K, V> implements DB<K, V>, Closeable {
         return dataBlockEngine.getValue(indexItem);
     }
 
+    @Override
     public void put(K key, V value) {
 
         // 1. 先写Log
@@ -104,6 +109,7 @@ public class DBImpl<K, V> implements DB<K, V>, Closeable {
         dataCache.put(key, value);
     }
 
+    @Override
     public void remove(K key) {
         // 先移除缓存
         dataCache.remove(key);
@@ -120,6 +126,7 @@ public class DBImpl<K, V> implements DB<K, V>, Closeable {
         }
     }
 
+    @Override
     public DBIterator<Entry<K, V>> iterator() {
         return index.iterator();
     }

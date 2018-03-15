@@ -57,6 +57,7 @@ public class NioChannelImpl implements NioChannel {
         return channel;
     }
 
+    @Override
     public SocketChannel socketChannel() {
         return channel;
     }
@@ -65,6 +66,7 @@ public class NioChannelImpl implements NioChannel {
         return eventHandler;
     }
 
+    @Override
     public long getId() {
         return id;
     }
@@ -74,10 +76,12 @@ public class NioChannelImpl implements NioChannel {
         return processor.writeAndFlush(this, msg);
     }
 
+    @Override
     public void setLastReadTime(long lastReadTime) {
         idleInfo.setLastReadTime(lastReadTime);
     }
 
+    @Override
     public void setLastWriteTime(long lastWriteTime) {
         idleInfo.setLastWriteTime(lastWriteTime);
     }
@@ -86,6 +90,7 @@ public class NioChannelImpl implements NioChannel {
         return selectorLoop.selector();
     }
 
+    @Override
     public Futures.CloseFuture close() {
         try {
             javaChannel().close();
@@ -107,6 +112,7 @@ public class NioChannelImpl implements NioChannel {
         return closeFuture;
     }
 
+    @Override
     public boolean isOpen() {
         return javaChannel().isOpen();
     }
@@ -154,6 +160,7 @@ public class NioChannelImpl implements NioChannel {
         eventHandler().channelIdle(this, state);
     }
 
+    @Override
     public Decoder getDecoder() {
         return decoder;
     }
@@ -162,6 +169,7 @@ public class NioChannelImpl implements NioChannel {
         this.decoder = decoder;
     }
 
+    @Override
     public Encoder getEncoder() {
         return encoder;
     }

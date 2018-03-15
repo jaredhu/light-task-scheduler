@@ -9,10 +9,12 @@ import java.io.File;
 
 public class JclLoggerAdapter implements LoggerAdapter {
 
-	public Logger getLogger(String key) {
+	@Override
+    public Logger getLogger(String key) {
 		return new JclLogger(LogFactory.getLog(key));
 	}
 
+    @Override
     public Logger getLogger(Class<?> key) {
         return new JclLogger(LogFactory.getLog(key));
     }
@@ -21,18 +23,22 @@ public class JclLoggerAdapter implements LoggerAdapter {
     
     private File file;
 
+    @Override
     public void setLevel(Level level) {
         this.level = level;
     }
 
+    @Override
     public Level getLevel() {
         return level;
     }
 
+    @Override
     public File getFile() {
         return file;
     }
 
+    @Override
     public void setFile(File file) {
         this.file = file;
     }

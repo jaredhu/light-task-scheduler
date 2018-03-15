@@ -35,6 +35,7 @@ public class ThreadLocalRandom extends Random {
      */
     private static final ThreadLocal<ThreadLocalRandom> localRandom =
             new ThreadLocal<ThreadLocalRandom>() {
+                @Override
                 protected ThreadLocalRandom initialValue() {
                     return new ThreadLocalRandom();
                 }
@@ -64,12 +65,15 @@ public class ThreadLocalRandom extends Random {
      *
      * @throws UnsupportedOperationException always
      */
+    @Override
     public void setSeed(long seed) {
-        if (initialized)
+        if (initialized) {
             throw new UnsupportedOperationException();
+        }
         rnd = (seed ^ multiplier) & mask;
     }
 
+    @Override
     protected int next(int bits) {
         rnd = (rnd * multiplier + addend) & mask;
         return (int) (rnd >>> (48-bits));
@@ -86,8 +90,9 @@ public class ThreadLocalRandom extends Random {
      * @return the next value
      */
     public int nextInt(int least, int bound) {
-        if (least >= bound)
+        if (least >= bound) {
             throw new IllegalArgumentException();
+        }
         return nextInt(bound - least) + least;
     }
 
@@ -101,8 +106,9 @@ public class ThreadLocalRandom extends Random {
      * @throws IllegalArgumentException if n is not positive
      */
     public long nextLong(long n) {
-        if (n <= 0)
+        if (n <= 0) {
             throw new IllegalArgumentException("n must be positive");
+        }
         // Divide n by two until small enough for nextInt. On each
         // iteration (at most 31 of them but usually much less),
         // randomly choose both whether to include high bit in result
@@ -113,8 +119,9 @@ public class ThreadLocalRandom extends Random {
             int bits = next(2);
             long half = n >>> 1;
             long nextn = ((bits & 2) == 0) ? half : n - half;
-            if ((bits & 1) == 0)
+            if ((bits & 1) == 0) {
                 offset += n - nextn;
+            }
             n = nextn;
         }
         return offset + nextInt((int) n);
@@ -131,8 +138,9 @@ public class ThreadLocalRandom extends Random {
      * to bound
      */
     public long nextLong(long least, long bound) {
-        if (least >= bound)
+        if (least >= bound) {
             throw new IllegalArgumentException();
+        }
         return nextLong(bound - least) + least;
     }
 
@@ -146,8 +154,9 @@ public class ThreadLocalRandom extends Random {
      * @throws IllegalArgumentException if n is not positive
      */
     public double nextDouble(double n) {
-        if (n <= 0)
+        if (n <= 0) {
             throw new IllegalArgumentException("n must be positive");
+        }
         return nextDouble() * n;
     }
 
@@ -162,8 +171,9 @@ public class ThreadLocalRandom extends Random {
      * to bound
      */
     public double nextDouble(double least, double bound) {
-        if (least >= bound)
+        if (least >= bound) {
             throw new IllegalArgumentException();
+        }
         return nextDouble() * (bound - least) + least;
     }
 

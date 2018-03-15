@@ -44,6 +44,7 @@ public class NettyChannel implements com.github.ltsopensource.remoting.Channel {
         return new NettyChannelHandler(channel.close());
     }
 
+    @Override
     public boolean isConnected() {
         return channel.isActive();
     }
@@ -60,8 +61,12 @@ public class NettyChannel implements com.github.ltsopensource.remoting.Channel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         NettyChannel that = (NettyChannel) o;
 

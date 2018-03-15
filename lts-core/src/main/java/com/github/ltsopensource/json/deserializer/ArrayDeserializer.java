@@ -15,6 +15,7 @@ public class ArrayDeserializer implements Deserializer {
 
     public static final ArrayDeserializer INSTANCE = new ArrayDeserializer();
 
+    @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T deserialize(Object object, Type type) {
 

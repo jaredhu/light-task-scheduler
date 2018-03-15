@@ -41,6 +41,7 @@ public class CuratorZkClient extends AbstractZkClient<CuratorZkClient.PathChildr
         client = builder.build();
 
         client.getConnectionStateListenable().addListener(new ConnectionStateListener() {
+            @Override
             public void stateChanged(CuratorFramework client, ConnectionState state) {
                 if (state == ConnectionState.LOST) {
                     CuratorZkClient.this.stateChanged(StateListener.DISCONNECTED);
@@ -131,10 +132,12 @@ public class CuratorZkClient extends AbstractZkClient<CuratorZkClient.PathChildr
         }
     }
 
+    @Override
     protected PathChildrenListener createTargetChildListener(final String path, final ChildListener listener) {
         return new PathChildrenListener(path, listener);
     }
 
+    @Override
     protected List<String> addTargetChildListener(String path, PathChildrenListener listener) {
         try {
             listener.startListener();
@@ -146,6 +149,7 @@ public class CuratorZkClient extends AbstractZkClient<CuratorZkClient.PathChildr
         }
     }
 
+    @Override
     protected void removeTargetChildListener(String path, PathChildrenListener listener) {
         listener.stopListener();
     }

@@ -38,6 +38,7 @@ public abstract class AbstractMStatReporter implements MStatReporter {
         this.config = appContext.getConfig();
     }
 
+    @Override
     public final void start() {
 
         // 启动JVM监控
@@ -71,6 +72,7 @@ public abstract class AbstractMStatReporter implements MStatReporter {
 
     protected abstract NodeType getNodeType();
 
+    @Override
     public final void stop() {
         try {
             if (start.compareAndSet(true, false)) {

@@ -5,5 +5,6 @@ package com.github.ltsopensource.core.support.bean;
  */
 public abstract class BeanCopierAdapter implements BeanCopier<Object, Object> {
 
+    @Override
     public abstract void copyProps(Object sourceObj, Object targetObj);
 }

@@ -42,6 +42,7 @@ class SqlTemplateImpl implements SqlTemplate {
         }
     }
 
+    @Override
     public void createTable(final String sql) throws SQLException {
         update(sql);
     }
@@ -55,6 +56,7 @@ class SqlTemplateImpl implements SqlTemplate {
         return dbRunner.batch(conn, sql, params);
     }
 
+    @Override
     public int[] batchUpdate(final String sql, final Object[][] params) throws SQLException {
         return execute(false, new SqlExecutor<int[]>() {
             @Override
@@ -69,6 +71,7 @@ class SqlTemplateImpl implements SqlTemplate {
         return update(sql, params);
     }
 
+    @Override
     public int update(final String sql, final Object... params) throws SQLException {
         return execute(false, new SqlExecutor<Integer>() {
             @Override
@@ -87,6 +90,7 @@ class SqlTemplateImpl implements SqlTemplate {
         return dbRunner.update(conn, sql, params);
     }
 
+    @Override
     public <T> T query(final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
         return execute(true, new SqlExecutor<T>() {
             @Override
@@ -100,6 +104,7 @@ class SqlTemplateImpl implements SqlTemplate {
         return dbRunner.query(conn, sql, rsh, params);
     }
 
+    @Override
     public <T> T queryForValue(final String sql, final Object... params) throws SQLException {
         return query(sql, new ScalarHandler<T>(), params);
     }
@@ -118,10 +123,12 @@ class SqlTemplateImpl implements SqlTemplate {
         };
     }
 
+    @Override
     public void executeInTransaction(SqlExecutorVoid executor) {
         executeInTransaction(getWrapperExecutor(executor));
     }
 
+    @Override
     public <T> T executeInTransaction(SqlExecutor<T> executor) {
         Connection conn = null;
         try {

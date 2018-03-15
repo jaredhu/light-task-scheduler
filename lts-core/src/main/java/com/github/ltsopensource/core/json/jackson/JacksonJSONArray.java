@@ -172,6 +172,7 @@ public class JacksonJSONArray implements JSONArray {
         return castToJavaBean(value, clazz);
     }
 
+    @Override
     public Boolean getBoolean(int index) {
         Object value = get(index);
 
@@ -182,6 +183,7 @@ public class JacksonJSONArray implements JSONArray {
         return castToBoolean(value);
     }
 
+    @Override
     public boolean getBooleanValue(int index) {
         Object value = get(index);
 
@@ -192,12 +194,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToBoolean(value);
     }
 
+    @Override
     public Byte getByte(int index) {
         Object value = get(index);
 
         return castToByte(value);
     }
 
+    @Override
     public byte getByteValue(int index) {
         Object value = get(index);
 
@@ -208,12 +212,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToByte(value);
     }
 
+    @Override
     public Short getShort(int index) {
         Object value = get(index);
 
         return castToShort(value);
     }
 
+    @Override
     public short getShortValue(int index) {
         Object value = get(index);
 
@@ -224,12 +230,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToShort(value);
     }
 
+    @Override
     public Integer getInteger(int index) {
         Object value = get(index);
 
         return castToInt(value);
     }
 
+    @Override
     public int getIntValue(int index) {
         Object value = get(index);
 
@@ -240,12 +248,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToInt(value);
     }
 
+    @Override
     public Long getLong(int index) {
         Object value = get(index);
 
         return castToLong(value);
     }
 
+    @Override
     public long getLongValue(int index) {
         Object value = get(index);
 
@@ -256,12 +266,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToLong(value);
     }
 
+    @Override
     public Float getFloat(int index) {
         Object value = get(index);
 
         return castToFloat(value);
     }
 
+    @Override
     public float getFloatValue(int index) {
         Object value = get(index);
 
@@ -272,12 +284,14 @@ public class JacksonJSONArray implements JSONArray {
         return castToFloat(value);
     }
 
+    @Override
     public Double getDouble(int index) {
         Object value = get(index);
 
         return castToDouble(value);
     }
 
+    @Override
     public double getDoubleValue(int index) {
         Object value = get(index);
 
@@ -288,36 +302,42 @@ public class JacksonJSONArray implements JSONArray {
         return castToDouble(value);
     }
 
+    @Override
     public BigDecimal getBigDecimal(int index) {
         Object value = get(index);
 
         return castToBigDecimal(value);
     }
 
+    @Override
     public BigInteger getBigInteger(int index) {
         Object value = get(index);
 
         return castToBigInteger(value);
     }
 
+    @Override
     public String getString(int index) {
         Object value = get(index);
 
         return castToString(value);
     }
 
+    @Override
     public java.util.Date getDate(int index) {
         Object value = get(index);
 
         return castToDate(value);
     }
 
+    @Override
     public java.sql.Date getSqlDate(int index) {
         Object value = get(index);
 
         return castToSqlDate(value);
     }
 
+    @Override
     public java.sql.Timestamp getTimestamp(int index) {
         Object value = get(index);
 

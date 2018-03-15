@@ -59,6 +59,7 @@ public class FastJSONAdapter implements JSONAdapter {
         return new FastJSONObject(new com.alibaba.fastjson.JSONObject(map));
     }
 
+    @Override
     public JSONObject newJSONObject(int initialCapacity) {
         return new FastJSONObject(new com.alibaba.fastjson.JSONObject(initialCapacity));
     }
@@ -73,6 +74,7 @@ public class FastJSONAdapter implements JSONAdapter {
         return new FastJSONArray(new com.alibaba.fastjson.JSONArray(list));
     }
 
+    @Override
     public JSONArray newJSONArray(int initialCapacity) {
         return new FastJSONArray(new com.alibaba.fastjson.JSONArray(initialCapacity));
     }

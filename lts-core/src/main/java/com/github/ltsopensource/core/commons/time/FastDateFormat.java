@@ -15,6 +15,7 @@ import java.util.TimeZone;
 public class FastDateFormat extends Format {
 
     private static final FormatCache<FastDateFormat> cache = new FormatCache<FastDateFormat>() {
+        @Override
         protected FastDateFormat createInstance(final String pattern, final TimeZone timeZone, final Locale locale) {
             return new FastDateFormat(pattern, timeZone, locale);
         }
@@ -66,6 +67,7 @@ public class FastDateFormat extends Format {
     // Format methods
     //-----------------------------------------------------------------------
 
+    @Override
     public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
         return printer.format(obj, toAppendTo, pos);
     }
@@ -104,6 +106,7 @@ public class FastDateFormat extends Format {
         return parser.parse(source, pos);
     }
 
+    @Override
     public Object parseObject(final String source, final ParsePosition pos) {
         return parser.parseObject(source, pos);
     }

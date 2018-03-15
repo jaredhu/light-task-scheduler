@@ -86,6 +86,7 @@ public interface JSONObject {
 
     public String toJSONString();
 
+    @Override
     public String toString();
 
 }

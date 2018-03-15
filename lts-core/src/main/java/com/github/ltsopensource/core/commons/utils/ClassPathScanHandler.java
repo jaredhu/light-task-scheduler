@@ -140,6 +140,7 @@ public class ClassPathScanHandler {
         final boolean fileRecursive = recursive;
         File[] dirfiles = dir.listFiles(new FileFilter() {
             // 自定义文件过滤规则
+            @Override
             public boolean accept(File file) {
                 if (file.isDirectory()) {
                     return fileRecursive;

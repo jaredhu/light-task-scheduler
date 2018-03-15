@@ -13,10 +13,12 @@ public class JobTrackerProperties extends com.github.ltsopensource.core.properti
      */
     private Integer listenPort;
 
+    @Override
     public Integer getListenPort() {
         return listenPort;
     }
 
+    @Override
     public void setListenPort(Integer listenPort) {
         this.listenPort = listenPort;
     }

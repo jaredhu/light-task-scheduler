@@ -73,6 +73,7 @@ public class RedisRegistry extends FailbackRegistry {
         this.expirePeriod = config.getParameter(ExtConfig.REDIS_SESSION_TIMEOUT, Constants.DEFAULT_SESSION_TIMEOUT);
 
         this.expireFuture = expireExecutor.scheduleWithFixedDelay(new Runnable() {
+            @Override
             public void run() {
                 try {
                     deferExpired(); // 延长过期时间

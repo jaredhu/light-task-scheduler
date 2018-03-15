@@ -64,6 +64,7 @@ public class LazyJobLogger implements JobLogger {
         }, flushPeriod, flushPeriod, TimeUnit.SECONDS);
 
         NodeShutdownHook.registerHook(appContext, this.getClass().getName(), new com.github.ltsopensource.core.commons.utils.Callable() {
+            @Override
             public void call() throws Exception {
                 scheduledFuture.cancel(true);
                 executor.shutdownNow();

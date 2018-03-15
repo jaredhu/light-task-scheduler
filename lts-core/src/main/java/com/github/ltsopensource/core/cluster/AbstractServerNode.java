@@ -21,6 +21,7 @@ public abstract class AbstractServerNode<T extends Node, App extends AppContext>
 
     protected RemotingServerDelegate remotingServer;
 
+    @Override
     protected void remotingStart() {
 
         remotingServer.start();
@@ -37,6 +38,7 @@ public abstract class AbstractServerNode<T extends Node, App extends AppContext>
         config.setListenPort(listenPort);
     }
 
+    @Override
     protected void remotingStop() {
         remotingServer.shutdown();
     }

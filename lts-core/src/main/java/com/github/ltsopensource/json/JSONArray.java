@@ -84,6 +84,7 @@ public class JSONArray implements Iterable<Object> {
         }
     }
 
+    @Override
     public Iterator<Object> iterator() {
         return list.iterator();
     }
@@ -159,6 +160,7 @@ public class JSONArray implements Iterable<Object> {
         return list.remove(o);
     }
 
+    @Override
     public String toString() {
         try {
             return this.write(new StringWriter()).toString();

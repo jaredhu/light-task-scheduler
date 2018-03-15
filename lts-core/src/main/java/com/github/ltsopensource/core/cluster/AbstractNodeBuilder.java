@@ -40,6 +40,7 @@ public abstract class AbstractNodeBuilder<T extends AbstractJobNode, B extends N
         }
     }
 
+    @Override
     public final T build() {
         if (!built.compareAndSet(false, true)) {
             throw new IllegalStateException("Already Built");

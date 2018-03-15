@@ -18,6 +18,7 @@ public class H2DataSourceProvider implements DataSourceProvider {
 
     private static final Object lock = new Object();
 
+    @Override
     public DataSource getDataSource(Config config) {
 
         String url = config.getParameter(ExtConfig.JDBC_URL);

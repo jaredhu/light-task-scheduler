@@ -63,14 +63,24 @@ public class IndexItem<K> implements Serializable {
     @Override
     public boolean equals(Object o) {
 
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         IndexItem<?> indexItem = (IndexItem<?>) o;
 
-        if (fileId != indexItem.fileId) return false;
-        if (fromIndex != indexItem.fromIndex) return false;
-        if (length != indexItem.length) return false;
+        if (fileId != indexItem.fileId) {
+            return false;
+        }
+        if (fromIndex != indexItem.fromIndex) {
+            return false;
+        }
+        if (length != indexItem.length) {
+            return false;
+        }
         return key != null ? key.equals(indexItem.key) : indexItem.key == null;
 
     }

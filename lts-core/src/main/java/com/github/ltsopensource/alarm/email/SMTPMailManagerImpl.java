@@ -61,6 +61,7 @@ public class SMTPMailManagerImpl implements MailManager {
         }
     }
 
+    @Override
     public void send(String to, String title, String message) throws Exception {
         Session session = Session.getDefaultInstance(properties, getAuthenticator());
         // Create a default MimeMessage object.

@@ -104,8 +104,9 @@ public class ServiceLoader {
 
     public static Set<String> getServiceProviders(final Class<?> clazz) {
 
-        if (clazz == null)
+        if (clazz == null) {
             throw new IllegalArgumentException("type == null");
+        }
         if (!clazz.isInterface()) {
             throw new IllegalArgumentException(" type(" + clazz + ") is not interface!");
         }
@@ -277,13 +278,21 @@ public class ServiceLoader {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             ServiceDefinition that = (ServiceDefinition) o;
 
-            if (name != null ? !name.equals(that.name) : that.name != null) return false;
-            if (clazz != null ? !clazz.equals(that.clazz) : that.clazz != null) return false;
+            if (name != null ? !name.equals(that.name) : that.name != null) {
+                return false;
+            }
+            if (clazz != null ? !clazz.equals(that.clazz) : that.clazz != null) {
+                return false;
+            }
             return classLoader != null ? classLoader.equals(that.classLoader) : that.classLoader == null;
 
         }
@@ -309,12 +318,18 @@ public class ServiceLoader {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             IdentityUniqueKey that = (IdentityUniqueKey) o;
 
-            if (identity != null ? !identity.equals(that.identity) : that.identity != null) return false;
+            if (identity != null ? !identity.equals(that.identity) : that.identity != null) {
+                return false;
+            }
             return definition != null ? definition.equals(that.definition) : that.definition == null;
         }
 

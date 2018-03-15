@@ -17,6 +17,7 @@ public class ReflectionUtils {
         final List<Field> fieldList = new ArrayList<Field>();
 
         doWithDeclaredFields(clazz, new FieldCallback() {
+            @Override
             public void doWith(Field field) {
                 fieldList.add(field);
             }
@@ -52,6 +53,7 @@ public class ReflectionUtils {
         final List<Method> methodList = new ArrayList<Method>();
 
         doWithDeclaredMethods(clazz, new MethodCallback() {
+            @Override
             public void doWith(Method method) {
                 methodList.add(method);
             }

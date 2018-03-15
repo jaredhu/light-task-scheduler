@@ -15,6 +15,7 @@ public class CollectionDeserializer implements Deserializer {
 
     public static final CollectionDeserializer INSTANCE = new CollectionDeserializer();
 
+    @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T deserialize(Object object, Type type) {
 

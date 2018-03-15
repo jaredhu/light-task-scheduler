@@ -83,6 +83,7 @@ public class MysqlRepeatJobQueue extends MysqlSchedulerJobQueue implements Repea
         }
     }
 
+    @Override
     protected String getTableName() {
         return JobQueueUtils.REPEAT_JOB_QUEUE;
     }

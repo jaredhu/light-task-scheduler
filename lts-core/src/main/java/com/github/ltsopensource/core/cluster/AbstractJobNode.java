@@ -59,6 +59,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
         masterChangeListeners = new ArrayList<MasterChangeListener>();
     }
 
+    @Override
     final public void start() {
         try {
             if (started.compareAndSet(false, true)) {
@@ -109,6 +110,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
                 new JVMInfoGetHttpCmd(appContext.getConfig()));        // 状态检查
     }
 
+    @Override
     final public void stop() {
         try {
             if (started.compareAndSet(true, false)) {

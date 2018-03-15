@@ -173,7 +173,7 @@ public class CronJobQueueApi extends AbstractMVC {
         }
         try {
             if (!jobPo.getRelyOnPrevCycle()) {
-                appContext.getCronJobQueue().updateLastGenerateTriggerTime(jobPo.getJobId(), new Date().getTime());
+                appContext.getCronJobQueue().updateLastGenerateTriggerTime(jobPo.getJobId(), System.currentTimeMillis());
                 appContext.getExecutableJobQueue().removeBatch(jobPo.getRealTaskId(), jobPo.getTaskTrackerNodeGroup());
             } else {
                 appContext.getExecutableJobQueue().remove(request.getTaskTrackerNodeGroup(), request.getJobId());

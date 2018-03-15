@@ -59,13 +59,15 @@ public class HttpCmdExecutor implements Runnable {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 
         StringTokenizer st = new StringTokenizer(in.readLine());
-        if (!st.hasMoreTokens())
+        if (!st.hasMoreTokens()) {
             sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error");
+        }
 
         String method = st.nextToken();
 
-        if (!st.hasMoreTokens())
+        if (!st.hasMoreTokens()) {
             sendError(HTTP_BADREQUEST, "BAD REQUEST: Missing URI");
+        }
 
         String uri = st.nextToken();
 
@@ -102,8 +104,9 @@ public class HttpCmdExecutor implements Runnable {
             while (read >= 0 && size > 0 && !postLine.endsWith("\r\n")) {
                 size -= read;
                 postLine += String.valueOf(buf, 0, read);
-                if (size > 0)
+                if (size > 0) {
                     read = in.read(buf);
+                }
             }
             postLine = postLine.trim();
             decodeParams(postLine, params);
@@ -152,8 +155,9 @@ public class HttpCmdExecutor implements Runnable {
     }
 
     private void decodeParams(String params, Properties p) throws Exception {
-        if (params == null)
+        if (params == null) {
             return;
+        }
 
         StringTokenizer st = new StringTokenizer(params, "&");
         while (st.hasMoreTokens()) {
@@ -169,17 +173,20 @@ public class HttpCmdExecutor implements Runnable {
 
     private void sendResponse(String status, String mime, Properties header, InputStream data) {
         try {
-            if (status == null)
+            if (status == null) {
                 throw new Error("sendResponse(): Status can't be null.");
+            }
             OutputStream out = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(out);
             pw.print("HTTP/1.0 " + status + " \r\n");
 
-            if (mime != null)
+            if (mime != null) {
                 pw.print("Content-Type: " + mime + "\r\n");
+            }
 
-            if (header == null || header.getProperty("Date") == null)
+            if (header == null || header.getProperty("Date") == null) {
                 pw.print("Date: " + DateUtils.formatYMD_HMS(new Date()) + "\r\n");
+            }
 
             if (header != null) {
                 Enumeration e = header.keys();
@@ -197,15 +204,17 @@ public class HttpCmdExecutor implements Runnable {
                 byte[] buff = new byte[2048];
                 while (true) {
                     int read = data.read(buff, 0, 2048);
-                    if (read <= 0)
+                    if (read <= 0) {
                         break;
+                    }
                     out.write(buff, 0, read);
                 }
             }
             out.flush();
             out.close();
-            if (data != null)
+            if (data != null) {
                 data.close();
+            }
         } catch (IOException ioe) {
             try {
                 socket.close();

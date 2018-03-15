@@ -137,6 +137,7 @@ public abstract class AbstractPreLoader implements PreLoader {
         LOAD_SIGNAL.remove(loadTaskTrackerNodeGroup);
     }
 
+    @Override
     public JobPo take(String taskTrackerNodeGroup, String taskTrackerIdentity) {
         while (true) {
             JobPo jobPo = get(taskTrackerNodeGroup);

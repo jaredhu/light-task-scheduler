@@ -237,6 +237,7 @@ public class JSONTokenizer {
         return new JSONException(message + this.toString());
     }
 
+    @Override
     public String toString() {
         return " at " + this.index + " [character " + this.character + " line " + this.line + "]";
     }

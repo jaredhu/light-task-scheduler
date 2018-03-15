@@ -44,6 +44,7 @@ public class LeveldbFailStore extends AbstractFailStore {
         }
     }
 
+    @Override
     protected String getName() {
         return name;
     }
@@ -150,6 +151,7 @@ public class LeveldbFailStore extends AbstractFailStore {
         }
     }
 
+    @Override
     public void destroy() throws FailStoreException {
         try {
             close();

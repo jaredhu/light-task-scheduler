@@ -27,12 +27,18 @@ public class JobClientNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof JobClientNode)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof JobClientNode)) {
+            return false;
+        }
 
         JobClientNode that = (JobClientNode) o;
 
-        if (identity != null ? !identity.equals(that.identity) : that.identity != null) return false;
+        if (identity != null ? !identity.equals(that.identity) : that.identity != null) {
+            return false;
+        }
 
         return true;
     }

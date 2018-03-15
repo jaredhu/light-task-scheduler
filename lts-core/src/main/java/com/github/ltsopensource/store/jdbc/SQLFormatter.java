@@ -164,7 +164,9 @@ public class SQLFormatter {
                 misc();
             }
 
-            if (!isWhitespace(token)) lastToken = lcToken;
+            if (!isWhitespace(token)) {
+                lastToken = lcToken;
+            }
 
         }
         return result.toString();
@@ -184,7 +186,9 @@ public class SQLFormatter {
     }
 
     private void logical() {
-        if ("end".equals(lcToken)) indent--;
+        if ("end".equals(lcToken)) {
+            indent--;
+        }
         newline();
         out();
         beginLine = false;
@@ -224,8 +228,12 @@ public class SQLFormatter {
         out();
         indent++;
         beginLine = false;
-        if ("update".equals(lcToken)) newline();
-        if ("insert".equals(lcToken)) afterInsert = true;
+        if ("update".equals(lcToken)) {
+            newline();
+        }
+        if ("insert".equals(lcToken)) {
+            afterInsert = true;
+        }
     }
 
     private void select() {
@@ -255,7 +263,9 @@ public class SQLFormatter {
             newline();
         }
         out();
-        if (!"union".equals(lcToken)) indent++;
+        if (!"union".equals(lcToken)) {
+            indent++;
+        }
         newline();
         afterBeginBeforeEnd = false;
         afterByOrSetOrFromOrSelect = "by".equals(lcToken)

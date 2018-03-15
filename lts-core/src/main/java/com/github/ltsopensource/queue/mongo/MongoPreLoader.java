@@ -36,6 +36,7 @@ public class MongoPreLoader extends AbstractPreLoader {
         return query.get();
     }
 
+    @Override
     protected boolean lockJob(String taskTrackerNodeGroup, String jobId, String taskTrackerIdentity, Long triggerTime, Long gmtModified) {
         UpdateOperations<JobPo> operations =
                 template.createUpdateOperations(JobPo.class)
@@ -54,6 +55,7 @@ public class MongoPreLoader extends AbstractPreLoader {
         return updateResult.getUpdatedCount() == 1;
     }
 
+    @Override
     protected List<JobPo> load(String loadTaskTrackerNodeGroup, int loadSize) {
         // load
         String tableName = JobQueueUtils.getExecutableQueueName(loadTaskTrackerNodeGroup);

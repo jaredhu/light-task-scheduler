@@ -28,10 +28,12 @@ public class UnsafeByteArrayInputStream extends InputStream {
         this.mark = offset;
     }
 
+    @Override
     public int read() {
         return (pos < count) ? (buf[pos++] & 0xff) : -1;
     }
 
+    @Override
     public int read(byte b[], int off, int len) {
         if (b == null) {
             throw new NullPointerException();
@@ -55,6 +57,7 @@ public class UnsafeByteArrayInputStream extends InputStream {
         return len;
     }
 
+    @Override
     public long skip(long n) {
         long k = count - pos;
         if (n < k) {
@@ -65,18 +68,22 @@ public class UnsafeByteArrayInputStream extends InputStream {
         return k;
     }
 
+    @Override
     public int available() {
         return count - pos;
     }
 
+    @Override
     public boolean markSupported() {
         return true;
     }
 
+    @Override
     public void mark(int readAheadLimit) {
         mark = pos;
     }
 
+    @Override
     public void reset() {
         pos = mark;
     }

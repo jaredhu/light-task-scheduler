@@ -23,6 +23,7 @@ public abstract class AbstractClientNode<T extends Node, Context extends AppCont
     protected RemotingClientDelegate remotingClient;
     private HeartBeatMonitor heartBeatMonitor;
 
+    @Override
     protected void remotingStart() {
         remotingClient.start();
         heartBeatMonitor.start();
@@ -41,6 +42,7 @@ public abstract class AbstractClientNode<T extends Node, Context extends AppCont
      */
     protected abstract RemotingProcessor getDefaultProcessor();
 
+    @Override
     protected void remotingStop() {
         heartBeatMonitor.stop();
         remotingClient.shutdown();

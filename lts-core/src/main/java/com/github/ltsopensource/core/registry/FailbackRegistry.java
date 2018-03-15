@@ -37,6 +37,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         int retryPeriod = appContext.getConfig().getParameter(ExtConfig.REGISTRY_RETRY_PERIOD_KEY, Constants.DEFAULT_REGISTRY_RETRY_PERIOD);
 
         this.retryFuture = retryExecutor.scheduleWithFixedDelay(new Runnable() {
+            @Override
             public void run() {
                 // 检测并连接注册中心
                 try {

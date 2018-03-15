@@ -64,15 +64,27 @@ public class ChannelWrapper {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ChannelWrapper)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ChannelWrapper)) {
+            return false;
+        }
 
         ChannelWrapper that = (ChannelWrapper) o;
 
-        if (channel != null ? !channel.equals(that.channel) : that.channel != null) return false;
-        if (identity != null ? !identity.equals(that.identity) : that.identity != null) return false;
-        if (nodeGroup != null ? !nodeGroup.equals(that.nodeGroup) : that.nodeGroup != null) return false;
-        if (nodeType != that.nodeType) return false;
+        if (channel != null ? !channel.equals(that.channel) : that.channel != null) {
+            return false;
+        }
+        if (identity != null ? !identity.equals(that.identity) : that.identity != null) {
+            return false;
+        }
+        if (nodeGroup != null ? !nodeGroup.equals(that.nodeGroup) : that.nodeGroup != null) {
+            return false;
+        }
+        if (nodeType != that.nodeType) {
+            return false;
+        }
 
         return true;
     }

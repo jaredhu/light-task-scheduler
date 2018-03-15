@@ -190,8 +190,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     protected abstract ChannelFuture connect(SocketAddress socketAddress);
 
     public void closeChannel(final String addr, final Channel channel) {
-        if (null == channel)
+        if (null == channel) {
             return;
+        }
 
         final String addrRemote = null == addr ? RemotingHelper.parseChannelRemoteAddr(channel) : addr;
 
@@ -236,8 +237,9 @@ public abstract class AbstractRemotingClient extends AbstractRemoting implements
     }
 
     public void closeChannel(final Channel channel) {
-        if (null == channel)
+        if (null == channel) {
             return;
+        }
 
         try {
             if (this.lockChannelTables.tryLock(LockTimeoutMillis, TimeUnit.MILLISECONDS)) {

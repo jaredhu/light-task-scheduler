@@ -63,6 +63,7 @@ public class MysqlCronJobQueue extends MysqlSchedulerJobQueue implements CronJob
                 .single(RshHolder.JOB_PO_RSH);
     }
 
+    @Override
     protected String getTableName() {
         return JobQueueUtils.CRON_JOB_QUEUE;
     }

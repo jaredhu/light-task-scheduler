@@ -26,10 +26,12 @@ public class RetryJobClient extends JobClient<JobClientNode, JobClientAppContext
         super.beforeStart();
         jobRetryScheduler = new RetryScheduler<Job>(RetryJobClient.class.getSimpleName(), appContext,
                 FailStorePathBuilder.getJobSubmitFailStorePath(appContext), 10) {
+            @Override
             protected boolean isRemotingEnable() {
                 return isServerEnable();
             }
 
+            @Override
             protected boolean retry(List<Job> jobs) {
                 Response response = null;
                 try {

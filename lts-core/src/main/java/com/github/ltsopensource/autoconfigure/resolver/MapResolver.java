@@ -21,6 +21,7 @@ public class MapResolver extends AbstractResolver {
 
     public static final MapResolver INSTANCE = new MapResolver();
 
+    @Override
     @SuppressWarnings("unchecked")
     public void resolve(AutoConfigContext context, PropertyDescriptor descriptor, Class<?> propertyType) {
 

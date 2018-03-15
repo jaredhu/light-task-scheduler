@@ -25,6 +25,7 @@ public class IoFuture implements Future {
      */
     private final Object lock = this;
 
+    @Override
     public boolean isSuccess() {
         return success;
     }
@@ -33,6 +34,7 @@ public class IoFuture implements Future {
         this.success = success;
     }
 
+    @Override
     public Throwable cause() {
         return cause;
     }

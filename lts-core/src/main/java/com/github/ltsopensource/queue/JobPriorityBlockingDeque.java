@@ -23,7 +23,9 @@ public class JobPriorityBlockingDeque {
     private Comparator<JobPo> comparator;
 
     public JobPriorityBlockingDeque(int capacity) {
-        if (capacity <= 0) throw new IllegalArgumentException();
+        if (capacity <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.capacity = capacity;
         this.list = new LinkedList<JobPo>();
         this.comparator = new Comparator<JobPo>() {
@@ -53,8 +55,9 @@ public class JobPriorityBlockingDeque {
         lock.lock();
         try {
             JobPo f = list.pollFirst();
-            if (f == null)
+            if (f == null) {
                 return null;
+            }
             jobs.remove(f.getJobId());
             return f;
         } finally {
@@ -66,8 +69,9 @@ public class JobPriorityBlockingDeque {
         lock.lock();
         try {
             JobPo l = list.pollLast();
-            if (l == null)
+            if (l == null) {
                 return null;
+            }
             jobs.remove(l.getJobId());
             return l;
         } finally {
@@ -76,9 +80,12 @@ public class JobPriorityBlockingDeque {
     }
 
     public boolean offer(JobPo e) {
-        if (e == null) throw new NullPointerException();
-        if (list.size() >= capacity)
+        if (e == null) {
+            throw new NullPointerException();
+        }
+        if (list.size() >= capacity) {
             return false;
+        }
 
         lock.lock();
         try {
@@ -137,16 +144,18 @@ public class JobPriorityBlockingDeque {
         lock.lock();
         try {
             Iterator<JobPo> i = iterator();
-            if (!i.hasNext())
+            if (!i.hasNext()) {
                 return "[]";
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.append('[');
             for (; ; ) {
                 JobPo e = i.next();
                 sb.append(e);
-                if (!i.hasNext())
+                if (!i.hasNext()) {
                     return sb.append(']').toString();
+                }
                 sb.append(", ");
             }
         } finally {

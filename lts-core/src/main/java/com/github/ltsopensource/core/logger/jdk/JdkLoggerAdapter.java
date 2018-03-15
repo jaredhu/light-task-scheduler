@@ -44,60 +44,78 @@ public class JdkLoggerAdapter implements LoggerAdapter {
 		}
 	}
 
-	public Logger getLogger(Class<?> key) {
+	@Override
+    public Logger getLogger(Class<?> key) {
 		return new JdkLogger(java.util.logging.Logger.getLogger(key == null ? "" : key.getName()));
 	}
 
-	public Logger getLogger(String key) {
+	@Override
+    public Logger getLogger(String key) {
 		return new JdkLogger(java.util.logging.Logger.getLogger(key));
 	}
 
-	public void setLevel(Level level) {
+	@Override
+    public void setLevel(Level level) {
 		java.util.logging.Logger.getLogger(GLOBAL_LOGGER_NAME).setLevel(toJdkLevel(level));
 	}
 
-	public Level getLevel() {
+	@Override
+    public Level getLevel() {
 		return fromJdkLevel(java.util.logging.Logger.getLogger(GLOBAL_LOGGER_NAME).getLevel());
 	}
 
-	public File getFile() {
+	@Override
+    public File getFile() {
 		return file;
 	}
 
 	private static java.util.logging.Level toJdkLevel(Level level) {
-		if (level == Level.ALL)
-			return java.util.logging.Level.ALL;
-		if (level == Level.TRACE)
-			return java.util.logging.Level.FINER;
-		if (level == Level.DEBUG)
-			return java.util.logging.Level.FINE;
-		if (level == Level.INFO)
-			return java.util.logging.Level.INFO;
-		if (level == Level.WARN)
-			return java.util.logging.Level.WARNING;
-		if (level == Level.ERROR)
-			return java.util.logging.Level.SEVERE;
+		if (level == Level.ALL) {
+            return java.util.logging.Level.ALL;
+        }
+		if (level == Level.TRACE) {
+            return java.util.logging.Level.FINER;
+        }
+		if (level == Level.DEBUG) {
+            return java.util.logging.Level.FINE;
+        }
+		if (level == Level.INFO) {
+            return java.util.logging.Level.INFO;
+        }
+		if (level == Level.WARN) {
+            return java.util.logging.Level.WARNING;
+        }
+		if (level == Level.ERROR) {
+            return java.util.logging.Level.SEVERE;
+        }
 		// if (level == Level.OFF)
 			return java.util.logging.Level.OFF;
 	}
 
 	private static Level fromJdkLevel(java.util.logging.Level level) {
-		if (level == java.util.logging.Level.ALL)
-			return Level.ALL;
-		if (level == java.util.logging.Level.FINER)
-			return Level.TRACE;
-		if (level == java.util.logging.Level.FINE)
-			return Level.DEBUG;
-		if (level == java.util.logging.Level.INFO)
-			return Level.INFO;
-		if (level == java.util.logging.Level.WARNING)
-			return Level.WARN;
-		if (level == java.util.logging.Level.SEVERE)
-			return Level.ERROR;
+		if (level == java.util.logging.Level.ALL) {
+            return Level.ALL;
+        }
+		if (level == java.util.logging.Level.FINER) {
+            return Level.TRACE;
+        }
+		if (level == java.util.logging.Level.FINE) {
+            return Level.DEBUG;
+        }
+		if (level == java.util.logging.Level.INFO) {
+            return Level.INFO;
+        }
+		if (level == java.util.logging.Level.WARNING) {
+            return Level.WARN;
+        }
+		if (level == java.util.logging.Level.SEVERE) {
+            return Level.ERROR;
+        }
 		// if (level == java.util.logging.Level.OFF)
 			return Level.OFF;
 	}
 
+    @Override
     public void setFile(File file) {
         
     }

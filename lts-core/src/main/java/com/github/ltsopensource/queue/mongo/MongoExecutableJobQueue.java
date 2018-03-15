@@ -116,6 +116,7 @@ public class MongoExecutableJobQueue extends AbstractMongoJobQueue implements Ex
         return true;
     }
 
+    @Override
     public void resume(JobPo jobPo) {
         String tableName = JobQueueUtils.getExecutableQueueName(jobPo.getTaskTrackerNodeGroup());
         Query<JobPo> query = template.createQuery(tableName, JobPo.class);

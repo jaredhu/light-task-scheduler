@@ -165,7 +165,7 @@ public class RepeatJobQueueApi extends AbstractMVC {
         }
         try {
             if (!jobPo.getRelyOnPrevCycle()) {
-                appContext.getRepeatJobQueue().updateLastGenerateTriggerTime(jobPo.getJobId(), new Date().getTime());
+                appContext.getRepeatJobQueue().updateLastGenerateTriggerTime(jobPo.getJobId(), System.currentTimeMillis());
                 appContext.getExecutableJobQueue().removeBatch(jobPo.getRealTaskId(), jobPo.getTaskTrackerNodeGroup());
             } else {
                 appContext.getExecutableJobQueue().remove(request.getTaskTrackerNodeGroup(), request.getJobId());

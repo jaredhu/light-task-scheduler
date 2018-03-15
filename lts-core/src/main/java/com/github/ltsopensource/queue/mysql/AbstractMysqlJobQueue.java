@@ -75,6 +75,7 @@ public abstract class AbstractMysqlJobQueue extends JdbcAbstractAccess implement
                 .doInsert() == 1;
     }
 
+    @Override
     public PaginationRsp<JobPo> pageSelect(JobQueueReq request) {
 
         PaginationRsp<JobPo> response = new PaginationRsp<JobPo>();
@@ -109,6 +110,7 @@ public abstract class AbstractMysqlJobQueue extends JdbcAbstractAccess implement
 
     protected abstract String getTableName(JobQueueReq request);
 
+    @Override
     public boolean selectiveUpdateByJobId(JobQueueReq request) {
         Assert.hasLength(request.getJobId(), "Only allow update by jobId");
 

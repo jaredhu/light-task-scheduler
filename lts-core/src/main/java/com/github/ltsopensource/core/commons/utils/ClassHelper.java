@@ -134,38 +134,54 @@ public class ClassHelper {
     }
 
     public static Class<?> _forName(String className) throws ClassNotFoundException {
-        if ("boolean".equals(className))
+        if ("boolean".equals(className)) {
             return boolean.class;
-        if ("byte".equals(className))
+        }
+        if ("byte".equals(className)) {
             return byte.class;
-        if ("char".equals(className))
+        }
+        if ("char".equals(className)) {
             return char.class;
-        if ("short".equals(className))
+        }
+        if ("short".equals(className)) {
             return short.class;
-        if ("int".equals(className))
+        }
+        if ("int".equals(className)) {
             return int.class;
-        if ("long".equals(className))
+        }
+        if ("long".equals(className)) {
             return long.class;
-        if ("float".equals(className))
+        }
+        if ("float".equals(className)) {
             return float.class;
-        if ("double".equals(className))
+        }
+        if ("double".equals(className)) {
             return double.class;
-        if ("boolean[]".equals(className))
+        }
+        if ("boolean[]".equals(className)) {
             return boolean[].class;
-        if ("byte[]".equals(className))
+        }
+        if ("byte[]".equals(className)) {
             return byte[].class;
-        if ("char[]".equals(className))
+        }
+        if ("char[]".equals(className)) {
             return char[].class;
-        if ("short[]".equals(className))
+        }
+        if ("short[]".equals(className)) {
             return short[].class;
-        if ("int[]".equals(className))
+        }
+        if ("int[]".equals(className)) {
             return int[].class;
-        if ("long[]".equals(className))
+        }
+        if ("long[]".equals(className)) {
             return long[].class;
-        if ("float[]".equals(className))
+        }
+        if ("float[]".equals(className)) {
             return float[].class;
-        if ("double[]".equals(className))
+        }
+        if ("double[]".equals(className)) {
             return double[].class;
+        }
         try {
             return arrayForName(className);
         } catch (ClassNotFoundException e) {
